@@ -5,29 +5,26 @@ buildscript {
 }
 
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.1.4'
-    id 'io.spring.dependency-management' version '1.1.3'
-
-    //querydsl
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	id 'java'
+	id 'org.springframework.boot' version '3.1.4'
+	id 'io.spring.dependency-management' version '1.1.3'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+	sourceCompatibility = '17'
 }
 
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
@@ -47,22 +44,5 @@ dependencies {
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
-}
-
-//querydsl
-def querydslDir = "$buildDir/generated/querydsl"
-
-querydsl {
- jpa = true
- querydslSourcesDir = querydslDir
-}
-sourceSets {
- main.java.srcDir querydslDir
-}
-configurations {
- querydsl.extendsFrom compileClasspath
-}
-compileQuerydsl {
- options.annotationProcessorPath = configurations.querydsl
+	useJUnitPlatform()
 }
