@@ -11,3 +11,16 @@ spring:
   sql:
     init:
       platform: mssql
+
+oauth:
+  kakao:
+    client-id: 8tJLZMOJa9yCZ9yV5Y57
+    url:
+      auth: https://kauth.kakao.com
+      api: https://kapi.kakao.com
+  naver:
+    secret: Ucz6F7zlAB
+    client-id: 8tJLZMOJa9yCZ9yV5Y57
+    url:
+      auth: https://nid.naver.com
+      api: https://openapi.naver.com
