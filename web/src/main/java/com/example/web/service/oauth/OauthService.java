@@ -1,4 +1,4 @@
-package com.example.web.service;
+package com.example.web.service.oauth;
 
 import com.example.web.model.request.OauthCommonRequest;
 import com.example.web.model.response.OauthResponse;
@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class OauthService {
 
-    public OauthResponse oauth(OauthCommonRequest request) {
+    private final NaverOauthService naverOauthService;
+    private final KakaoOauthService kakaoOauthService;
+
+    public OauthResponse processOauth(OauthCommonRequest request) {
 
         return OauthResponse.builder().build();
     }
