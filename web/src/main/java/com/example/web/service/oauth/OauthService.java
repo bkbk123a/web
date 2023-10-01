@@ -1,5 +1,6 @@
 package com.example.web.service.oauth;
 
+import com.example.web.model.oauth.info.NaverUserInfo;
 import com.example.web.model.request.KakaoOauthRequest;
 import com.example.web.model.request.NaverOauthRequest;
 import com.example.web.model.request.OauthCommonRequest;
@@ -19,6 +20,8 @@ public class OauthService {
     public OauthResponse processNaverOauth(NaverOauthRequest request) {
 
         String accessToken = naverOauthService.processAccessToken(request);
+
+        NaverUserInfo naverUserInfo = naverOauthService.processUserInfo(accessToken);
 
         return OauthResponse.builder().build();
     }
