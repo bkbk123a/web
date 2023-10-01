@@ -1,6 +1,6 @@
 package com.example.web.service.oauth;
 
-import com.example.web.model.oauth.NaverToken;
+import com.example.web.model.oauth.token.NaverToken;
 import com.example.web.model.request.NaverOauthRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -17,10 +18,9 @@ import java.util.HashMap;
 public class NaverOauthService {
 
     private static final String GRANT_TYPE = "authorization_code";
-    private static final String authPath = "/oauth2.0/token";
 
     @Value("${oauth.naver.url.auth}")
-    private String authUrl;
+    private String oauthUrl;
 
     @Value("${oauth.naver.url.api}")
     private String apiUrl;
@@ -31,17 +31,19 @@ public class NaverOauthService {
     @Value("${oauth.naver.secret}")
     private String clientSecret;
 
+    private final RestTemplate restTemplate = new RestTemplate();
+
     /**
-     * 외부 API(네이버) 인증
+     * 외부 API(네이버) 응답에서 접속 토큰 획득
      *
      * @param request
      * @return 외부 API 응답의 접근 토큰
      */
-    public String processOauth(NaverOauthRequest request) {
-        String url = authUrl + authPath;
+    public String processAccessToken(NaverOauthRequest request) {
+        final String path = "/oauth2.0/token";
+        final String url = oauthUrl + path; // 외부 API(네이버 로그인) 접근 토큰 발급 요청 url
 
         HttpEntity<?> httpEntity = makeHttpEntity(request);
-        RestTemplate restTemplate = new RestTemplate();
         NaverToken response = restTemplate.postForObject(url, httpEntity, NaverToken.class);
 
         checkResponse(response);
@@ -66,12 +68,13 @@ public class NaverOauthService {
         return httpHeaders;
     }
 
-    private HashMap<String, String> makeHttpBody(NaverOauthRequest request) {
-        HashMap<String, String> httpBody = request.makeHttpBody();
+    private MultiValueMap<String, String> makeHttpBody(NaverOauthRequest request) {
+        // MultiValueMap 사용 이유 : 메세지 컨버팅할때 HashMap 지원안함.
+        MultiValueMap<String, String> httpBody = request.makeHttpBody();
 
-        httpBody.put("grant_type", GRANT_TYPE);
-        httpBody.put("client_id", clientId);
-        httpBody.put("client_secret", clientSecret);
+        httpBody.add("grant_type", GRANT_TYPE);
+        httpBody.add("client_id", clientId);
+        httpBody.add("client_secret", clientSecret);
 
         return httpBody;
     }

@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/oauth/")
+@RequestMapping("/oauth")
 @Slf4j
 @RequiredArgsConstructor
 public class OauthConroller {
 
     private final OauthService oauthService;
 
-    @PostMapping("naver")
+    @PostMapping("/naver")
     public OauthResponse oauthNaver(@RequestBody NaverOauthRequest request) {
-        return oauthService.processOauth(request);
+        return oauthService.processNaverOauth(request);
     }
 
-    @PostMapping("kakao")
-    public OauthResponse oauthKakao(@RequestBody KakaoOauthRequest request) {
-        return oauthService.processOauth(request);
-    }
+//    @PostMapping("kakao")
+//    public OauthResponse oauthKakao(@RequestBody KakaoOauthRequest request) {
+//        return oauthService.processOauth(request);
+//    }
 }

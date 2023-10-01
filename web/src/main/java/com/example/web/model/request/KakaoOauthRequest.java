@@ -3,8 +3,8 @@ package com.example.web.model.request;
 import com.example.web.model.enums.OauthType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.HashMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 @Getter
 @NoArgsConstructor
@@ -18,9 +18,9 @@ public class KakaoOauthRequest implements OauthCommonRequest{
     }
 
     @Override
-    public HashMap<String, String> makeHttpBody() {
-        HashMap<String, String> body = new HashMap<>();
-        body.put("code", authorizationCode);
+    public MultiValueMap<String, String> makeHttpBody() {
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("code", authorizationCode);
         return body;
     }
 }
