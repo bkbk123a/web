@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   mssql:
-    container_name: sql-server
+    container_name: db_web
     image: mcr.microsoft.com/mssql/server:2017-latest
     restart: always
     user: root
