@@ -21,5 +21,6 @@ JAVA Spring기반 WAS 구현
 ### 로그인 
 
 ## 💾 데이터 베이스 관련
-- MSSQL DB 구축 도커 명령어 : docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=password1477!" -p 1433:1433 --name db_web --hostname db_web -d mcr.microsoft.com/mssql/server:2022-latest
-- 추후 도커 컴포즈로 구축 예정
+- 1. docker-compose 를 설치하여야 한다.(추천 : 도커 데스크톱 설치)
+- 2. cmd창을 열어서 docker-compose.yml 파일이 있는 위치로 이동 (cd명령어)
+- 3. 해당 경로의 cmd창에서 docker-compose up -d 입력 (DB 구축)
