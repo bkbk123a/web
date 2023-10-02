@@ -4,9 +4,13 @@ import com.example.web.jpa.entity.UserInfo;
 import com.example.web.model.oauth.info.NaverUserInfo;
 import com.example.web.model.request.NaverOauthRequest;
 import com.example.web.model.response.OauthResponse;
+import com.example.web.service.user.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,22 +18,25 @@ import org.springframework.stereotype.Service;
 public class OauthService {
 
     private final NaverOauthService naverOauthService;
-    private final KakaoOauthService kakaoOauthService;
+    private final UserService userService;
 
+    @Transactional
     public OauthResponse processNaverOauth(NaverOauthRequest request) {
 
         String accessToken = naverOauthService.processAccessToken(request);
 
         NaverUserInfo naverUserInfo = naverOauthService.processUserInfo(accessToken);
 
-        UserInfo userInfo = naverOauthService.getUserInfo(naverUserInfo);
+        Optional<UserInfo> userInfo = userService.getUserInfo(naverUserInfo.getEmailAddress());
 
-        return OauthResponse.builder().build();
+        boolean isNewUSer = userInfo.isEmpty();
+
+        if (!isNewUSer) {
+            userService.login(isNewUSer, userInfo.get());
+        }
+
+        UserInfo newUserInfo = userService.saveUserInfo(naverUserInfo);
+
+        return userService.login(isNewUSer, newUserInfo);
     }
-//    public OauthResponse processKakaoOauth(KakaoOauthRequest request) {
-//
-//        String accessToken = naverOauthService.processOauth(request);
-//
-//        return OauthResponse.builder().build();
-//    }
 }

@@ -15,6 +15,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -128,9 +130,5 @@ public class NaverOauthService {
         }
 
         return response;
-    }
-
-    public UserInfo getUserInfo(NaverUserInfo naverUserInfo) {
-         return userService.getUserInfo(naverUserInfo.getEmailAddress());
     }
 }

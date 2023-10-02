@@ -8,8 +8,9 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class OauthResponse {
-    private String accessToken;
-    private String refreshToken;
-    private String grantType;
-    private Long expiresIn;
+
+    // 서버 기준 시간 - unix timestamp
+    private long serverTime;
+    // 계정 생성 여부
+    private boolean isNewUser;
 }

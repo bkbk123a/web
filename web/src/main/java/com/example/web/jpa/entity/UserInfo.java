@@ -1,18 +1,18 @@
 package com.example.web.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
 @Entity
 @Getter
+@Setter
 @Table(name = "T_User_Info")
 public class UserInfo {
 
@@ -27,7 +27,11 @@ public class UserInfo {
     @Column(name = "NickName", nullable = false)
     private String nickName;
 
-    @Column(name = "LastLoginAt", nullable = false)
-    @Builder.Default
-    private LocalDateTime lastLoginAt = LocalDateTime.now();
+    @Column(name = "CreatedTime", nullable = false)
+    @CreationTimestamp
+    private OffsetDateTime createdTime;
+
+    @Column(name = "LastLoginTime", nullable = false)
+    @CreationTimestamp
+    private OffsetDateTime lastLoginTime;
 }
