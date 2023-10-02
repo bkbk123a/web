@@ -19,5 +19,16 @@ public class NaverUserInfo {
         private String nickname;
     }
 
-    private OauthType oauthType = OauthType.NAVER;
+    public OauthType getOauthType() {
+        return OauthType.NAVER;
+    }
+
+
+    public String getEmailAddress(){
+        return userInfo.email;
+    }
+
+    public String getNickName() {
+        return userInfo.nickname;
+    }
 }

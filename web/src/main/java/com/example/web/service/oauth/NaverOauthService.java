@@ -1,8 +1,10 @@
 package com.example.web.service.oauth;
 
+import com.example.web.jpa.entity.UserInfo;
 import com.example.web.model.oauth.info.NaverUserInfo;
 import com.example.web.model.oauth.token.NaverToken;
 import com.example.web.model.request.NaverOauthRequest;
+import com.example.web.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -13,7 +15,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,8 @@ public class NaverOauthService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    private final UserService userService;
+
     /**
      * 외부 API(Naver Oauth) 응답 에서 접속 토큰 획득
      *
@@ -47,9 +50,9 @@ public class NaverOauthService {
 
         HttpEntity<?> httpEntity = makeHttpEntity(request);
 
-        NaverToken response = (NaverToken) getResponseFromNaverOrElseThrow(url, httpEntity, NaverToken.class);
+        NaverToken naverToken = (NaverToken) getResponseFromNaverOrElseThrow(url, httpEntity, NaverToken.class);
 
-        return response.getAccessToken();
+        return naverToken.getAccessToken();
     }
 
     /**
@@ -125,5 +128,9 @@ public class NaverOauthService {
         }
 
         return response;
+    }
+
+    public UserInfo getUserInfo(NaverUserInfo naverUserInfo) {
+         return userService.getUserInfo(naverUserInfo.getEmailAddress());
     }
 }
