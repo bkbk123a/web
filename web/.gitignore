@@ -38,3 +38,5 @@ out/
 
 ### Docker ####
 /sqldata/log/
+/sqldata/.system/
+/sqldata/secrets/
