@@ -2,14 +2,14 @@ package com.example.web.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @Slf4j
 public class CommonUtil {
+
+  public static final String LOG_ID = "logId";
 
   public static String convertObjectToString(Object obj) {
     ObjectMapper objectMapper = new ObjectMapper();
@@ -29,20 +29,6 @@ public class CommonUtil {
       return objectMapper.readValue(jsonString, Map.class);
     } catch (JsonProcessingException e) {
       log.error("convertObjectToString Error Occurred", e);
-    }
-    throw new RuntimeException();
-  }
-
-  public static String convertTimeToJsonString(LocalDateTime time) {
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    // JavaTimeModule 을 ObjectMapper 에 등록 (날짜 및 시간 직렬화 위한 모듈)
-    objectMapper.registerModule(new JavaTimeModule());
-
-    try {
-      return objectMapper.writeValueAsString(time);
-    } catch (JsonProcessingException e) {
-      log.error("convertTimeToJsonString Error Occurred", e);
     }
     throw new RuntimeException();
   }

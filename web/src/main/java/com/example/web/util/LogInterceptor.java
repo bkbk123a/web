@@ -14,19 +14,29 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.example.web.util.CommonUtil.*;
+
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
 
-  private final String LOG_ID = "logId";
+  private static final String HEADERS = "headers";
+  private static final String METHOD = "method";
+
+  private static final String REQUEST_URI = "requestUri";
+  private static final String REQUEST_BODY = "requestBody" ;
+  public static final String REQUEST_TIME = "requestTime";
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     String uuid = UUID.randomUUID().toString();
     request.setAttribute(LOG_ID, uuid);
 
-    Map<String, Object> requestMap = getRequestMap(request, handler);
+    LocalDateTime now = LocalDateTime.now();
+    request.setAttribute(REQUEST_TIME, now);
 
-    String requestLog = CommonUtil.convertObjectToString(requestMap);
+    Map<String, Object> requestMap = getRequestMap(request, handler, now);
+
+    String requestLog = convertObjectToString(requestMap);
 
     log.info("PreHandle - Request Log {}", requestLog);
 
@@ -42,29 +52,27 @@ public class LogInterceptor implements HandlerInterceptor {
    * @return Map 으로 변환된 Request
    * @throws IOException
    */
-  private Map<String, Object> getRequestMap(HttpServletRequest request, Object handler)
+  private Map<String, Object> getRequestMap(HttpServletRequest request, Object handler, LocalDateTime now)
       throws IOException {
 
     Map<String, Object> requestMap = new LinkedHashMap<>();
-    requestMap.put("method", request.getMethod());
+    requestMap.put(METHOD, request.getMethod());
 
-    requestMap.put("logId", request.getAttribute(LOG_ID));
+    requestMap.put(LOG_ID, request.getAttribute(LOG_ID));
 
     String requestUri = request.getRequestURI();
-    requestMap.put("requestUri", requestUri);
+    requestMap.put(REQUEST_URI, requestUri);
 
     Map<String, String> headers = getHeaders(request);
-    requestMap.put("headers", headers);
+    requestMap.put(HEADERS, headers);
 
-    String logTime = CommonUtil.convertTimeToJsonString(LocalDateTime.now());
-    requestMap.put("logTime", logTime);
-
+    requestMap.put(REQUEST_TIME, now.toString());
     // handler : 호출할 컨트롤러 메서드의 정보들이 있다.
     if (handler instanceof HandlerMethod) {
       String requestBody = getRequestBody(request);
-      Map<String, Object> requestBodyMap = CommonUtil.convertJsonStringToMap(requestBody);
+      Map<String, Object> requestBodyMap = convertJsonStringToMap(requestBody);
 
-      requestMap.put("requestBody", requestBodyMap);
+      requestMap.put(REQUEST_BODY, requestBodyMap);
     }
 
     return requestMap;
@@ -74,12 +82,11 @@ public class LogInterceptor implements HandlerInterceptor {
     // HTTP 요청의 본문을 읽어들이기 위해 ServletInputStream을 얻어옵니다.
     InputStream inputStream = httpServletRequest.getInputStream();
 
-    // 본문을 문자열로 읽기 위해 BufferedReader를 사용합니다.
     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
     StringBuilder requestBody = new StringBuilder();
     String line;
 
-    // 한 줄씩 읽어들여서 requestBody에 추가합니다.
+    // 한 줄씩 읽어들여서 requestBody 에 추가합니다.
     while ((line = reader.readLine()) != null) {
       requestBody.append(line);
     }
