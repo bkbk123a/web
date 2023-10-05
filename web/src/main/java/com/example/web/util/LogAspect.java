@@ -25,7 +25,7 @@ public class LogAspect {
 
   private static final String RESPONSE = "response";
   private static final String RESPONSE_TIME = "responseTime";
-  private static final String ELAPSED_SEC = "elapsedSec";
+  private static final String ELAPSED_MILLISEC = "elapsedMilliSec";
 
   @Pointcut("execution(* com.example.web.controller.*.*(..))")
   private void getControllerPointCut() {
@@ -36,6 +36,14 @@ public class LogAspect {
   public void log(ProceedingJoinPoint joinPoint) throws Throwable {
     Object response = joinPoint.proceed();
 
+    Map<String, Object> responseMap = getResponseMap(response);
+
+    String responseLog = convertObjectToString(responseMap);
+
+    log.info("Aspect - Response Log {}", responseLog);
+  }
+
+  private Map<String, Object> getResponseMap(Object response) {
     Map<String, Object> responseMap = new HashMap<>();
     responseMap.put(LOG_ID, getLogId());
 
@@ -47,12 +55,10 @@ public class LogAspect {
     LocalDateTime responseTime = LocalDateTime.now();
     responseMap.put(RESPONSE_TIME, responseTime.toString());
 
-    Long elapsedSec = getElapsedSec(requestTime, responseTime);
-    responseMap.put(ELAPSED_SEC, elapsedSec);
+    Long elapsedMilliSec = getLocalDateTimeDifferenceMilliSec(requestTime, responseTime);
+    responseMap.put(ELAPSED_MILLISEC, elapsedMilliSec);
 
-    String responseLog = convertObjectToString(responseMap);
-
-    log.info("Aspect - Response Log {}", responseLog);
+    return responseMap;
   }
 
   private LocalDateTime getRequestTime() {
@@ -60,10 +66,6 @@ public class LogAspect {
     return (LocalDateTime) ((ServletRequestAttributes) requestAttribute)
         .getRequest()
         .getAttribute(REQUEST_TIME);
-  }
-
-  private Long getElapsedSec(LocalDateTime requestTime, LocalDateTime responseTime) {
-    return ChronoUnit.SECONDS.between(requestTime, responseTime);
   }
 
   private String getLogId() {

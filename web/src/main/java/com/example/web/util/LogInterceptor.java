@@ -67,13 +67,11 @@ public class LogInterceptor implements HandlerInterceptor {
     requestMap.put(HEADERS, headers);
 
     requestMap.put(REQUEST_TIME, now.toString());
-    // handler : 호출할 컨트롤러 메서드의 정보들이 있다.
-    if (handler instanceof HandlerMethod) {
-      String requestBody = getRequestBody(request);
-      Map<String, Object> requestBodyMap = convertJsonStringToMap(requestBody);
 
-      requestMap.put(REQUEST_BODY, requestBodyMap);
-    }
+    String requestBody = getRequestBody(request);
+    Map<String, Object> requestBodyMap = convertJsonStringToMap(requestBody);
+
+    requestMap.put(REQUEST_BODY, requestBodyMap);
 
     return requestMap;
   }
@@ -105,10 +103,10 @@ public class LogInterceptor implements HandlerInterceptor {
         continue;
       }
 
-      String headerBody = httpServletRequest.getParameter(headerName);
+      String headerValue = httpServletRequest.getHeader(headerName);
 
-      if (headerBody != null) {
-        headersMap.put(headerBody, headerName);
+      if (headerValue != null) {
+        headersMap.put(headerName, headerValue);
       }
     }
 
@@ -116,8 +114,9 @@ public class LogInterceptor implements HandlerInterceptor {
   }
 
   private static boolean isAllowedHeaders(String header) {
-    return header.equalsIgnoreCase("user-agent")
-        || header.equalsIgnoreCase("accept-encoding");
+    // 필요시 추가
+    return header.equalsIgnoreCase("host")
+        || header.equalsIgnoreCase("content-type");
   }
 
   @Override
@@ -125,8 +124,7 @@ public class LogInterceptor implements HandlerInterceptor {
     log.info("PostHandle [{}]", modelAndView);
   }
 
-  // afterCompletion 에서 로깅 하는 이유
-  // @Controller 단에서 Exception 발생시 PostHandle 호출 안하기 때문
+  // @Controller 단에서 Exception 발생시 PostHandle 호출 안한다.
   // afterCompletion 은 항상 호출 된다.
   @Override
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {

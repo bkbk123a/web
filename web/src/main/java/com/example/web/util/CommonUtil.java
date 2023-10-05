@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
 @Slf4j
@@ -12,6 +14,7 @@ public class CommonUtil {
   public static final String LOG_ID = "logId";
 
   public static String convertObjectToString(Object obj) {
+    //Java 객체 간의 변환 담당 클래스
     ObjectMapper objectMapper = new ObjectMapper();
 
     try {
@@ -23,6 +26,7 @@ public class CommonUtil {
   }
 
   public static Map<String, Object> convertJsonStringToMap(String jsonString) {
+    //Java 객체 간의 변환 담당 클래스
     ObjectMapper objectMapper = new ObjectMapper();
 
     try {
@@ -32,6 +36,8 @@ public class CommonUtil {
     }
     throw new RuntimeException();
   }
-}
 
-// ObjectMapper 클래스는 Jackson 라이브러리에서 JSON 데이터와 Java 객체 간의 변환을 담당하는 클래스
+  public static Long getLocalDateTimeDifferenceMilliSec(LocalDateTime fromTime, LocalDateTime toTime) {
+    return fromTime.until(toTime, ChronoUnit.MILLIS);
+  }
+}
