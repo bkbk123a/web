@@ -11,6 +11,7 @@ public class TestController {
 
   @PostMapping("/test")
   public ResBody test(@RequestBody ReqBody reqBody) {
+
     return new ResBody("test", 100);
   }
 

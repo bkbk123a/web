@@ -12,6 +12,7 @@ import java.util.Map;
 public class CommonUtil {
 
   public static final String LOG_ID = "logId";
+  public static final String REQUEST_TIME = "requestTime";
 
   public static String convertObjectToString(Object obj) {
     //Java 객체 간의 변환 담당 클래스

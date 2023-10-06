@@ -10,6 +10,11 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import static com.example.web.util.CommonUtil.LOG_ID;
+import static com.example.web.util.CommonUtil.REQUEST_TIME;
 
 @Component
 public class CustomServletWrappingFilter extends OncePerRequestFilter {
@@ -18,6 +23,9 @@ public class CustomServletWrappingFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                   FilterChain filterChain) throws ServletException, IOException {
+    // 요청 들어온 시간을 기록
+    request.setAttribute(REQUEST_TIME, LocalDateTime.now());
+
     ContentCachingRequestWrapper wrappingRequest = new ContentCachingRequestWrapper(request);
     ContentCachingResponseWrapper wrappingResponse = new ContentCachingResponseWrapper(response);
 
