@@ -18,9 +18,10 @@ JAVA Spring기반 WAS 구현
 - ORM : JPA(Spring Data JPA, QueryDSL)
 
 ## 📌 주요 기능
-### API 로깅
-### 외부 API 연동(NAVER) 로그인 
-
+### 1.API 로깅
+### 2.JWT 인증 기반 로그인(진행중)
+### 3.이벤트 관련 API(보상, 정보 - 진행중) 
+ 
 ## 💾 데이터 베이스 관련
 - 1. docker-compose 를 설치하여야 한다.(추천 : 도커 데스크톱 설치)
 - 2. cmd창을 열어서 docker-compose.yml 파일이 있는 위치로 이동 (cd명령어)
