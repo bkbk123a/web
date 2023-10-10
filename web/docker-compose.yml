@@ -6,6 +6,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2017-latest
     restart: always
     user: root
+    privileged: true
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "Password1477!"
