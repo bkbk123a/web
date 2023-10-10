@@ -6,10 +6,13 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder
 @Getter
 @Entity
 @Table(name = "T_STATIC_EventTime")
@@ -23,6 +26,7 @@ public class EventTime {
   private EventType eventType;
 
   @Column(name = "Description", nullable = false)
+  @Nationalized
   private String description;
 
   @Column(name = "StartTime", nullable = false)

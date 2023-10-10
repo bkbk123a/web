@@ -10,6 +10,7 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @Getter
 public enum EventType {
+  NONE(0, "진행중인 이벤트 없음"),
   ATTEND(1, "출석 이벤트"),
   OLYMPIC(2, "올림픽 이벤트 이벤트");
 
