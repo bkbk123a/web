@@ -1,6 +1,6 @@
 package com.example.web.service.user;
 
-import com.example.web.jpa.entity.UserInfo;
+import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.oauth.JwtUser;
 import com.example.web.model.oauth.info.OauthUserInfo;
 import com.example.web.model.response.OauthResponse;

@@ -1,6 +1,6 @@
 package com.example.web.service.oauth;
 
-import com.example.web.jpa.entity.UserInfo;
+import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.oauth.info.NaverUserInfo;
 import com.example.web.model.request.NaverOauthRequest;
 import com.example.web.model.response.OauthResponse;

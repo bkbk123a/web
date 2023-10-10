@@ -1,6 +1,5 @@
 package com.example.web.service.oauth;
 
-import com.example.web.jpa.entity.UserInfo;
 import com.example.web.model.oauth.info.NaverUserInfo;
 import com.example.web.model.oauth.token.NaverToken;
 import com.example.web.model.request.NaverOauthRequest;
@@ -14,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Optional;
 
 
 @Service

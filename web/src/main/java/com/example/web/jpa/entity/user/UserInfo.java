@@ -1,11 +1,10 @@
-package com.example.web.jpa.entity;
+package com.example.web.jpa.entity.user;
 
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
