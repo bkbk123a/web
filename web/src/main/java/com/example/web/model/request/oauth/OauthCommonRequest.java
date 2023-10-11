@@ -1,4 +1,4 @@
-package com.example.web.model.request;
+package com.example.web.model.request.oauth;
 
 import com.example.web.model.enums.OauthType;
 import org.springframework.util.MultiValueMap;

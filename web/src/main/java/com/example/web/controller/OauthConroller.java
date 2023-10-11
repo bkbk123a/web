@@ -1,7 +1,6 @@
 package com.example.web.controller;
 
-import com.example.web.model.request.KakaoOauthRequest;
-import com.example.web.model.request.NaverOauthRequest;
+import com.example.web.model.request.oauth.NaverOauthRequest;
 import com.example.web.model.response.OauthResponse;
 import com.example.web.service.oauth.OauthService;
 import lombok.RequiredArgsConstructor;

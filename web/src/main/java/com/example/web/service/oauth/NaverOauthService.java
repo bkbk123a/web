@@ -2,7 +2,7 @@ package com.example.web.service.oauth;
 
 import com.example.web.model.oauth.info.NaverUserInfo;
 import com.example.web.model.oauth.token.NaverToken;
-import com.example.web.model.request.NaverOauthRequest;
+import com.example.web.model.request.oauth.NaverOauthRequest;
 import com.example.web.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

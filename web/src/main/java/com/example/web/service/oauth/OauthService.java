@@ -2,7 +2,7 @@ package com.example.web.service.oauth;
 
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.oauth.info.NaverUserInfo;
-import com.example.web.model.request.NaverOauthRequest;
+import com.example.web.model.request.oauth.NaverOauthRequest;
 import com.example.web.model.response.OauthResponse;
 import com.example.web.service.user.UserService;
 import jakarta.transaction.Transactional;
