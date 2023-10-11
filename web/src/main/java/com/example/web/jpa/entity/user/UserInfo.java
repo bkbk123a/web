@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
@@ -26,11 +26,11 @@ public class UserInfo {
     @Column(name = "NickName", nullable = false)
     private String nickName;
 
-    @Column(name = "CreatedTime", nullable = false)
+    @Column(name = "CreatedAt", nullable = false)
     @CreationTimestamp
-    private OffsetDateTime createdTime;
+    private LocalDateTime createdAt;
 
-    @Column(name = "LastLoginTime", nullable = false)
+    @Column(name = "LastLoginAt", nullable = false)
     @CreationTimestamp
-    private OffsetDateTime lastLoginTime;
+    private LocalDateTime lastLoginAt;
 }

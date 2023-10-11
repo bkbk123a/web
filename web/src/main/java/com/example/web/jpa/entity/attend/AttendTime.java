@@ -1,7 +1,7 @@
-package com.example.web.jpa.entity.event;
+package com.example.web.jpa.entity.attend;
 
-import com.example.web.model.enums.EventType;
-import com.example.web.model.enums.converter.EventTypeConverter;
+import com.example.web.model.enums.AttendType;
+import com.example.web.model.enums.converter.AttendTypeConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,15 +15,16 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @Getter
 @Entity
-@Table(name = "T_STATIC_EventTime")
-public class EventTime {
-  @Id
-  @Column(name = "EventIndex")
-  private Integer eventIndex;
+@Table(name = "T_STATIC_Attend")
+public class AttendTime {
 
-  @Column(name = "EventType", nullable = false)
-  @Convert(converter = EventTypeConverter.class)
-  private EventType eventType;
+  @Id
+  @Column(name = "AttendIndex")
+  private Integer attendIndex;
+
+  @Column(name = "AttendType", nullable = false)
+  @Convert(converter = AttendTypeConverter.class)
+  private AttendType attendType;
 
   @Column(name = "Description", nullable = false)
   @Nationalized

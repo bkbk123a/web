@@ -9,27 +9,26 @@ import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @Getter
-public enum EventType {
-  NONE(0, "진행중인 이벤트 없음"),
-  ATTEND(1, "출석 이벤트"),
-  OLYMPIC(2, "올림픽 이벤트 이벤트");
+public enum AttendType {
+  NONE(0, "출석 없음"),
+  DAILY_ATTEND(1, "일일 출석");
 
   @JsonValue
   private final int type;
   private final String description;
 
-  EventType(int type, String description) {
+  AttendType(int type, String description) {
     this.type = type;
     this.description = description;
   }
 
-   public static EventType ofEventType(int eventType) {
-    return Arrays.stream(EventType.values())
-        .filter(v -> v.getType() == eventType)
+   public static AttendType ofAttendType(int attendType) {
+    return Arrays.stream(AttendType.values())
+        .filter(v -> v.getType() == attendType)
         .findAny()
         .orElseThrow(() -> EnumConvertException
             .builder()
-            .message(String.format("EventType = [%d]가 존재하지 않습니다.", eventType))
+            .message(String.format("AttendType = [%d]가 존재하지 않습니다.", attendType))
             .build());
   }
 }

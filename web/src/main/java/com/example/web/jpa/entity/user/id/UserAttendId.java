@@ -1,5 +1,6 @@
-package com.example.web.jpa.entity.event.Id;
+package com.example.web.jpa.entity.user.id;
 
+import com.example.web.model.enums.AttendType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
@@ -12,13 +13,13 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
 @EqualsAndHashCode
-public class UserEventId implements Serializable {
+public class UserAttendId implements Serializable {
 
   @Id
-  @Column(name = "UserIndex", nullable = false)
-  private Integer userIndex;
+  @Column(name = "UserIndex")
+  private Long userIndex;
 
   @Id
-  @Column(name = "EventIndex", nullable = false)
-  private Integer eventIndex;
+  @Column(name = "AttendType")
+  private AttendType attendType;
 }

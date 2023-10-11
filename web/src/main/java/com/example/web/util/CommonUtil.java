@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
@@ -40,5 +42,9 @@ public class CommonUtil {
 
   public static Long getLocalDateTimeDifferenceMilliSec(LocalDateTime fromTime, LocalDateTime toTime) {
     return fromTime.until(toTime, ChronoUnit.MILLIS);
+  }
+
+  public static OffsetDateTime getOffsetDateTimeFromLocalDateTime(LocalDateTime now) {
+    return now.atOffset(ZoneOffset.UTC);
   }
 }
