@@ -1,5 +1,6 @@
 package com.example.web.controller;
 
+import com.example.web.dto.attend.AttendDto;
 import com.example.web.dto.attend.AttendInfoDto;
 import com.example.web.service.attend.AttendService;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,10 @@ public class AttendController {
   @PostMapping("/info")
   public AttendInfoDto.Response getUserAttendInfo(@RequestBody AttendInfoDto.Request request) {
     return attendService.getUserAttendInfo(request);
+  }
+
+  @PostMapping("")
+  public AttendDto.Response getUserAttendInfo(@RequestBody AttendDto.Request request) {
+    return attendService.attend(request);
   }
 }

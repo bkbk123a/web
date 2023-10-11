@@ -1,10 +1,12 @@
 package com.example.web.service.attend;
 
+import com.example.web.dto.attend.AttendDto;
 import com.example.web.dto.attend.AttendInfoDto;
 import com.example.web.jpa.entity.attend.AttendTime;
 import com.example.web.jpa.entity.attend.UserAttend;
 import com.example.web.jpa.repository.user.UserAttendRepository;
 import com.example.web.model.enums.AttendType;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,20 +34,43 @@ public class AttendService {
     return userAttendRepository.findByUserIndex(userIndex);
   }
 
-  public void processAttend(Long userIndex, LocalDateTime now) {
-    List<UserAttend> userAttends = getUserAttends(userIndex);
-    List<AttendTime> attendTimes = attendTimeService.getAttendTimes(now);
+  @Transactional
+  public AttendDto.Response attend(AttendDto.Request request) {
+    AttendDto.Dto dto = getAttendDto(request);
+
+    List<UserAttend> userAttends = dto.getUserAttends();
 
     for (UserAttend attend : userAttends) {
+      // 현재는 1일 출석만 있다.
       if (attend.getAttendType() == AttendType.DAILY_ATTEND) {
-        processDailyAttend(now, attend, attendTimes);
+        processDailyAttend(attend, dto);
       }
     }
 
     userAttendRepository.saveAll(userAttends);
+
+    return AttendDto.Response
+        .builder()
+        .userAttends(dto.getUserAttends())
+        .build();
   }
 
-  private void processDailyAttend(LocalDateTime now, UserAttend userAttend, List<AttendTime> attendTimes) {
+  private AttendDto.Dto getAttendDto(AttendDto.Request request) {
+    Long userIndex = request.getUserIndex();
+    LocalDateTime now = LocalDateTime.now();
+
+    return AttendDto.Dto.builder()
+        .userIndex(userIndex)
+        .now(now)
+        .userAttends(getUserAttends(userIndex))
+        .attendTimes(attendTimeService.getAttendTimes(now))
+        .build();
+  }
+
+  private void processDailyAttend(UserAttend userAttend, AttendDto.Dto dto) {
+    LocalDateTime now = dto.getNow();
+    List<AttendTime> attendTimes = dto.getAttendTimes();
+
     if (!isDailyAttendPossible(now, userAttend, attendTimes)) {
       return;
     }
