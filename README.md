@@ -18,9 +18,12 @@ JAVA Spring기반 WAS 구현
 - ORM : JPA(Spring Data JPA, QueryDSL)
 
 ## 📌 주요 기능
-### 1.API 로깅
-### 2.JWT 인증 기반 로그인(진행중)
-### 3.이벤트 관련 API(보상, 정보 - 진행중) 
+### 1. API 로깅
+	- 필터와 인터셉터 이용
+### 2. JWT 인증 기반 로그인(진행중)
+### 3. 출석 관련 API
+	- 출석 API
+	- 출석 정보 조회 API 
  
 ## 💾 데이터 베이스 관련
 - 1. docker-compose 를 설치하여야 한다.(추천 : 도커 데스크톱 설치)

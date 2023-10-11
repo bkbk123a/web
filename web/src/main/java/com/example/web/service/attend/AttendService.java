@@ -68,25 +68,31 @@ public class AttendService {
   }
 
   private void processDailyAttend(UserAttend userAttend, AttendDto.Dto dto) {
-    LocalDateTime now = dto.getNow();
-    List<AttendTime> attendTimes = dto.getAttendTimes();
-
-    if (!isDailyAttendPossible(now, userAttend, attendTimes)) {
+    if (!isDailyAttendCondition(userAttend, dto)) {
       return;
     }
 
-    userAttend.setLastAttendAt(now);
+    userAttend.setLastAttendAt(dto.getNow());
     userAttend.increaseAttendCount();
   }
 
-  private boolean isDailyAttendPossible(LocalDateTime now, UserAttend userAttend, List<AttendTime> attendTimes) {
-    boolean isTodayFirstAttend = !userAttend.getLastAttendAt().toLocalDate().equals(now.toLocalDate());
+  /**
+   * 1일 1회 출석 조건 만족 판단
+   * (유저가 오늘 처음 출석) && (진행 중인 출석의 AttendType = DAILY_ATTEND) 이면 출석 조건 만족
+   *
+   * @param userAttend 유저 출석 정보(AttendType = DAILY_ATTEND)
+   * @param dto        dto
+   * @return           1일 1회 출석 조건 여부(true : 조건 만족, false : 조건 불만족)
+   */
+  private boolean isDailyAttendCondition(UserAttend userAttend, AttendDto.Dto dto) {
+    boolean isTodayFirstAttend = !userAttend.getLastAttendAt()
+        .toLocalDate().equals(dto.getNow().toLocalDate());
 
     if (!isTodayFirstAttend) {
       return false;
     }
 
-    AttendTime attendTime = attendTimes.stream()
+    AttendTime attendTime = dto.getAttendTimes().stream()
         .filter(e -> e.getAttendType() == AttendType.DAILY_ATTEND)
         .findFirst()
         .orElse(null);
