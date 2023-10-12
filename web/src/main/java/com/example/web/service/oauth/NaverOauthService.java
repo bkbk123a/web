@@ -1,8 +1,8 @@
 package com.example.web.service.oauth;
 
+import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.model.oauth.info.NaverUserInfo;
 import com.example.web.model.oauth.token.NaverToken;
-import com.example.web.model.request.oauth.NaverOauthRequest;
 import com.example.web.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +43,7 @@ public class NaverOauthService {
      * @param request
      * @return 외부 API 응답의 접근 토큰
      */
-    public String processAccessToken(NaverOauthRequest request) {
+    public String processAccessToken(OauthNaverLoginDto.Request request) {
         final String path = "/oauth2.0/token";
         final String url = oauthUrl + path; // 외부 API(네이버 로그인) 접근 토큰 발급 요청 url
 
@@ -60,7 +60,7 @@ public class NaverOauthService {
      * @param request
      * @return 외부 API에 요청 보낼 HTTP 엔티티
      */
-    private HttpEntity<?> makeHttpEntity(NaverOauthRequest request) {
+    private HttpEntity<?> makeHttpEntity(OauthNaverLoginDto.Request request) {
         return new HttpEntity<>(makeHttpBody(request), makeHttpHeader());
     }
 
@@ -71,7 +71,7 @@ public class NaverOauthService {
         return httpHeaders;
     }
 
-    private MultiValueMap<String, String> makeHttpBody(NaverOauthRequest request) {
+    private MultiValueMap<String, String> makeHttpBody(OauthNaverLoginDto.Request request) {
         // MultiValueMap 사용 이유 : 메세지 컨버팅할때 HashMap 지원안함.
         MultiValueMap<String, String> httpBody = request.makeHttpBody();
 

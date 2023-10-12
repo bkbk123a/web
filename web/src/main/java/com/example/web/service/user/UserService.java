@@ -1,10 +1,10 @@
 package com.example.web.service.user;
 
+import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.user.UserRepository;
 import com.example.web.model.oauth.JwtUser;
 import com.example.web.model.oauth.info.OauthUserInfo;
-import com.example.web.model.response.OauthResponse;
 import com.example.web.util.container.SessionContainer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +25,7 @@ public class UserService {
     return userRepository.findByEmailAddress(emailAddress);
   }
 
-  public UserInfo getUserInfo(Long userIndex) {
-    return userRepository.findById(userIndex)
-        .orElseGet(() -> UserInfo.builder()
-            .userIndex(-1L)
-            .build());
-  }
-
-  public OauthResponse login(boolean isNewUser, @NonNull UserInfo userInfo) {
+  public OauthNaverLoginDto.Response login(boolean isNewUser, @NonNull UserInfo userInfo) {
     LocalDateTime now = LocalDateTime.now();
 
     userInfo.setLastLoginAt(now);
@@ -45,9 +38,10 @@ public class UserService {
 
     SessionContainer.setSession(jwtUser);
 
-    return OauthResponse.builder()
+    return OauthNaverLoginDto.Response.builder()
         .isNewUser(isNewUser)
         .serverTime(getOffsetDateTimeFromLocalDateTime(now).toEpochSecond())
+        .userInfo(userInfo)
         .build();
   }
 

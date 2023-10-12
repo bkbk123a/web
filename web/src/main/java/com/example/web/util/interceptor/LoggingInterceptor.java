@@ -1,7 +1,6 @@
 package com.example.web.util.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -64,11 +63,18 @@ public class LoggingInterceptor implements HandlerInterceptor {
     requestMap.put(REQUEST_TIME, requestTime.toString());
 
     String requestBody = objectMapper.readTree(cachingRequest.getContentAsByteArray()).toString();
-    Map<String, Object> requestBodyMap = convertJsonStringToMap(requestBody);
 
-    requestMap.put(REQUEST_BODY, requestBodyMap);
+    requestMap.put(REQUEST_BODY, getRequestBodyMap(requestBody));
 
     return requestMap;
+  }
+
+  private Object getRequestBodyMap(String requestBody) {
+    if(requestBody == null || requestBody.isEmpty()){
+      return "";
+    }
+
+    return convertJsonStringToMap(requestBody);
   }
 
   private Map<String, Object> getResponseMap(LocalDateTime requestTime, ContentCachingResponseWrapper cachingResponse)

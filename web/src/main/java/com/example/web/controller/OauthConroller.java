@@ -1,14 +1,10 @@
 package com.example.web.controller;
 
-import com.example.web.model.request.oauth.NaverOauthRequest;
-import com.example.web.model.response.OauthResponse;
+import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.service.oauth.OauthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/oauth")
@@ -18,9 +14,17 @@ public class OauthConroller {
 
     private final OauthService oauthService;
 
-    @PostMapping("/naver")
-    public OauthResponse oauthNaver(@RequestBody NaverOauthRequest request) {
-        return oauthService.processNaverOauth(request);
+    @GetMapping("/naver/login-callback")
+    public OauthNaverLoginDto.Response oauthNaverLogin(
+        @RequestParam(name = "code") String authorizetionCode,
+        @RequestParam(name = "state") String state) {
+
+        OauthNaverLoginDto.Request request = OauthNaverLoginDto.Request.builder()
+            .authorizationCode(authorizetionCode)
+            .state(state)
+            .build();
+
+        return oauthService.processNaverLogin(request);
     }
 
 //    @PostMapping("kakao")

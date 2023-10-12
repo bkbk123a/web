@@ -1,9 +1,8 @@
 package com.example.web.service.oauth;
 
+import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.oauth.info.NaverUserInfo;
-import com.example.web.model.request.oauth.NaverOauthRequest;
-import com.example.web.model.response.OauthResponse;
 import com.example.web.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,26 +16,26 @@ import java.util.Optional;
 @Slf4j
 public class OauthService {
 
-    private final NaverOauthService naverOauthService;
-    private final UserService userService;
+  private final NaverOauthService naverOauthService;
+  private final UserService userService;
 
-    @Transactional
-    public OauthResponse processNaverOauth(NaverOauthRequest request) {
+  @Transactional
+  public OauthNaverLoginDto.Response processNaverLogin(OauthNaverLoginDto.Request request) {
 
-        String accessToken = naverOauthService.processAccessToken(request);
+    String accessToken = naverOauthService.processAccessToken(request);
 
-        NaverUserInfo naverUserInfo = naverOauthService.processUserInfo(accessToken);
+    NaverUserInfo naverUserInfo = naverOauthService.processUserInfo(accessToken);
 
-        Optional<UserInfo> userInfo = userService.getUserInfo(naverUserInfo.getEmailAddress());
+    Optional<UserInfo> userInfo = userService.getUserInfo(naverUserInfo.getEmailAddress());
 
-        boolean isNewUSer = userInfo.isEmpty();
+    boolean isNewUSer = userInfo.isEmpty();
 
-        if (!isNewUSer) {
-            userService.login(isNewUSer, userInfo.get());
-        }
-
-        UserInfo newUserInfo = userService.saveUserInfo(naverUserInfo);
-
-        return userService.login(isNewUSer, newUserInfo);
+    if (!isNewUSer) {
+      return userService.login(isNewUSer, userInfo.get());
     }
+
+    UserInfo newUserInfo = userService.saveUserInfo(naverUserInfo);
+
+    return userService.login(isNewUSer, newUserInfo);
+  }
 }
