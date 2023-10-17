@@ -9,12 +9,12 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
-public class OauthTokenGenerator {
+public class AuthTokenGenerator {
 
   @Value("${jwt.access_token_expire_milsec}")
   private long accessTokenExpireMilSec;
 
-  private final JwtTokenProvider jwtTokenProvider;
+  private final JwtTokenUtil jwtTokenUtil;
 
   public String generateToken(Long userIndex) {
     long nowSec = (new Date()).getTime();
@@ -24,7 +24,7 @@ public class OauthTokenGenerator {
         .userIndex(userIndex)
         .build();
 
-    String accessToken = jwtTokenProvider.generateToken(accessTokenExpiredAt, jwtUser);
+    String accessToken = jwtTokenUtil.generateToken(accessTokenExpiredAt, jwtUser);
 
     return accessToken;
   }

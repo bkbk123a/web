@@ -2,6 +2,8 @@ package com.example.web.util.interceptor;
 
 import com.example.web.model.annotation.IgnoreAuth;
 import com.example.web.model.oauth.JwtUser;
+import com.example.web.util.container.SessionContainer;
+import com.example.web.util.token.JwtTokenUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,8 @@ import org.springframework.web.method.HandlerMethod;
 @RequiredArgsConstructor
 @Component
 public class SessionInterceptor extends HandlerInterceptorBase {
+
+  private final JwtTokenUtil jwtTokenUtil;
 
   @Override
   public boolean preHandle(HttpServletRequest request,
@@ -28,17 +32,18 @@ public class SessionInterceptor extends HandlerInterceptorBase {
       return true;
     }
 
-    String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-    if (header == null) {
+    String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+    if (accessToken == null) {
       log.error("SessionInterceptor header has no AUTHORIZATION");
       return false;
     }
 
     JwtUser userInfo;
     try {
-
+      userInfo = jwtTokenUtil.getUserInfo(accessToken);
+      SessionContainer.setSession(userInfo);
     } catch (Exception e) {
-
+      System.out.println("e = " + e);
     }
     return true;
   }

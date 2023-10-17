@@ -4,7 +4,7 @@ import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.user.UserRepository;
 import com.example.web.model.oauth.info.OauthUserInfo;
-import com.example.web.util.token.OauthTokenGenerator;
+import com.example.web.util.token.AuthTokenGenerator;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import static com.example.web.util.CommonUtil.getOffsetDateTimeFromLocalDateTime
 public class UserService {
 
   private final UserRepository userRepository;
-  private final OauthTokenGenerator oauthTokenGenerator;
+  private final AuthTokenGenerator authTokenGenerator;
 
   public Optional<UserInfo> getUserInfo(String emailAddress) {
     return userRepository.findByEmailAddress(emailAddress);
@@ -31,7 +31,7 @@ public class UserService {
     userInfo.setLastLoginAt(now);
     saveUserInfo(userInfo);
 
-     String accessToken = oauthTokenGenerator.generateToken(userInfo.getUserIndex());
+     String accessToken = authTokenGenerator.generateToken(userInfo.getUserIndex());
 
     return OauthNaverLoginDto.Response.builder()
         .isNewUser(isNewUser)
