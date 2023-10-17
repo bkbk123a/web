@@ -5,7 +5,9 @@ import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.user.UserRepository;
 import com.example.web.model.oauth.JwtUser;
 import com.example.web.model.oauth.info.OauthUserInfo;
+import com.example.web.model.oauth.token.OauthToken;
 import com.example.web.util.container.SessionContainer;
+import com.example.web.util.token.OauthTokenGenerator;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import static com.example.web.util.CommonUtil.getOffsetDateTimeFromLocalDateTime
 public class UserService {
 
   private final UserRepository userRepository;
+  private final OauthTokenGenerator oauthTokenGenerator;
 
   public Optional<UserInfo> getUserInfo(String emailAddress) {
     return userRepository.findByEmailAddress(emailAddress);
@@ -31,17 +34,13 @@ public class UserService {
     userInfo.setLastLoginAt(now);
     saveUserInfo(userInfo);
 
-    JwtUser jwtUser = JwtUser.builder()
-        .userIndex(userInfo.getUserIndex())
-        .expireLeftSec(7200)
-        .build();
-
-    SessionContainer.setSession(jwtUser);
+     OauthToken oauthToken = oauthTokenGenerator.generate(userInfo.getUserIndex());
 
     return OauthNaverLoginDto.Response.builder()
         .isNewUser(isNewUser)
         .serverTime(getOffsetDateTimeFromLocalDateTime(now).toEpochSecond())
         .userInfo(userInfo)
+        .oauthToken(oauthToken)
         .build();
   }
 

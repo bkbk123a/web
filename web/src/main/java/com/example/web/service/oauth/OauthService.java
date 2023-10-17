@@ -33,7 +33,7 @@ public class OauthService {
     if (!isNewUSer) {
       return userService.login(isNewUSer, userInfo.get());
     }
-
+    // 새로운 유저면 유저 기본 정보 DB에 등록한다.
     UserInfo newUserInfo = userService.saveUserInfo(naverUserInfo);
 
     return userService.login(isNewUSer, newUserInfo);

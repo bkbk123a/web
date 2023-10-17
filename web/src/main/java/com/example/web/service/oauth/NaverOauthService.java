@@ -2,7 +2,7 @@ package com.example.web.service.oauth;
 
 import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.model.oauth.info.NaverUserInfo;
-import com.example.web.model.oauth.token.NaverToken;
+import com.example.web.model.oauth.token.OauthToken;
 import com.example.web.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,9 +49,9 @@ public class NaverOauthService {
 
         HttpEntity<?> httpEntity = makeHttpEntity(request);
 
-        NaverToken naverToken = (NaverToken) getResponseFromNaverOrElseThrow(url, httpEntity, NaverToken.class);
+        OauthToken oauthToken = (OauthToken) getResponseFromNaverOrElseThrow(url, httpEntity, OauthToken.class);
 
-        return naverToken.getAccessToken();
+        return oauthToken.getAccessToken();
     }
 
     /**
