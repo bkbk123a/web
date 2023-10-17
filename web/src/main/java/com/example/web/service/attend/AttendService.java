@@ -6,6 +6,7 @@ import com.example.web.jpa.entity.attend.AttendTime;
 import com.example.web.jpa.entity.attend.UserAttend;
 import com.example.web.jpa.repository.user.UserAttendRepository;
 import com.example.web.model.enums.AttendType;
+import com.example.web.service.ServiceBase;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AttendService {
+public class AttendService extends ServiceBase {
 
   private final AttendTimeService attendTimeService;
   private final UserAttendRepository userAttendRepository;
 
-  public AttendInfoDto.Response getUserAttendInfo(AttendInfoDto.Request request) {
-
-    List<UserAttend> userAttends = getUserAttends(request.getUserIndex());
+  public AttendInfoDto.Response getUserAttendInfo() {
+    List<UserAttend> userAttends = getUserAttends(getUserIndex());
 
     return AttendInfoDto.Response.
         builder()
@@ -35,8 +35,8 @@ public class AttendService {
   }
 
   @Transactional
-  public AttendDto.Response attend(AttendDto.Request request) {
-    AttendDto.Dto dto = getAttendDto(request);
+  public AttendDto.Response attend() {
+    AttendDto.Dto dto = getAttendDto();
 
     List<UserAttend> userAttends = dto.getUserAttends();
 
@@ -55,8 +55,8 @@ public class AttendService {
         .build();
   }
 
-  private AttendDto.Dto getAttendDto(AttendDto.Request request) {
-    Long userIndex = request.getUserIndex();
+  private AttendDto.Dto getAttendDto() {
+    long userIndex = getUserIndex();
     LocalDateTime now = LocalDateTime.now();
 
     return AttendDto.Dto.builder()

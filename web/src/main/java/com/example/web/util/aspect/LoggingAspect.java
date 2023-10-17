@@ -38,7 +38,7 @@ public class LoggingAspect {
   }
 
   @Around(value = "getControllerPointCut()")
-  public void log(ProceedingJoinPoint joinPoint) throws Throwable {
+  public Object processLog(ProceedingJoinPoint joinPoint) throws Throwable {
 
     LocalDateTime requestTime = LocalDateTime.now();
 
@@ -50,6 +50,8 @@ public class LoggingAspect {
         "Request : {} / Response : {}",
         requestLog, responseLog
     );
+
+    return response;
   }
 
 

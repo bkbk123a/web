@@ -2,7 +2,6 @@ package com.example.web.dto.attend;
 
 import com.example.web.jpa.entity.attend.AttendTime;
 import com.example.web.jpa.entity.attend.UserAttend;
-import com.example.web.model.request.CommonRequest;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -24,13 +23,6 @@ public class AttendDto {
     private Long userIndex;
     private List<UserAttend> userAttends;
     private List<AttendTime> attendTimes;
-  }
-
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  @Getter
-  @EqualsAndHashCode(callSuper = true)
-  public static class Request extends CommonRequest {
-
   }
 
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
