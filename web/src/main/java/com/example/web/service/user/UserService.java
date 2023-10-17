@@ -3,10 +3,7 @@ package com.example.web.service.user;
 import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.user.UserRepository;
-import com.example.web.model.oauth.JwtUser;
 import com.example.web.model.oauth.info.OauthUserInfo;
-import com.example.web.model.oauth.token.OauthToken;
-import com.example.web.util.container.SessionContainer;
 import com.example.web.util.token.OauthTokenGenerator;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +31,12 @@ public class UserService {
     userInfo.setLastLoginAt(now);
     saveUserInfo(userInfo);
 
-     OauthToken oauthToken = oauthTokenGenerator.generate(userInfo.getUserIndex());
+     String accessToken = oauthTokenGenerator.generateToken(userInfo.getUserIndex());
 
     return OauthNaverLoginDto.Response.builder()
         .isNewUser(isNewUser)
         .serverTime(getOffsetDateTimeFromLocalDateTime(now).toEpochSecond())
-        .userInfo(userInfo)
-        .oauthToken(oauthToken)
+        .accessToken(accessToken)
         .build();
   }
 

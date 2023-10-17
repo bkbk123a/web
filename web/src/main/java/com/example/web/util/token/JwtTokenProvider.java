@@ -1,5 +1,6 @@
 package com.example.web.util.token;
 
+import com.example.web.model.oauth.JwtUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -15,7 +16,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-  private static final String USER_INDEX = "userIndex";
+  private static final String USER_INFO = "userInfo";
   private final Key key;
 
   public JwtTokenProvider(@Value("${jwt.secret-key}") String secretKey) {
@@ -26,14 +27,14 @@ public class JwtTokenProvider {
   /**
    * jwt 토큰 생성
    *
-   * @param subject   페이로드 정보(claim 정보)
    * @param expiredAt 만료 시간
+   * @param jwtUser   claim 에 들어갈 유저 정보
    * @return          jwt 토큰
    */
-  public String generate(long userIndex, Date expiredAt) {
+  public String generateToken(Date expiredAt, JwtUser jwtUser) {
     return Jwts.builder()
         .setHeaderParam("type", "JWT")
-        .claim(USER_INDEX, Long.toString(userIndex))
+        .claim(USER_INFO, jwtUser)
         .setExpiration(expiredAt) // 민료 시간
         .signWith(key, SignatureAlgorithm.HS512)
         .compact(); // 토큰 생성

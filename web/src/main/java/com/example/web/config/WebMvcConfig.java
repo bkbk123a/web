@@ -1,6 +1,6 @@
 package com.example.web.config;
 
-import com.example.web.util.interceptor.LoggingInterceptor;
+import com.example.web.util.interceptor.SessionInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -10,12 +10,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-  private final LoggingInterceptor loggingInterceptor;
+  private final SessionInterceptor sessionInterceptor;
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
 
-    registry.addInterceptor(loggingInterceptor)
+    registry.addInterceptor(sessionInterceptor)
         .order(1)                 // 인터셉터 호출 순위. 낮을수록 먼저 호출
         .addPathPatterns("/**")    // 인터셉터 적용할 URL 패턴
         .excludePathPatterns("/error"); // 인터셉터 제외할 패턴 지정

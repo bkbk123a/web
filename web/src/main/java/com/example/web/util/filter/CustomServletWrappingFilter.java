@@ -11,9 +11,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-import static com.example.web.util.CommonUtil.LOG_ID;
 import static com.example.web.util.CommonUtil.REQUEST_TIME;
 
 @Component

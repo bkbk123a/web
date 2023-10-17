@@ -1,6 +1,7 @@
 package com.example.web.controller;
 
 import com.example.web.dto.oauth.OauthNaverLoginDto;
+import com.example.web.model.annotation.IgnoreAuth;
 import com.example.web.service.oauth.OauthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ public class OauthConroller {
 
     private final OauthService oauthService;
 
+    @IgnoreAuth
     @GetMapping("/naver/login-callback")
     public OauthNaverLoginDto.Response oauthNaverLogin(
         @RequestParam(name = "code") String authorizetionCode,

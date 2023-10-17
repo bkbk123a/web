@@ -11,5 +11,5 @@ public class JwtUser {
 
     private long userIndex;
 
-    private long expireLeftSec;
+    // 필요시 추후 정보 추가.
 }

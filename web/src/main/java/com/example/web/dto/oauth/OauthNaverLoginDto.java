@@ -1,7 +1,5 @@
 package com.example.web.dto.oauth;
 
-import com.example.web.jpa.entity.user.UserInfo;
-import com.example.web.model.oauth.token.OauthToken;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -38,14 +36,13 @@ public class OauthNaverLoginDto {
     // 서버 기준 시간 - unix timestamp
     @JsonProperty("ServerTime")
     private long serverTime;
+
     // 계정 생성 여부
     @JsonProperty("IsNewUser")
     private boolean isNewUser;
-    // 유저 정보
-    @JsonProperty("UserInfo")
-    private UserInfo userInfo;
 
-    @JsonProperty("OauthToken")
-    private OauthToken oauthToken;
+    // 접속 토큰
+    @JsonProperty("AccessToken")
+    private String accessToken;
   }
 }
