@@ -3,6 +3,7 @@ package com.example.web.service.oauth;
 import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.oauth.info.NaverUserInfo;
+import com.example.web.service.ServiceBase;
 import com.example.web.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OauthService {
+public class OauthService extends ServiceBase {
 
   private final NaverOauthService naverOauthService;
   private final UserService userService;

@@ -40,9 +40,5 @@ public class OauthNaverLoginDto {
     // 계정 생성 여부
     @JsonProperty("IsNewUser")
     private boolean isNewUser;
-
-    // 접속 토큰
-    @JsonProperty("AccessToken")
-    private String accessToken;
   }
 }

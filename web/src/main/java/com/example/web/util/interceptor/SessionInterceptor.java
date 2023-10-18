@@ -4,6 +4,7 @@ import com.example.web.model.annotation.IgnoreAuth;
 import com.example.web.model.oauth.JwtUser;
 import com.example.web.util.container.SessionContainer;
 import com.example.web.util.token.JwtTokenUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +42,12 @@ public class SessionInterceptor extends HandlerInterceptorBase {
     JwtUser userInfo;
     try {
       userInfo = jwtTokenUtil.getUserInfo(accessToken);
+      userInfo.setExpireTime(jwtTokenUtil.getExpireTime(accessToken));
       SessionContainer.setSession(userInfo);
-    } catch (Exception e) {
-      System.out.println("e = " + e);
+    } catch (ExpiredJwtException e) {
+      System.out.println("Token has expired. : " + e);
+    } catch(Exception e) {
+      System.out.println("Token is invalid for another reason. : " + e);
     }
     return true;
   }

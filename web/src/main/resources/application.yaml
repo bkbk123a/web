@@ -30,5 +30,5 @@ oauth:
 jwt:
   secret-key: Z29uZ2NoZWNrLWdvbmdjaGVjay1nb25nY2hlY2stZ29uZ2NoZWNrCg123456789Z29uZ2NonY2hlY2stZ29uZ2NoZWNrCg123456789
   access_token_expire_milsec: 3600000 # 1시간
-  refresh_token_expire_milsec: 604800000 # 7일
+  refresh_token_expire_milsec: 3600000 # 1시간
   token_type: Bearer #접속 토큰 타입

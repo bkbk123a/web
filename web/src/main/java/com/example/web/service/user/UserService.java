@@ -3,8 +3,9 @@ package com.example.web.service.user;
 import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.user.UserRepository;
+import com.example.web.model.oauth.JwtUser;
 import com.example.web.model.oauth.info.OauthUserInfo;
-import com.example.web.util.token.AuthTokenGenerator;
+import com.example.web.util.container.SessionContainer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,24 +20,24 @@ import static com.example.web.util.CommonUtil.getOffsetDateTimeFromLocalDateTime
 public class UserService {
 
   private final UserRepository userRepository;
-  private final AuthTokenGenerator authTokenGenerator;
 
   public Optional<UserInfo> getUserInfo(String emailAddress) {
     return userRepository.findByEmailAddress(emailAddress);
   }
 
   public OauthNaverLoginDto.Response login(boolean isNewUser, @NonNull UserInfo userInfo) {
+
+    JwtUser jwtUser = JwtUser.builder().userIndex(userInfo.getUserIndex()).build();
+    SessionContainer.setSession(jwtUser);
+
     LocalDateTime now = LocalDateTime.now();
 
     userInfo.setLastLoginAt(now);
     saveUserInfo(userInfo);
 
-     String accessToken = authTokenGenerator.generateToken(userInfo.getUserIndex());
-
     return OauthNaverLoginDto.Response.builder()
         .isNewUser(isNewUser)
         .serverTime(getOffsetDateTimeFromLocalDateTime(now).toEpochSecond())
-        .accessToken(accessToken)
         .build();
   }
 

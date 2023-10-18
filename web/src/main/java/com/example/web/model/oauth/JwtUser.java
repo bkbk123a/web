@@ -12,6 +12,8 @@ import lombok.experimental.SuperBuilder;
 public class JwtUser {
 
   private long userIndex;
+  //만료 시간
+  private long expireTime;
 
   // 필요시 추후 정보 추가.
 }
