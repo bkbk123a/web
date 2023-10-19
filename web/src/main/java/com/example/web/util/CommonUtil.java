@@ -2,6 +2,7 @@ package com.example.web.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,8 @@ public class CommonUtil {
   public static String convertObjectToString(Object obj) {
     //Java 객체 간의 변환 담당 클래스
     ObjectMapper objectMapper = new ObjectMapper();
-
+    // LocalDateTime 타입의 객체 직렬화/역직렬화 지원
+    objectMapper.registerModule(new JavaTimeModule());
     try {
       return objectMapper.writeValueAsString(obj);
     } catch (JsonProcessingException e) {

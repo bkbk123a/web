@@ -29,7 +29,10 @@ JAVA Spring기반 WAS 구현
 		&state=Ucz6F7zlAB
 		&redirect_uri=http://localhost:8080/oauth/naver/login-callback
 		
-### 3. 출석 관련 API
+### 3. 유저 관련 API
+	- 유저 정보 조회 API : /users/info
+		
+### 4. 출석 관련 API
 	- 출석 API : /attend
 	- 출석 정보 조회 API : /attend/info
 	

@@ -1,13 +1,16 @@
 package com.example.web.service.user;
 
 import com.example.web.dto.oauth.OauthNaverLoginDto;
+import com.example.web.dto.user.UserInfoDto;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.user.UserRepository;
 import com.example.web.model.oauth.JwtUser;
 import com.example.web.model.oauth.info.OauthUserInfo;
+import com.example.web.service.ServiceBase;
 import com.example.web.util.container.SessionContainer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,8 +19,9 @@ import java.util.Optional;
 import static com.example.web.util.CommonUtil.getOffsetDateTimeFromLocalDateTime;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
-public class UserService {
+public class UserService extends ServiceBase {
 
   private final UserRepository userRepository;
 
@@ -52,5 +56,19 @@ public class UserService {
 
   private UserInfo saveUserInfo(UserInfo userInfo) {
     return userRepository.save(userInfo);
+  }
+
+  public UserInfoDto.Response getUserInfo() {
+    long userIndex = getUserIndex();
+    Optional<UserInfo> userInfo = userRepository.findById(userIndex);
+
+    if (userInfo.isEmpty()) {
+      log.error("saveUserInfo : userInfo cannot be null");
+      throw new RuntimeException();
+    }
+
+    return UserInfoDto.Response.builder()
+        .userInfo(userInfo.get())
+        .build();
   }
 }
