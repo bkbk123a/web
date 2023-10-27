@@ -1,6 +1,6 @@
 package com.example.web.jpa.entity.attend;
 
-import com.example.web.jpa.entity.user.id.UserAttendId;
+import com.example.web.jpa.entity.attend.id.UserAttendId;
 import com.example.web.model.enums.AttendType;
 import com.example.web.model.enums.converter.AttendTypeConverter;
 import jakarta.persistence.*;

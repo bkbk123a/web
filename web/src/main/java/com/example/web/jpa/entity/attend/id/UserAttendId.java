@@ -1,4 +1,4 @@
-package com.example.web.jpa.entity.user.id;
+package com.example.web.jpa.entity.attend.id;
 
 import com.example.web.model.enums.AttendType;
 import jakarta.persistence.Column;
