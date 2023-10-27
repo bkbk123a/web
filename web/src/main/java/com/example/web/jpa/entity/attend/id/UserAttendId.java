@@ -15,11 +15,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class UserAttendId implements Serializable {
 
-  @Id
-  @Column(name = "UserIndex")
   private Long userIndex;
 
-  @Id
-  @Column(name = "AttendType")
   private AttendType attendType;
 }
