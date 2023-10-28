@@ -14,7 +14,7 @@ JAVA Spring기반 WAS 구현
 - JDK 17
 - IDE : IntelliJ
 - Framework : Springboot(3.1.4)
-- Database : MSSQL DB(2022, 도커 기반)
+- Database : H2(Docker 기반)
 - ORM : JPA(Spring Data JPA, QueryDSL)
 
 ## 📌 주요 기능
@@ -33,14 +33,16 @@ JAVA Spring기반 WAS 구현
 	- 유저 정보 조회 API : /users/info
 		
 ### 4. 출석 관련 API
-	- 출석 API : /attend
+	- 출석 하기 API : /attend
 	- 출석 정보 조회 API : /attend/info
+	
+### 5. 아이템 관련 API
+	- 아이템 정보 API : /item/info
+	- 유저 아이템 정보 API : /item/user-info
 	
 ## 📌 인지 사항
 ### 1. Request header에 Authorization 추가해야 합니다.
 	- JWT를 이용한 인증 체계 
-	- 추가 필요한 API	
-		- /attend, /attend/info
  
 ## 💾 데이터 베이스 관련
 - 1. docker-compose 를 설치하여야 한다.(추천 : 도커 데스크톱 설치)

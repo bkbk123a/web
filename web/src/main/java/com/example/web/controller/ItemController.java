@@ -1,5 +1,6 @@
 package com.example.web.controller;
 
+import com.example.web.dto.item.ItemInfoDto;
 import com.example.web.dto.item.UserItemInfoDto;
 import com.example.web.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,13 @@ public class ItemController {
 
   private final ItemService itemService;
 
+  @GetMapping("/info")
+  public ItemInfoDto.Response getItemInfo() {
+    return itemService.getItemsInfo();
+  }
+
   @GetMapping("/user-info")
   public UserItemInfoDto.Response getUserItemInfo() {
-    return itemService.getUserItemInfo();
+    return itemService.getUserItemsInfo();
   }
 }
