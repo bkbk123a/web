@@ -13,6 +13,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+// 응답시 유저 정보 토대로 JWT 발급한다.
 @ControllerAdvice
 @RequiredArgsConstructor
 public class ResponseAdvice<T> implements ResponseBodyAdvice<T> {
@@ -44,7 +45,7 @@ public class ResponseAdvice<T> implements ResponseBodyAdvice<T> {
     if (!jwtTokenUtil.isRefresh(userInfo)) {
       return body;
     }
-    // 정상 루틴
+    // 정상 루틴 : 유저 정보 토대로 JWT 발급
     response.getHeaders().add(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateToken(userInfo));
 
     return body;
