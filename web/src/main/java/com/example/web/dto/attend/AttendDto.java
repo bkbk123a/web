@@ -2,6 +2,7 @@ package com.example.web.dto.attend;
 
 import com.example.web.jpa.entity.attend.AttendTime;
 import com.example.web.jpa.entity.attend.UserAttend;
+import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -21,8 +22,9 @@ public class AttendDto {
 
     private LocalDateTime now;
     private Long userIndex;
+    private UserInfo userInfo;
     private List<UserAttend> userAttends;
-    private List<AttendTime> attendTimes;
+    private List<AttendTime> attendTimes; // 진행중인 출석부 시간
   }
 
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,9 +34,10 @@ public class AttendDto {
   @EqualsAndHashCode(callSuper = true)
   public static class Response extends CommonResponse {
 
-    @Builder.Default
     @JsonProperty("UserAttends")
     private List<UserAttend> userAttends = new ArrayList<>();
 
+    @JsonProperty("Money")
+    private long money;
   }
 }

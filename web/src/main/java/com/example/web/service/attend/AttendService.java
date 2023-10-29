@@ -4,9 +4,11 @@ import com.example.web.dto.attend.AttendDto;
 import com.example.web.dto.attend.AttendInfoDto;
 import com.example.web.jpa.entity.attend.AttendTime;
 import com.example.web.jpa.entity.attend.UserAttend;
+import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.user.UserAttendRepository;
 import com.example.web.model.enums.AttendType;
 import com.example.web.service.ServiceBase;
+import com.example.web.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AttendService extends ServiceBase {
 
+  private final UserService userService;
   private final AttendTimeService attendTimeService;
   private final UserAttendRepository userAttendRepository;
 
@@ -47,33 +50,50 @@ public class AttendService extends ServiceBase {
       }
     }
 
+    UserInfo userInfo = dto.getUserInfo();
+    userService.saveUserInfo(userInfo);
     userAttendRepository.saveAll(userAttends);
 
     return AttendDto.Response
         .builder()
+        .money(userInfo.getMoney())
         .userAttends(dto.getUserAttends())
         .build();
   }
 
   private AttendDto.Dto getAttendDto() {
     long userIndex = getUserIndex();
+    UserInfo userInfo = userService.getUserInfoOrElseThrow(userIndex);
     LocalDateTime now = LocalDateTime.now();
 
     return AttendDto.Dto.builder()
         .userIndex(userIndex)
         .now(now)
+        .userInfo(userInfo)
         .userAttends(getUserAttends(userIndex))
         .attendTimes(attendTimeService.getAttendTimes(now))
         .build();
   }
 
+  /** 1일 1회 출석 처리
+   * 1일 1회 출석인 경우에만 진행한다
+   * 2000원 지급, 출석횟수 증가, 마지막 출석시간 업뎃
+   *
+   * @param userAttend
+   * @param dto
+   */
   private void processDailyAttend(UserAttend userAttend, AttendDto.Dto dto) {
     if (!isDailyAttendCondition(userAttend, dto)) {
       return;
     }
 
-    userAttend.setLastAttendAt(dto.getNow());
+    final int dailyAttendRewardMoney = 2000;
+
+    UserInfo userInfo = dto.getUserInfo();
+    userInfo.plusMoney((long) dailyAttendRewardMoney);
+
     userAttend.increaseAttendCount();
+    userAttend.setLastAttendAt(dto.getNow());
   }
 
   /**

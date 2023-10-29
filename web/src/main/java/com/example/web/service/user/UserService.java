@@ -55,7 +55,7 @@ public class UserService extends ServiceBase {
     return saveUserInfo(userInfo);
   }
 
-  private UserInfo saveUserInfo(UserInfo userInfo) {
+  public UserInfo saveUserInfo(UserInfo userInfo) {
     return userRepository.save(userInfo);
   }
 
@@ -67,7 +67,7 @@ public class UserService extends ServiceBase {
         .build();
   }
 
-  private UserInfo getUserInfoOrElseThrow(long userIndex) {
+  public UserInfo getUserInfoOrElseThrow(long userIndex) {
     return userRepository.findById(userIndex)
         .orElseThrow(() -> CustomErrorException.builder().resultValue(10001).build());
   }

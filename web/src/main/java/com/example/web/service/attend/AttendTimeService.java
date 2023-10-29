@@ -14,6 +14,11 @@ public class AttendTimeService {
 
   private final AttendRepository eventRepository;
 
+  /** 현재 진행중인 출석부 시간 조회
+   *
+   * @param now 현재 시간
+   * @return 진행중인 출석부 시간
+   */
   public List<AttendTime> getAttendTimes(LocalDateTime now) {
     return eventRepository.findByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(now, now);
   }
