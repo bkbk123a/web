@@ -37,8 +37,8 @@ JAVA Spring기반 WAS 구현
 	- 출석 정보 조회 API : /attend/info
 	
 ### 5. 아이템 관련 API
-	- 아이템 정보 API : /item/info
-	- 유저 아이템 정보 API : /item/user-info
+	- 아이템 정보 조회 API : /item/info
+	- 유저 아이템 정보 조회 API : /item/user-info
 	
 ## 📌 인지 사항
 ### 1. Request header에 Authorization 추가해야 합니다.
