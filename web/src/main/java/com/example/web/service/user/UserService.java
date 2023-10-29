@@ -4,7 +4,7 @@ import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.dto.user.UserInfoDto;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.user.UserRepository;
-import com.example.web.model.exception.ErrorException;
+import com.example.web.model.exception.CustomErrorException;
 import com.example.web.model.oauth.JwtUser;
 import com.example.web.model.oauth.info.OauthUserInfo;
 import com.example.web.service.ServiceBase;
@@ -60,16 +60,15 @@ public class UserService extends ServiceBase {
   }
 
   public UserInfoDto.Response getUserInfo() {
-    long userIndex = getUserIndex();
-    Optional<UserInfo> userInfo = userRepository.findById(userIndex);
-
-    if (userInfo.isEmpty()) {
-      log.error("saveUserInfo : userInfo cannot be null");
-      throw ErrorException.builder().resultValue(10001).build();
-    }
+    UserInfo userInfo = getUserInfoOrElseThrow(getUserIndex());
 
     return UserInfoDto.Response.builder()
-        .userInfo(userInfo.get())
+        .userInfo(userInfo)
         .build();
+  }
+
+  private UserInfo getUserInfoOrElseThrow(long userIndex) {
+    return userRepository.findById(userIndex)
+        .orElseThrow(() -> CustomErrorException.builder().resultValue(10001).build());
   }
 }

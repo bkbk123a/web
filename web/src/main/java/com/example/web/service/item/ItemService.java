@@ -3,7 +3,7 @@ package com.example.web.service.item;
 import com.example.web.dto.item.ItemInfoDto;
 import com.example.web.dto.item.UserItemInfoDto;
 import com.example.web.jpa.repository.item.ItemRepository;
-import com.example.web.model.exception.ErrorException;
+import com.example.web.model.exception.CustomErrorException;
 import com.example.web.service.ServiceBase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class ItemService extends ServiceBase {
 
     int iTemp = 0;
     if (iTemp <= 0) {
-      throw ErrorException.builder().resultValue(10001).build();
+      throw CustomErrorException.builder().resultValue(10001).build();
     }
 
     return UserItemInfoDto.Response

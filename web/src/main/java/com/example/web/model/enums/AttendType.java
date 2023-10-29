@@ -1,6 +1,6 @@
 package com.example.web.model.enums;
 
-import com.example.web.model.exception.EnumConvertException;
+import com.example.web.model.exception.CustomErrorException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
@@ -26,9 +26,6 @@ public enum AttendType {
     return Arrays.stream(AttendType.values())
         .filter(v -> v.getType() == attendType)
         .findAny()
-        .orElseThrow(() -> EnumConvertException
-            .builder()
-            .resultMsg(String.format("AttendType = [%d]가 존재하지 않습니다.", attendType))
-            .build());
+        .orElseThrow(() -> CustomErrorException.builder().resultValue(2).build());
   }
 }

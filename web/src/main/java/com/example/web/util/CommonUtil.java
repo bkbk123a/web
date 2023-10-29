@@ -1,5 +1,6 @@
 package com.example.web.util;
 
+import com.example.web.model.exception.CustomErrorException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -9,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.util.Map;
 
 @Slf4j
 public class CommonUtil {
@@ -25,21 +25,10 @@ public class CommonUtil {
     try {
       return objectMapper.writeValueAsString(obj);
     } catch (JsonProcessingException e) {
-      log.error("convertObjectToString Error Occurred", e);
+      log.error("", e);
     }
-    throw new RuntimeException();
-  }
 
-  public static Map<String, Object> convertJsonStringToMap(String jsonString) {
-    //Java 객체 간의 변환 담당 클래스
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    try {
-      return objectMapper.readValue(jsonString, Map.class);
-    } catch (JsonProcessingException e) {
-      log.error("convertObjectToString Error Occurred", e);
-    }
-    throw new RuntimeException();
+    throw CustomErrorException.builder().resultValue(1).build();
   }
 
   public static Long getLocalDateTimeDifferenceMilliSec(LocalDateTime fromTime, LocalDateTime toTime) {
