@@ -15,4 +15,7 @@ public class ExceptionResponse {
 
   @JsonProperty("ResultMsg")
   private String resultMsg;
+
+  @JsonProperty("StackTrace")
+  private String stackTrace;
 }

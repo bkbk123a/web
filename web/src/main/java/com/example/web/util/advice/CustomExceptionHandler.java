@@ -1,13 +1,17 @@
 package com.example.web.util.advice;
 
+import com.example.web.model.enums.CustomErrorException;
 import com.example.web.model.exception.EnumConvertException;
 import com.example.web.model.exception.ErrorException;
 import com.example.web.model.response.ExceptionResponse;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+// Runtime 도중 정의한 예외 상황 처리
 @ControllerAdvice
 public class CustomExceptionHandler {
 
@@ -15,20 +19,22 @@ public class CustomExceptionHandler {
   public ResponseEntity<ExceptionResponse> handleErrorException(ErrorException exception) {
 
     int resultValue = exception.getResultValue();
-    com.example.web.model.enums.ErrorException enumException = getEnumExceptionOrElseThrow(resultValue);
+    CustomErrorException enumException = getEnumExceptionOrElseThrow(resultValue);
 
     ExceptionResponse exceptionResponse = ExceptionResponse.builder()
         .resultValue(resultValue)
         .resultMsg(enumException.getResultMsg())
+        .stackTrace(getStackTrace(exception))
         .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
   }
 
-  private com.example.web.model.enums.ErrorException getEnumExceptionOrElseThrow(int resultValue) {
-    com.example.web.model.enums.ErrorException enumException = com.example.web.model.enums.ErrorException.ofErrorException(resultValue);
+  private CustomErrorException getEnumExceptionOrElseThrow(int resultValue) {
+    CustomErrorException enumException =
+        CustomErrorException.ofErrorException(resultValue);
 
-    if (enumException == com.example.web.model.enums.ErrorException.NOT_DEFINED) {
+    if (enumException == CustomErrorException.NOT_DEFINED) {
       throw new IllegalArgumentException();
     }
 
@@ -41,8 +47,13 @@ public class CustomExceptionHandler {
     ExceptionResponse exceptionResponse = ExceptionResponse.builder()
         .resultValue(-1)
         .resultMsg(exception.getResultMsg())
+        .stackTrace(getStackTrace(exception))
         .build();
 
     return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
+  }
+
+  private String getStackTrace(RuntimeException exception) {
+    return ExceptionUtils.getStackTrace(exception);
   }
 }

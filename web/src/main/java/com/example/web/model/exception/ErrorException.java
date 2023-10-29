@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ErrorException extends RuntimeException{
+public class ErrorException extends RuntimeException {
 
   private final int resultValue;
 }
