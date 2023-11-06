@@ -1,19 +1,12 @@
-version: '3.3'
-
 services:
-  mssql:
-    container_name: db_web
-    image: mcr.microsoft.com/mssql/server:2017-latest
-    restart: always
-    user: root
-    privileged: true
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "Password1477!"
+  db:
+    container_name: h2
+    image: oscarfonts/h2:latest
     ports:
-      - 1433:1433
+      - 1521:1521
+      - 8081:81
+    environment:
+      H2_OPTIONS: -ifNotExists
     volumes:
-      - ./sqldata:/var/opt/mssql
-      
-volumes:
-  sqldata:
+      - ./h2/:/opt/h2-data
+    restart: always
