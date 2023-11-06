@@ -35,6 +35,7 @@ public class AttendDto {
   public static class Response extends CommonResponse {
 
     @JsonProperty("UserAttends")
+    @Builder.Default
     private List<UserAttend> userAttends = new ArrayList<>();
 
     @JsonProperty("Money")
