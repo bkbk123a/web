@@ -29,6 +29,12 @@ public class CustomExceptionHandler {
     return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
   }
 
+  /**
+   * Rumtime 도중 넘어온 resultValue 에 해당하는 CustomErrorException 획득
+   * 
+   * @param resultValue runtime 도중 넘어온 resultValue
+   * @return resultValue로 Enum에서 찾은 CustomErrorException
+   */
   private com.example.web.model.enums.CustomErrorException getEnumExceptionOrElseThrow(int resultValue) {
     com.example.web.model.enums.CustomErrorException enumException =
         com.example.web.model.enums.CustomErrorException.ofErrorException(resultValue);
@@ -40,6 +46,14 @@ public class CustomExceptionHandler {
     return enumException;
   }
 
+  /**
+   * Exception 발생시 응답할 내용 획득
+   *
+   * @param resultValue resultValue
+   * @param resultMsg 응답 메세지
+   * @param exception runtume exception
+   * @return
+   */
   private ExceptionResponse getExceptionResponse(int resultValue, String resultMsg,
                                                  RuntimeException exception) {
     return ExceptionResponse.builder()

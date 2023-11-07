@@ -35,8 +35,6 @@ public class NaverOauthService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    private final UserService userService;
-
     /**
      * 외부 API(Naver Oauth) 응답 에서 접속 토큰 획득
      *

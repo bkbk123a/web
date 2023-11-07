@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 @Getter
 public enum CustomErrorException {
-
+  // CustomExceptionHandler 에서 처리된다.
   NOT_DEFINED(-1, "정의되지 않았습니다."),
   OBJECT_CONVERT_FAILED(1, "Object 변환 실패입니다."),
   ENUM_CONVERT_FAILED(2, "Enum 변환 실패입니다."),
