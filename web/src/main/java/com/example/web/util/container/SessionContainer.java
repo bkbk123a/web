@@ -4,25 +4,25 @@ import com.example.web.model.oauth.JwtUser;
 
 public class SessionContainer {
 
-    private SessionContainer() {
+  private SessionContainer() {
+  }
+
+  private static final ThreadLocal<JwtUser> sessionThreadLocal = new ThreadLocal<>();
+
+  public static void setSession(JwtUser jwtUser) {
+    if (jwtUser == null) {
+      return;
     }
 
-    private static final ThreadLocal<JwtUser> sessionThreadLocal = new ThreadLocal<>();
+    clearSession();
+    sessionThreadLocal.set(jwtUser);
+  }
 
-    public static void setSession(JwtUser jwtUser) {
-        if (jwtUser == null) {
-            return;
-        }
+  public static void clearSession() {
+    sessionThreadLocal.remove();
+  }
 
-        clearSession();
-        sessionThreadLocal.set(jwtUser);
-    }
-
-    public static void clearSession() {
-        sessionThreadLocal.remove();
-    }
-
-    public static JwtUser getSession() {
-        return sessionThreadLocal.get();
-    }
+  public static JwtUser getSession() {
+    return sessionThreadLocal.get();
+  }
 }
