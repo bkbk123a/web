@@ -3,7 +3,6 @@ package com.example.web.service.oauth;
 import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.model.oauth.info.NaverUserInfo;
 import com.example.web.model.oauth.token.OauthToken;
-import com.example.web.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import static com.example.web.util.externalApi.externalApi.getResponseFromPostRequest;
 
 
 @Service
@@ -47,7 +47,7 @@ public class NaverOauthService {
 
         HttpEntity<?> httpEntity = makeHttpEntity(request);
 
-        OauthToken oauthToken = (OauthToken) getResponseFromNaverOrElseThrow(url, httpEntity, OauthToken.class);
+        OauthToken oauthToken = (OauthToken) getResponseFromPostRequest(url, httpEntity, OauthToken.class);
 
         return oauthToken.getAccessToken();
     }
@@ -97,33 +97,9 @@ public class NaverOauthService {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(httpBody, httpHeaders);
 
-        NaverUserInfo naverUserInfo = (NaverUserInfo) getResponseFromNaverOrElseThrow(url,
+        NaverUserInfo naverUserInfo = (NaverUserInfo)getResponseFromPostRequest(url,
                 httpEntity, NaverUserInfo.class);
 
         return naverUserInfo;
-    }
-
-    /**
-     * 외부 네이버 API 응답 획득
-     * 해당 메소드는 외부 네이버 API 응답을 얻을시 범용으로 사용한다.
-     *
-     * @param url        요청 보낼 외부 Naver API URL
-     * @param httpEntity 요청 보낼 http 엔티티 (헤더+바디)
-     * @param clazz      응답시 casting 할 클래스 형태
-     * @return
-     */
-    private Object getResponseFromNaverOrElseThrow(String url, HttpEntity<?> httpEntity, Class<?> clazz) {
-
-        Object response = restTemplate.postForObject(url, httpEntity, clazz);
-
-        try {
-            if (response == null) {
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            System.out.println("NaverUrl 로부터 응답을 받지 못하였습니다.");
-        }
-
-        return response;
     }
 }

@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class CustomErrorException extends RuntimeException {
-
+  // enum CustomExceptionHandler 참고
   private final int resultValue;
 }
