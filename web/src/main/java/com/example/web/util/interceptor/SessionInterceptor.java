@@ -1,6 +1,7 @@
 package com.example.web.util.interceptor;
 
 import com.example.web.model.annotation.IgnoreAuth;
+import com.example.web.model.exception.CustomErrorException;
 import com.example.web.model.oauth.JwtUser;
 import com.example.web.util.container.SessionContainer;
 import com.example.web.util.token.JwtTokenUtil;
@@ -29,14 +30,15 @@ public class SessionInterceptor extends HandlerInterceptorBase {
       return true;
     }
 
-    if (hasAnnotation(handler, IgnoreAuth.class)) {
+    if (hasAnnotation(handler, IgnoreAuth.class)
+        || hasUri(request)) {
       return true;
     }
 
     String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
     if (accessToken == null) {
       log.error("SessionInterceptor header has no AUTHORIZATION");
-      return false;
+      throw CustomErrorException.builder().resultValue(4).build();
     }
 
     JwtUser userInfo;
@@ -46,7 +48,7 @@ public class SessionInterceptor extends HandlerInterceptorBase {
       SessionContainer.setSession(userInfo);
     } catch (ExpiredJwtException e) {
       System.out.println("Token has expired. : " + e);
-    } catch(Exception e) {
+    } catch (Exception e) {
       System.out.println("Token is invalid for another reason. : " + e);
     }
     return true;

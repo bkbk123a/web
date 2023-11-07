@@ -22,12 +22,7 @@ JAVA Spring기반 WAS 구현
 	- Request, Response 
 	
 ### 2. 네이버 외부 API를 이용한 로그인
-	- WAS 실행 후 밑의 내용 주소창에 Enter
-	- https://nid.naver.com/oauth2.0/authorize
-		?response_type=code
-		&client_id=8tJLZMOJa9yCZ9yV5Y57
-		&state=Ucz6F7zlAB
-		&redirect_uri=http://localhost:8080/oauth/naver/login-callback
+	- WAS 실행 후 밑의 내용 주소창에 localhost:8080 입력후, 로그인 버튼을 누른다.
 		
 ### 3. 유저 관련 API
 	- 유저 정보 조회 API : /users/info

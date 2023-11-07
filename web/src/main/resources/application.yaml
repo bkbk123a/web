@@ -26,6 +26,7 @@ oauth:
     url:
       auth: https://nid.naver.com
       api: https://openapi.naver.com
+      redirect: http://localhost:8080/oauth/naver/login-callback
 
 jwt:
   secret-key: Z29uZ2NoZWNrLWdvbmdjaGVjay1nb25nY2hlY2stZ29uZ2NoZWNrCg123456789Z29uZ2NonY2hlY2stZ29uZ2NoZWNrCg123456789

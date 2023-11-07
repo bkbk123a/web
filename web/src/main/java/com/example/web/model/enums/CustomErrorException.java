@@ -11,6 +11,7 @@ public enum CustomErrorException {
   OBJECT_CONVERT_FAILED(1, "Object 변환 실패입니다."),
   ENUM_CONVERT_FAILED(2, "Enum 변환 실패입니다."),
   EXTERNAL_API_RESPONSE_FAILED(3, "외부 API 호출에 대한 응답 실패입니다."),
+  NONE_SESSION_INFO(4,"세션 정보가 없습니다."),
   NONE_USER_INFO(10001, "유저 정보가 없습니다.");
 
   private final int resultValue;

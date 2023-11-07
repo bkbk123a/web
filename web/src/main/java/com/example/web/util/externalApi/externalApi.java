@@ -2,7 +2,9 @@ package com.example.web.util.externalApi;
 
 import com.example.web.model.exception.CustomErrorException;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
 
 public class externalApi {
 
@@ -18,14 +20,26 @@ public class externalApi {
     RestTemplate restTemplate = new RestTemplate();
 
     Object response = restTemplate.postForObject(url, httpEntity, clazz);
+    checkResponse(response);
 
-    return processResponse(response);
+    return response;
   }
 
-  private static Object processResponse(Object response) {
-     if (response == null) {
+  private static Object checkResponse(Object response) {
+    if (response == null) {
       throw CustomErrorException.builder().resultValue(1).build();
     }
+
+    return response;
+  }
+
+  public static Object getResponseFromGetRequest(UriComponents uriBuilder, HttpEntity request) {
+    RestTemplate restTemplate = new RestTemplate();
+
+    Object response = restTemplate.exchange(uriBuilder.toUriString(),
+        HttpMethod.GET, request, String.class);
+
+    checkResponse(response);
 
     return response;
   }
