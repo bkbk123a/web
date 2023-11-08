@@ -4,6 +4,7 @@ import com.example.web.jpa.entity.item.id.UserItemId;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
 
@@ -28,6 +29,11 @@ public class UserItem {
   @Builder.Default
   private Integer itemCount = 0;
 
+  @UpdateTimestamp
   @Column(name = "UpdatedAt", nullable = false)
-  private OffsetDateTime updatedAt;
+  private OffsetDateTime updatedAt = OffsetDateTime.now();
+
+  public void addItemCount(int itemCount) {
+    this.itemCount += itemCount;
+  }
 }

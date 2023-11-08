@@ -75,7 +75,8 @@ public class AttendService extends ServiceBase {
         .build();
   }
 
-  /** 1일 1회 출석 처리
+  /**
+   * 1일 1회 출석 처리
    * 1일 1회 출석인 경우에만 진행한다
    * 2000원 지급, 출석횟수 증가, 마지막 출석시간 업뎃
    *
@@ -90,7 +91,7 @@ public class AttendService extends ServiceBase {
     final int dailyAttendRewardMoney = 2000;
 
     UserInfo userInfo = dto.getUserInfo();
-    userInfo.plusMoney((long) dailyAttendRewardMoney);
+    userInfo.addMoney((long) dailyAttendRewardMoney);
 
     userAttend.increaseAttendCount();
     userAttend.setLastAttendAt(dto.getNow());
@@ -102,7 +103,7 @@ public class AttendService extends ServiceBase {
    *
    * @param userAttend 유저 출석 정보(AttendType = DAILY_ATTEND)
    * @param dto        dto
-   * @return           1일 1회 출석 조건 여부(true : 조건 만족, false : 조건 불만족)
+   * @return 1일 1회 출석 조건 여부(true : 조건 만족, false : 조건 불만족)
    */
   private boolean isDailyAttendCondition(UserAttend userAttend, AttendDto.Dto dto) {
     boolean isTodayFirstAttend = !userAttend.getLastAttendAt()

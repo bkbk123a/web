@@ -38,7 +38,7 @@ public class UserInfo {
   @CreationTimestamp
   private LocalDateTime lastLoginAt;
 
-  public void plusMoney(Long addMoney) {
+  public void addMoney(Long addMoney) {
     this.money += addMoney;
   }
 }

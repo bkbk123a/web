@@ -15,11 +15,11 @@ import org.hibernate.annotations.Nationalized;
 @Setter
 @Table(name = "T_STATIC_Item")
 public class Item {
-
+  // 기획 아이템 테이블
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ItemIndex")
-  private Long itemIndex;
+  private Integer itemIndex;
 
   @Column(name = "ItemName", nullable = false)
   @Nationalized
@@ -30,4 +30,8 @@ public class Item {
 
   @Column(name = "Quantity", nullable = false)
   private Integer quantity;
+
+  public void addItemQuantity(int quantity) {
+    this.quantity += quantity;
+  }
 }
