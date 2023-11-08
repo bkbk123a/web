@@ -39,11 +39,12 @@ JAVA Spring기반 WAS 구현
 ### 1. Request header에 Authorization 추가해야 합니다.
 	- JWT를 이용한 인증 체계 
 	
-	**`Authorizetion을 얻는 방법`** 
-	![img1](./image/img1.png)
-	
-		**`Postman을 이용하여 요청시 Authorization 추가하는 방법`** 
-	![img2](./image/img2.png)
+**`Authorizetion을 얻는 방법`** <br>
+
+![img1](./image/img1.png)
+
+**`Postman을 이용하여 요청시 Authorization 추가하는 방법`** <br>
+![img2](./image/img2.png)
  
 ## 💾 데이터 베이스 관련
 - 1. docker-compose 를 설치하여야 한다.(추천 : 도커 데스크톱 설치)
