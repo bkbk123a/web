@@ -1,4 +1,4 @@
-package com.example.web.service.oauth;
+package com.example.web.service.login.oauth;
 
 import org.springframework.stereotype.Service;
 

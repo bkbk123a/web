@@ -1,4 +1,4 @@
-package com.example.web.service.oauth;
+package com.example.web.service.login.oauth;
 
 import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.model.oauth.info.NaverUserInfo;
