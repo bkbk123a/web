@@ -11,7 +11,6 @@ public class OauthNaverLoginDto {
 
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @Getter
-  @Setter
   @SuperBuilder
   public static class Request {
 
