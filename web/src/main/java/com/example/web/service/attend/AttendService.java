@@ -39,10 +39,11 @@ public class AttendService extends ServiceBase {
 
   @Transactional
   public AttendDto.Response attend() {
+    // 1. 필요한 정보 담긴 dto get
     AttendDto.Dto dto = getAttendDto();
 
+    // 2. 출석 타입별 출석 진행
     List<UserAttend> userAttends = dto.getUserAttends();
-
     for (UserAttend attend : userAttends) {
       // 현재는 1일 출석만 있다.
       if (attend.getAttendType() == AttendType.DAILY_ATTEND) {
@@ -50,13 +51,12 @@ public class AttendService extends ServiceBase {
       }
     }
 
-    UserInfo userInfo = dto.getUserInfo();
-    userService.saveUserInfo(userInfo);
-    userAttendRepository.saveAll(userAttends);
+    // 3. DB에 저장
+    save(dto);
 
     return AttendDto.Response
         .builder()
-        .money(userInfo.getMoney())
+        .money(dto.getUserInfo().getMoney())
         .userAttends(dto.getUserAttends())
         .build();
   }
@@ -119,5 +119,10 @@ public class AttendService extends ServiceBase {
         .orElse(null);
 
     return attendTime != null;
+  }
+
+  private void save(AttendDto.Dto dto) {
+    userService.saveUserInfo(dto.getUserInfo());
+    userAttendRepository.saveAll(dto.getUserAttends());
   }
 }

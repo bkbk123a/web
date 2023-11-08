@@ -20,7 +20,7 @@ public class AttendController {
     return attendService.getUserAttendInfo();
   }
 
-  @PostMapping("")
+  @PostMapping()
   public AttendDto.Response attend() {
     return attendService.attend();
   }
