@@ -1,5 +1,7 @@
 package com.example.web.jpa.entity.product;
 
+import com.example.web.model.enums.ProductType;
+import com.example.web.model.enums.converter.ProductTypeConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,6 +22,10 @@ public class Product {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ProductIndex")
   private Integer productIndex;
+
+  @Column(name = "ProductType", nullable = false)
+  @Convert(converter = ProductTypeConverter.class)
+  private ProductType productType;
 
   @Column(name = "ProductName", nullable = false)
   @Nationalized

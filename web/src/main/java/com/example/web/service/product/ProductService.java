@@ -11,6 +11,7 @@ import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.item.ProductRepository;
 import com.example.web.jpa.repository.item.UserProductLogRepository;
 import com.example.web.jpa.repository.item.UserProductRepository;
+import com.example.web.model.enums.ProductType;
 import com.example.web.model.exception.CustomErrorException;
 import com.example.web.service.ServiceBase;
 import com.example.web.service.user.UserService;
@@ -35,18 +36,18 @@ public class ProductService extends ServiceBase {
   private void init() {
     List<Product> staticProducts = new ArrayList<>();
 
-    staticProducts.add(getNewProduct("청바지1", 100, 999));
-    staticProducts.add(getNewProduct("청바지2", 200, 999));
-    staticProducts.add(getNewProduct("청바지3", 300, 999));
-    staticProducts.add(getNewProduct("청바지4", 400, 999));
-    staticProducts.add(getNewProduct("상의1", 100, 999));
-    staticProducts.add(getNewProduct("상의2", 200, 999));
-    staticProducts.add(getNewProduct("상의3", 300, 999));
-    staticProducts.add(getNewProduct("상의4", 400, 999));
-    staticProducts.add(getNewProduct("신발1", 100, 999));
-    staticProducts.add(getNewProduct("신발2", 200, 999));
-    staticProducts.add(getNewProduct("신발3", 300, 999));
-    staticProducts.add(getNewProduct("신발4", 400, 999));
+    staticProducts.add(getNewProduct(ProductType.PANTS, "청바지1", 100, 999));
+    staticProducts.add(getNewProduct(ProductType.PANTS, "청바지2", 200, 999));
+    staticProducts.add(getNewProduct(ProductType.PANTS, "청바지3", 300, 999));
+    staticProducts.add(getNewProduct(ProductType.PANTS, "청바지4", 400, 999));
+    staticProducts.add(getNewProduct(ProductType.TOP, "상의1", 100, 999));
+    staticProducts.add(getNewProduct(ProductType.TOP, "상의2", 200, 999));
+    staticProducts.add(getNewProduct(ProductType.TOP, "상의3", 300, 999));
+    staticProducts.add(getNewProduct(ProductType.TOP, "상의4", 400, 999));
+    staticProducts.add(getNewProduct(ProductType.TOP, "신발1", 100, 999));
+    staticProducts.add(getNewProduct(ProductType.TOP, "신발2", 200, 999));
+    staticProducts.add(getNewProduct(ProductType.TOP, "신발3", 300, 999));
+    staticProducts.add(getNewProduct(ProductType.TOP, "신발4", 400, 999));
 
     productRepository.saveAll(staticProducts);
   }
@@ -69,8 +70,9 @@ public class ProductService extends ServiceBase {
         .build();
   }
 
-  private Product getNewProduct(String productName, int price, int quantity) {
+  private Product getNewProduct( ProductType productType, String productName, int price, int quantity) {
     return Product.builder()
+        .productType(productType)
         .productName(productName)
         .price(price)
         .quantity(quantity)
