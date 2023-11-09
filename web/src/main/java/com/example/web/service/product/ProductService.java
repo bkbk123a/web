@@ -81,17 +81,19 @@ public class ProductService extends ServiceBase {
   public ProductBuyDto.Response buyProduct(ProductBuyDto.Request request) {
     // 1. dto 생성
     ProductBuyDto.Dto dto = getDto(request);
-    // 2. 기획데이터의 남은량 확인
+    // 2. 유저가 구매할 수 있는 상품의 남은량 확인
     checkProductCount(dto);
-    // 3. 유저가 구매하는데 필요한 돈 확인, 돈 차감
-    checkAndMinusUserMoney(dto);
+    // 3. 유저가 구매하는데 필요한 돈 충분한지 확인
+    checkUserMoney(dto);
     // 4. 상품 기획데이터 개수 차감
     minusProductCount(dto);
-    // 5. 유저의 상품 개수 증가
+    // 5. 유저의 재화 차감
+    minusUserMoney(dto);
+    // 6. 유저의 상품 개수 증가
     addUserProduct(dto);
-    // 6. 유저의 구매 이력 로그
+    // 7. 유저의 구매 이력 로그
     setProductBuyLog(dto);
-    // 7. DB 반영
+    // 8. DB 반영
     saveProductBuy(dto);
 
     return ProductBuyDto.Response.builder()
@@ -145,24 +147,28 @@ public class ProductService extends ServiceBase {
   }
 
   /**
-   * 필요한 돈 확인, 돈 차감
+   * 상품 구매에 필요한 돈 충분한지 확인
    *
    * @param dto
    */
-  private void checkAndMinusUserMoney(ProductBuyDto.Dto dto) {
-    int productCount = dto.getRequest().getProductCount();
-    int productPrice = dto.getProduct().getPrice();
-    long needMoney = productCount * productPrice;
+  private void checkUserMoney(ProductBuyDto.Dto dto) {
+    // 필요한 돈 = 상품 가격 * 구매 상품 개수
+    long needMoney = dto.getProduct().getPrice() * dto.getRequest().getProductCount();
 
     userService.checkEnoughMoney(needMoney, dto.getUserInfo());
-
-    UserInfo userInfo = dto.getUserInfo();
-    userInfo.addMoney(-1 * needMoney);
   }
 
   private void minusProductCount(ProductBuyDto.Dto dto) {
     Product product = dto.getProduct();
     product.addProductQuantity(-1 * dto.getRequest().getProductCount());
+  }
+
+  private void minusUserMoney(ProductBuyDto.Dto dto) {
+    // 필요한 돈 = 상품 가격 * 구매 상품 개수
+    long needMoney = dto.getProduct().getPrice() * dto.getRequest().getProductCount();
+
+    UserInfo userInfo = dto.getUserInfo();
+    userInfo.addMoney(-1 * needMoney);
   }
 
   private void addUserProduct(ProductBuyDto.Dto dto) {
