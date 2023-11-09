@@ -2,6 +2,7 @@ package com.example.web.dto.oauth;
 
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.util.LinkedMultiValueMap;
@@ -14,7 +15,9 @@ public class OauthNaverLoginDto {
   @SuperBuilder
   public static class Request {
 
+    @NotBlank
     private String authorizationCode;
+    @NotBlank
     private String state;
 
     public MultiValueMap<String, String> makeHttpBody() {

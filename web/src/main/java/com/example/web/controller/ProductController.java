@@ -4,6 +4,7 @@ import com.example.web.dto.product.ProductBuyDto;
 import com.example.web.dto.product.ProductInfoDto;
 import com.example.web.dto.product.UserProductInfoDto;
 import com.example.web.service.product.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class ProductController {
 
   @PostMapping("buy")
   @ResponseBody
-  public ProductBuyDto.Response buyProduct(@RequestBody ProductBuyDto.Request request) {
+  public ProductBuyDto.Response buyProduct(@Valid @RequestBody ProductBuyDto.Request request) {
     return productService.buyProduct(request);
   }
 }

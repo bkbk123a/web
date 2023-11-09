@@ -6,6 +6,7 @@ import com.example.web.jpa.entity.product.UserProductLog;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -27,9 +28,11 @@ public class ProductBuyDto {
   @Getter
   public static class Request {
 
+    @Min(0)
     @JsonProperty("ProductIndex")
     private int productIndex;
 
+    @Min(0)
     @JsonProperty("ProductCount")
     private int productCount;
   }
