@@ -5,9 +5,11 @@ import com.example.web.dto.product.ProductInfoDto;
 import com.example.web.dto.product.UserProductInfoDto;
 import com.example.web.jpa.entity.product.Product;
 import com.example.web.jpa.entity.product.UserProduct;
+import com.example.web.jpa.entity.product.UserProductLog;
 import com.example.web.jpa.entity.product.id.UserProductId;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.item.ProductRepository;
+import com.example.web.jpa.repository.item.UserProductLogRepository;
 import com.example.web.jpa.repository.item.UserProductRepository;
 import com.example.web.model.exception.CustomErrorException;
 import com.example.web.service.ServiceBase;
@@ -23,6 +25,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductService extends ServiceBase {
+
+  private final ProductRepository productRepository;
+  private final UserProductRepository userProductRepository;
+  private final UserService userService;
+  private final UserProductLogRepository userProductLogRepository;
 
   @PostConstruct
   private void init() {
@@ -43,10 +50,6 @@ public class ProductService extends ServiceBase {
 
     productRepository.saveAll(staticProducts);
   }
-
-  private final ProductRepository productRepository;
-  private final UserProductRepository userProductRepository;
-  private final UserService userService;
 
   public ProductInfoDto.Response getProductssInfo() {
 
@@ -86,7 +89,9 @@ public class ProductService extends ServiceBase {
     minusProductCount(dto);
     // 5. 유저의 상품 개수 증가
     addUserProduct(dto);
-    // 6. DB 반영
+    // 6. 유저의 구매 이력 로그
+    setProductBuyLog(dto);
+    // 7. DB 반영
     saveProductBuy(dto);
 
     return ProductBuyDto.Response.builder()
@@ -165,9 +170,25 @@ public class ProductService extends ServiceBase {
     userProduct.addProductCount(dto.getRequest().getProductCount());
   }
 
+  private void setProductBuyLog(ProductBuyDto.Dto dto) {
+    ProductBuyDto.Request request = dto.getRequest();
+    int afterProductQuantity = dto.getProduct().getQuantity();
+    int beforeProductQuantity = afterProductQuantity - request.getProductCount();
+
+    UserProductLog userProductLog = UserProductLog.builder()
+        .userIndex(dto.getUserInfo().getUserIndex())
+        .itemIndex(request.getProductIndex())
+        .afterProductCount(afterProductQuantity)
+        .beforeProductCount(beforeProductQuantity)
+        .build();
+
+    dto.setUserProductLog(userProductLog);
+  }
+
   private void saveProductBuy(ProductBuyDto.Dto dto) {
     userService.saveUserInfo(dto.getUserInfo());
     productRepository.save(dto.getProduct());
     userProductRepository.save(dto.getUserProduct());
+    userProductLogRepository.save(dto.getUserProductLog());
   }
 }

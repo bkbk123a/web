@@ -25,13 +25,13 @@ public class UserProductLog {
   @Column(name = "ItemIndex")
   private Integer itemIndex;
 
-  @Column(name = "BeforeItemCount", nullable = false)
+  @Column(name = "BeforeProductCount", nullable = false)
   @Builder.Default
-  private Integer beforeItemCount = 0;
+  private Integer beforeProductCount = 0;
 
-  @Column(name = "AfterItemCount", nullable = false)
+  @Column(name = "AfterProductCount", nullable = false)
   @Builder.Default
-  private Integer afterItemCount = 0;
+  private Integer afterProductCount = 0;
 
   @Column(name = "UpdatedAt", nullable = false)
   @Builder.Default

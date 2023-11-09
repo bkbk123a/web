@@ -2,6 +2,7 @@ package com.example.web.dto.product;
 
 import com.example.web.jpa.entity.product.Product;
 import com.example.web.jpa.entity.product.UserProduct;
+import com.example.web.jpa.entity.product.UserProductLog;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,6 +20,7 @@ public class ProductBuyDto {
     private Product product;
     private UserProduct userProduct;
     private Request request;
+    private UserProductLog userProductLog;
   }
 
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
