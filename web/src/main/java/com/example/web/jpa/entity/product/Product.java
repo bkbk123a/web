@@ -1,4 +1,4 @@
-package com.example.web.jpa.entity.item;
+package com.example.web.jpa.entity.product;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -13,17 +13,17 @@ import org.hibernate.annotations.Nationalized;
 @Entity
 @Getter
 @Setter
-@Table(name = "T_STATIC_Item")
-public class Item {
-  // 기획 아이템 테이블
+@Table(name = "T_STATIC_Product")
+public class Product {
+  // 기획 상품 테이블
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ItemIndex")
-  private Integer itemIndex;
+  @Column(name = "ProductIndex")
+  private Integer productIndex;
 
-  @Column(name = "ItemName", nullable = false)
+  @Column(name = "ProductName", nullable = false)
   @Nationalized
-  private String itemName;
+  private String productName;
 
   @Column(name = "Price", nullable = false)
   private Integer price;
@@ -31,7 +31,7 @@ public class Item {
   @Column(name = "Quantity", nullable = false)
   private Integer quantity;
 
-  public void addItemQuantity(int quantity) {
+  public void addProductQuantity(int quantity) {
     this.quantity += quantity;
   }
 }

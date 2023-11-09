@@ -1,14 +1,14 @@
-package com.example.web.dto.item;
+package com.example.web.dto.product;
 
-import com.example.web.jpa.entity.item.Item;
-import com.example.web.jpa.entity.item.UserItem;
+import com.example.web.jpa.entity.product.Product;
+import com.example.web.jpa.entity.product.UserProduct;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-public class ItemBuyDto {
+public class ProductBuyDto {
 
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @Getter
@@ -16,8 +16,8 @@ public class ItemBuyDto {
   @SuperBuilder
   public static class Dto {
     private UserInfo userInfo;
-    private Item item;
-    private UserItem userItem;
+    private Product product;
+    private UserProduct userProduct;
     private Request request;
   }
 
@@ -25,11 +25,11 @@ public class ItemBuyDto {
   @Getter
   public static class Request {
 
-    @JsonProperty("ItemIndex")
-    private int itemIndex;
+    @JsonProperty("ProductIndex")
+    private int productIndex;
 
-    @JsonProperty("ItemCount")
-    private int itemCount;
+    @JsonProperty("ProductCount")
+    private int productCount;
   }
 
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,7 +42,7 @@ public class ItemBuyDto {
     @JsonProperty("UserMoney")
     private long userMoney;
 
-    @JsonProperty("AddUserItem")
-    private UserItem userItem;  // 구매 후 유저 아이템 정보
+    @JsonProperty("UserProduct")
+    private UserProduct userProduct;  // 구매 후 유저 아이템 정보
   }
 }

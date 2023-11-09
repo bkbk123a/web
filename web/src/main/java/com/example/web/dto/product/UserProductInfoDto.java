@@ -1,6 +1,6 @@
-package com.example.web.dto.item;
+package com.example.web.dto.product;
 
-import com.example.web.jpa.entity.item.Item;
+import com.example.web.jpa.entity.product.UserProduct;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemInfoDto {
+public class UserProductInfoDto {
 
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @Getter
@@ -19,8 +19,8 @@ public class ItemInfoDto {
   public static class Response extends CommonResponse {
 
     @Builder.Default
-    @JsonProperty("Items")
-    private List<Item> items = new ArrayList<>();
+    @JsonProperty("UserProducts")
+    private List<UserProduct> userProducts = new ArrayList<>();
 
   }
 }

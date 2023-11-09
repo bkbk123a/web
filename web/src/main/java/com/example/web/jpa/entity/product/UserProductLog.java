@@ -1,4 +1,4 @@
-package com.example.web.jpa.entity.item;
+package com.example.web.jpa.entity.product;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,8 +11,8 @@ import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "T_User_Item_Log")
-public class UserItemLog {
+@Table(name = "T_User_Product_Log")
+public class UserProductLog {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -31,10 +31,10 @@ JAVA Spring기반 WAS 구현
 	- 출석 하기 API : /attend
 	- 출석 정보 조회 API : /attend/info
 	
-### 5. 아이템 관련 API
-	- 아이템 정보 조회 API : /item/info
-	- 유저 아이템 정보 조회 API : /item/user-info
-	- 아이템 구매 API : /item/buy
+### 5. 상품 관련 API
+	- 상품 정보 조회 API : /product/info
+	- 유저 상품 정보 조회 API : /product/user-info
+	- 상품 구매 API : /product/buy
 	
 ## 📌 인지 사항
 ### 1. Request header에 Authorization 추가해야 합니다.

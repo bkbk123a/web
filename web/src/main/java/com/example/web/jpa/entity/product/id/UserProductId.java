@@ -1,4 +1,4 @@
-package com.example.web.jpa.entity.item.id;
+package com.example.web.jpa.entity.product.id;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -10,9 +10,9 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
 @EqualsAndHashCode
-public class UserItemId implements Serializable {
+public class UserProductId implements Serializable {
 
   private Long userIndex;
 
-  private Integer itemIndex;
+  private Integer productIndex;
 }
