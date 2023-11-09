@@ -42,17 +42,11 @@ public class AttendService extends ServiceBase {
     // 1. 필요한 정보 담긴 dto get
     AttendDto.Dto dto = getAttendDto();
 
-    // 2. 출석 타입별 출석 진행
-    List<UserAttend> userAttends = dto.getUserAttends();
-    for (UserAttend attend : userAttends) {
-      // 현재는 1일 출석만 있다.
-      if (attend.getAttendType() == AttendType.DAILY_ATTEND) {
-        processDailyAttend(attend, dto);
-      }
-    }
+    // 2. 출석 종류별 출석 진행
+    processAttend(dto);
 
     // 3. DB에 저장
-    save(dto);
+    saveAttendInfo(dto);
 
     return AttendDto.Response
         .builder()
@@ -73,6 +67,22 @@ public class AttendService extends ServiceBase {
         .userAttends(getUserAttends(userIndex))
         .attendTimes(attendTimeService.getAttendTimes(now))
         .build();
+  }
+
+  /**
+   * 출석 종류별 출석 처리
+   * 현재는 1일 1회 출석만 있다.
+   *
+   * @param dto
+   */
+  private void processAttend(AttendDto.Dto dto) {
+    List<UserAttend> userAttends = dto.getUserAttends();
+    for (UserAttend attend : userAttends) {
+      // 현재는 1일 출석
+      if (attend.getAttendType() == AttendType.DAILY_ATTEND) {
+        processDailyAttend(attend, dto);
+      }
+    }
   }
 
   /**
@@ -121,7 +131,7 @@ public class AttendService extends ServiceBase {
     return attendTime != null;
   }
 
-  private void save(AttendDto.Dto dto) {
+  private void saveAttendInfo(AttendDto.Dto dto) {
     userService.saveUserInfo(dto.getUserInfo());
     userAttendRepository.saveAll(dto.getUserAttends());
   }
