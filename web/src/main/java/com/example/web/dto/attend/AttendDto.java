@@ -5,6 +5,7 @@ import com.example.web.jpa.entity.attend.UserAttend;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -34,10 +35,12 @@ public class AttendDto {
   @EqualsAndHashCode(callSuper = true)
   public static class Response extends CommonResponse {
 
+    @Schema(description = "유저 출석 정보")
     @JsonProperty("UserAttends")
     @Builder.Default
     private List<UserAttend> userAttends = new ArrayList<>();
 
+    @Schema(description = "출석 후 돈")
     @JsonProperty("Money")
     private long money;
   }
