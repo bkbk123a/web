@@ -6,6 +6,7 @@ import com.example.web.jpa.entity.product.UserProductLog;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -44,10 +45,12 @@ public class ProductBuyDto {
   @EqualsAndHashCode(callSuper = true)
   public static class Response extends CommonResponse {
 
+    @Schema(description = "유저의 돈")
     @JsonProperty("UserMoney")
     private long userMoney;
 
+    @Schema(description = "구매 후 유저의 해당 아이템 정보")
     @JsonProperty("UserProduct")
-    private UserProduct userProduct;  // 구매 후 유저 아이템 정보
+    private UserProduct userProduct;
   }
 }
