@@ -22,7 +22,7 @@ JAVA Spring기반 WAS 구현
 **`WAS를 실행시키고 주소창에 밑의 내용을 치면, Swagger UI를 확인할 수 있습니다.` <br>**
 - http://localhost:8080/swagger-ui/index.html <br>
 
-![img3](./image/img3.png)
+![img3](./image/img3.PNG)
 <br><br>
 
 
@@ -61,17 +61,17 @@ JAVA Spring기반 WAS 구현
 - **`밑의 사진처럼 JWT가 필요한 경우에(유저 정보 조회) 'JWT 헤더에 추가해주세요' 멘트가 있습니다`<br>**
 **`우측 상단 자물쇠 버튼을 클릭합니다`** <br>
 
-![img4](./image/img4.png)
+![img4](./image/img4.PNG)
 <br><br>
 
 - **`밑의 사진에서 Value의 값에 2번에서 얻은 Authorization을 추가합니다.`**<br>
 
-![img5](./image/img5.png)
+![img5](./image/img5.PNG)
 <br><br>
 
 - **`만약 JWT가 필요하지 않은 경우에(기획 정보 조회) 'JWT 필요 없음' 멘트가 있습니다.`**<br>
 
-![img6](./image/img6.png)
+![img6](./image/img6.PNG)
 <br><br>
 
 ### 4. (참고) Postman을 이용하여 요청시 Authorization 추가하는 방법
