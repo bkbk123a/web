@@ -54,7 +54,7 @@ JAVA Spring기반 WAS 구현
 	- F12 버튼을 누르고 로그인 버튼을 누르고 로그인한다.
 	- 밑의 사진처럼 Authorizetion을 알아낸다.
 
-![img1](./image/img1.png)
+![img1](./image/img1.PNG)
 <br><br>
 
 ### 3. Swagger를 이용하여 API Test시 Authorization 추가하는 방법
@@ -74,8 +74,18 @@ JAVA Spring기반 WAS 구현
 ![img6](./image/img6.PNG)
 <br><br>
 
+- **`요청 보낼 Request Body 형식을 확인하고 우측 상단의 'Try it out' 버튼을 누릅니다.`**<br>
+
+![img7](./image/img7.PNG)
+<br><br>
+
+- **`요청 보낼 Request Body를 성정하고 Execute 버튼을 눌러서 API 테스트를 실행합니다.`**<br>
+
+![img8](./image/img8.PNG)
+<br><br>
+
 ### 4. (참고) Postman을 이용하여 요청시 Authorization 추가하는 방법
-![img2](./image/img2.png)
+![img2](./image/img2.PNG)
  
 
 ---
