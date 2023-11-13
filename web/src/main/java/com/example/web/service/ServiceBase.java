@@ -1,5 +1,6 @@
 package com.example.web.service;
 
+import com.example.web.model.exception.CustomErrorException;
 import com.example.web.model.oauth.JwtUser;
 import com.example.web.util.container.SessionContainer;
 
@@ -10,6 +11,11 @@ public abstract class ServiceBase {
   }
 
   protected long getUserIndex() {
-    return getSessions().getUserIndex();
+    JwtUser jwtUser = getSessions();
+    if(jwtUser == null) {
+      throw CustomErrorException.builder().resultValue(4).build();
+    }
+
+    return jwtUser.getUserIndex();
   }
 }
