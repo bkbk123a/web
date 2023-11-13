@@ -50,6 +50,7 @@ public class ProductController {
 
   @Operation(
       summary = "유저의 상품 정보 조회",
+      description = "JWT 헤더에 추가 필요(로그인 하세요)",
       responses = @ApiResponse(
           description = "OK",
           responseCode = "200",
@@ -67,6 +68,7 @@ public class ProductController {
 
   @Operation(
       summary = "유저의 상품 구매",
+      description = "JWT 헤더에 추가 필요(로그인 하세요)",
       responses = @ApiResponse(
           description = "OK",
           responseCode = "200",

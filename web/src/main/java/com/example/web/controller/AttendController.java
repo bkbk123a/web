@@ -38,7 +38,6 @@ public class AttendController {
     return attendService.getUserAttendInfo();
   }
 
-
   @Operation(
       summary = "유저 출석",
       description = "JWT 헤더에 추가 필요(로그인 하세요)",
