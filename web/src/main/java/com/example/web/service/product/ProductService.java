@@ -1,6 +1,7 @@
 package com.example.web.service.product;
 
 import com.example.web.dto.product.ProductBuyDto;
+import com.example.web.dto.product.ProductEditDto;
 import com.example.web.dto.product.ProductInfoDto;
 import com.example.web.dto.product.UserProductInfoDto;
 import com.example.web.jpa.entity.product.Product;
@@ -19,6 +20,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,13 +72,47 @@ public class ProductService extends ServiceBase {
         .build();
   }
 
-  private Product getNewProduct( ProductType productType, String productName, int price, int quantity) {
+  private Product getNewProduct(ProductType productType, String productName, int price, int quantity) {
     return Product.builder()
         .productType(productType)
         .productName(productName)
         .price(price)
         .quantity(quantity)
         .build();
+  }
+
+  @Transactional
+  public ProductEditDto.Response editProduct(ProductEditDto.Request request) {
+    // 1. 수정할 정보 획득
+    Product product = getProduct(request);
+    // 2. 정보 저장
+    saveProductInfo(product);
+
+    return ProductEditDto.Response.builder()
+        .product(product)
+        .build();
+  }
+
+  /**
+   * 수정할 상품 정보 획득
+   * 요청시 수정할 상품 이름이 없으면 새롭게 등록한다.
+   *
+   * @param request
+   * @return 수정할 상품 정보
+   */
+  private Product getProduct(ProductEditDto.Request request) {
+    String productName = request.getProductName();
+
+    return productRepository.findByProductName(productName)
+        .orElseGet(() -> getNewProduct(
+            request.getProductType(),
+            productName,
+            request.getPrice(),
+            request.getQuantity()));
+  }
+
+  private void saveProductInfo(Product product) {
+    productRepository.save(product);
   }
 
   @Transactional

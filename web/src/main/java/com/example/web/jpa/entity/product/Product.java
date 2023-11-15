@@ -27,7 +27,7 @@ public class Product {
   @Convert(converter = ProductTypeConverter.class)
   private ProductType productType;
 
-  @Column(name = "ProductName", nullable = false)
+  @Column(name = "ProductName", nullable = false, unique = true)
   @Nationalized
   private String productName;
 

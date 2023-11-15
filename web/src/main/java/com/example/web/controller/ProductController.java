@@ -1,6 +1,7 @@
 package com.example.web.controller;
 
 import com.example.web.dto.product.ProductBuyDto;
+import com.example.web.dto.product.ProductEditDto;
 import com.example.web.dto.product.ProductInfoDto;
 import com.example.web.dto.product.UserProductInfoDto;
 import com.example.web.model.annotation.IgnoreAuth;
@@ -46,6 +47,28 @@ public class ProductController {
   @GetMapping("/info")
   public ProductInfoDto.Response getProductInfo() {
     return productService.getProductssInfo();
+  }
+
+  @IgnoreAuth
+  @Operation(
+      summary = "상품 수정",
+      description = "JWT 필요 없음",
+      responses = @ApiResponse(
+          description = "OK",
+          responseCode = "200",
+          content = @Content(
+              mediaType = "application/json",
+              examples = {
+                  @ExampleObject(
+                      value = "{\"ResultVal\":0,\"ResultMsg\":\"Success\"," +
+                          "\"Product\":{\"productIndex\":14,\"productType\":1," +
+                          "\"productName\":\"stringTTTT\",\"price\":7,\"quantity\":5}}")},
+              schema = @Schema(
+                  implementation = ProductEditDto.Response.class))))
+  @PostMapping("edit")
+  @ResponseBody
+  public ProductEditDto.Response buyProduct(@Valid @RequestBody ProductEditDto.Request request) {
+    return productService.editProduct(request);
   }
 
   @Operation(

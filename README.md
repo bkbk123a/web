@@ -41,8 +41,9 @@ JAVA Spring기반 WAS 구현
 	
 ### 5. 상품 관련 API
 	- 상품 정보 조회 API : /product/info
+	- 상품 정보 수정 API : /product/edit
 	- 유저 상품 정보 조회 API : /product/user-info
-	- 상품 구매 API : /product/buy
+	- 유저 상품 구매 API : /product/buy
 	
 ## 📌 인지 사항
 ### 1. Request header에 Authorization 추가해야 합니다.
