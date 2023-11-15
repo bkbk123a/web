@@ -17,14 +17,15 @@ import com.example.web.model.exception.CustomErrorException;
 import com.example.web.service.ServiceBase;
 import com.example.web.service.user.UserService;
 import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class ProductService extends ServiceBase {

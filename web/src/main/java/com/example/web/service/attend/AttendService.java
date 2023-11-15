@@ -9,13 +9,14 @@ import com.example.web.jpa.repository.user.UserAttendRepository;
 import com.example.web.model.enums.AttendType;
 import com.example.web.service.ServiceBase;
 import com.example.web.service.user.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class AttendService extends ServiceBase {

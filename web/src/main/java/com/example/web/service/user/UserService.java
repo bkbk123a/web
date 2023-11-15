@@ -13,12 +13,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.example.web.util.CommonUtil.getOffsetDateTimeFromLocalDateTime;
 
+@Transactional(readOnly = true)
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class UserService extends ServiceBase {
     return userRepository.findByEmailAddress(emailAddress);
   }
 
+  @Transactional
   public OauthNaverLoginDto.Response login(boolean isNewUser, @NonNull UserInfo userInfo) {
 
     JwtUser jwtUser = JwtUser.builder().userIndex(userInfo.getUserIndex()).build();

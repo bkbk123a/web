@@ -5,13 +5,14 @@ import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.model.oauth.info.NaverUserInfo;
 import com.example.web.service.login.oauth.NaverOauthService;
 import com.example.web.service.user.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class LoginService {
@@ -44,7 +45,6 @@ public class LoginService {
     return stringBuilder.toString();
   }
 
-  @Transactional
   public OauthNaverLoginDto.Response processNaverLogin(OauthNaverLoginDto.Request request) {
 
     String accessToken = naverOauthService.processAccessToken(request);
