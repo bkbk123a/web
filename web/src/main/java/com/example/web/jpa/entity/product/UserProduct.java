@@ -31,6 +31,7 @@ public class UserProduct {
 
   @UpdateTimestamp
   @Column(name = "UpdatedAt", nullable = false)
+  @Builder.Default
   private OffsetDateTime updatedAt = OffsetDateTime.now();
 
   public void addProductCount(int productCount) {
