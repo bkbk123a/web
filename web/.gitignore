@@ -36,7 +36,11 @@ out/
 ### VS Code ###
 .vscode/
 
-### Docker ####
+### Docker ###
 /sqldata/log/
 /sqldata/.system/
 /sqldata/secrets/
+
+### QueryDSL ###
+/src/main/generated/
+
