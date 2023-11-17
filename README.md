@@ -17,7 +17,18 @@ JAVA Spring기반 WAS 구현
 - Database : H2(Docker 기반)
 - ORM : JPA(Spring Data JPA, QueryDSL)
 
+## 💾 데이터 베이스 관련
+**`WAS를 실행시키기 위해 DB가 먼저 구축 되어야합니다.` <br>**
+- 1. docker-compose 를 설치하여야 합니다.(추천 : 도커 데스크톱 설치)
+- 2. cmd창을 열어서 docker-compose.yml 파일이 있는 위치로 이동 (cd명령어)
+- 3. 해당 경로의 cmd창에서 하기의 명령어 입력
+** `docker-compose up -d` **
+
 ## 📌 주요 기능
+## Request ~ Response 간단 Flow
+![flow](./image/flow.PNG)
+<br><br>
+
 ### API 명세서 (Swagger로 작성)
 **`WAS를 실행시키고 주소창에 밑의 내용을 치면, Swagger UI를 확인할 수 있습니다.` <br>**
 - http://localhost:8080/swagger-ui/index.html <br>
@@ -89,9 +100,3 @@ JAVA Spring기반 WAS 구현
 ![img2](./image/img2.PNG)
  
 
----
- 
-## 💾 데이터 베이스 관련
-- 1. docker-compose 를 설치하여야 한다.(추천 : 도커 데스크톱 설치)
-- 2. cmd창을 열어서 docker-compose.yml 파일이 있는 위치로 이동 (cd명령어)
-- 3. 해당 경로의 cmd창에서 docker-compose up -d 입력 (DB 구축)

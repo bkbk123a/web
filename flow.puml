@@ -1,0 +1,45 @@
+@startuml
+
+title [Requst ~ Response 흐름]
+
+actor Client as client
+database H2_Database as db
+
+box "WAS"
+participant Filter as filter
+participant Interceptor as interceptor
+participant Advice as advice
+participant Aspect as aspect
+participant Controller as controller
+
+client -> filter++ : Request
+filter -> filter : CustomServletWrappingFilter\n- 서블릿 래핑 
+filter -> interceptor--
+
+interceptor++
+interceptor -> interceptor : SessionInterceptor\n- 헤더의 JWT 검증 
+interceptor -> aspect--
+ 
+aspect++
+aspect -> controller++ : LoggingAspect Controller 진입
+ 
+controller -> db++ : Service 호출, \nRepository를 통해 Database 조회
+db -> controller-- 
+
+group if [Exception발생]
+ controller -> controller : 비즈니스 로직 수행
+ controller -> advice++ : CustomExceptionHandler\n- CustomErrorException에\n정의된 에러 반환
+ advice -> client
+end
+
+controller -> aspect-- 
+aspect -> aspect : Logging\n- Request, Response 
+aspect -> advice : ResponseAdvice\n- JWT 재발급
+aspect--
+advice-> client-- : Reponse
+
+end box
+
+database H2_Database as db
+
+@enduml
