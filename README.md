@@ -25,7 +25,7 @@ JAVA Spring기반 WAS 구현
 ** `docker-compose up -d` **
 
 ## 📌 주요 기능
-## Request ~ Response 간단 Flow
+### Request ~ Response 간단 Flow
 ![flow](./image/flow.PNG)
 <br><br>
 
