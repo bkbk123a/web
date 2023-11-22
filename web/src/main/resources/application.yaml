@@ -30,6 +30,23 @@ oauth:
 
 jwt:
   secret-key: Z29uZ2NoZWNrLWdvbmdjaGVjay1nb25nY2hlY2stZ29uZ2NoZWNrCg123456789Z29uZ2NonY2hlY2stZ29uZ2NoZWNrCg123456789
-  access_token_expire_milsec: 3600000 # 1시간
+  access_token_expire_milsec: 3600000  # 1시간
   refresh_token_expire_milsec: 3600000 # 1시간
-  token_type: Bearer #접속 토큰 타입
+  token_type: Bearer                   #접속 토큰 타입
+
+management:
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"             # web 에 모든 엔드포인트를 노출하지만 env, beans 는 제외한다.
+
+  endpoint:
+    health:
+      show-components: always             #헬스 정보 상세히
