@@ -1,0 +1,7 @@
+### h2 ####
+db/h2/
+
+### prometheus-grafana ####
+prometheus-grafana/prometheus/config/**.log
+prometheus-grafana/prometheus/volume/
+prometheus-grafana/grafana/
