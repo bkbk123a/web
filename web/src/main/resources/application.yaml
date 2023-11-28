@@ -32,7 +32,7 @@ jwt:
   secret-key: Z29uZ2NoZWNrLWdvbmdjaGVjay1nb25nY2hlY2stZ29uZ2NoZWNrCg123456789Z29uZ2NonY2hlY2stZ29uZ2NoZWNrCg123456789
   access_token_expire_milsec: 3600000  # 1시간
   refresh_token_expire_milsec: 3600000 # 1시간
-  token_type: Bearer                   #접속 토큰 타입
+  token_type: Bearer                   # 접속 토큰 타입
 
 management:
   info:
@@ -49,4 +49,7 @@ management:
 
   endpoint:
     health:
-      show-components: always             #헬스 정보 상세히
+      show-components: always             # 헬스 정보 상세히
+
+springdoc:
+  use-fqn: true                           # swagger 사용시 패키지가 다른 동일 클래스를 구별하지 못하는 이슈
