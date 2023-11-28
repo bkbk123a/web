@@ -25,24 +25,15 @@ public class SessionInterceptor extends HandlerInterceptorBase {
   public boolean preHandle(HttpServletRequest request,
                            HttpServletResponse response,
                            Object handler) {
-    if (handler instanceof HandlerMethod handlerMethod
-        && handlerMethod.getBeanType().isAnnotationPresent(IgnoreAuth.class)) {
+    if (isPassInterceptor(request, handler)) {
       return true;
     }
 
-    if (hasAnnotation(handler, IgnoreAuth.class)
-        || hasUri(request)) {
-      return true;
-    }
-
-    String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-    if (accessToken == null) {
-      log.error("SessionInterceptor header has no AUTHORIZATION");
-      throw CustomErrorException.builder().resultValue(4).build();
-    }
+    String accessToken = getAccessTokenOrElseThrow(request);
 
     JwtUser userInfo;
     try {
+      // 클라이언트 요청에 따라 JWT 에서 유저 정보를 가져온 후, ThreadLocal 에 해당 유저 정보 set
       userInfo = jwtTokenUtil.getUserInfo(accessToken);
       userInfo.setExpireTime(jwtTokenUtil.getExpireTime(accessToken));
       SessionContainer.setSession(userInfo);
@@ -52,5 +43,37 @@ public class SessionInterceptor extends HandlerInterceptorBase {
       System.out.println("Token is invalid for another reason. : " + e);
     }
     return true;
+  }
+
+  /**
+   * 인터셉터 통과 여부 판단
+   *
+   * @param request
+   * @param handler
+   * @return 인터셉터 통과 여부 (true : 통과, false : 통과 안함)
+   */
+  private boolean isPassInterceptor(HttpServletRequest request, Object handler) {
+    if (handler instanceof HandlerMethod handlerMethod
+        && handlerMethod.getBeanType().isAnnotationPresent(IgnoreAuth.class)) {
+      return true;
+    }
+
+    return hasAnnotation(handler, IgnoreAuth.class)
+        || hasUri(request);
+  }
+
+  private String getAccessTokenOrElseThrow(HttpServletRequest request) {
+    String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+    if (accessToken == null) {
+      log.error("SessionInterceptor header has no AUTHORIZATION");
+      throw CustomErrorException.builder().resultValue(4).build();
+    }
+
+    final String authenticationType = "Bearer";
+    if (accessToken.startsWith(authenticationType)) {
+      accessToken = accessToken.substring(authenticationType.length());
+    }
+
+    return accessToken;
   }
 }
