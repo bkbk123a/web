@@ -29,12 +29,12 @@ public class ProductBuyDto {
   @Getter
   public static class Request {
 
-    @Schema(description = "상품 인덱스")
+    @Schema(example = "1", description = "상품 인덱스")
     @Min(0)
     @JsonProperty("ProductIndex")
     private int productIndex;
 
-    @Schema(description = "상품 수량")
+    @Schema(example = "2", description = "상품 수량")
     @Min(0)
     @JsonProperty("ProductCount")
     private int productCount;

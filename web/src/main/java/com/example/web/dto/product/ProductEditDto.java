@@ -16,21 +16,21 @@ public class ProductEditDto {
   @Getter
   public static class Request {
 
-    @Schema(description = "상품 타입")
+    @Schema(example = "1", description = "상품 타입")
     @JsonProperty("ProductType")
     private ProductType productType;
 
-    @Schema(description = "상품 이름")
+    @Schema(example = "상의1", description = "상품 이름")
     @NotBlank
     @JsonProperty("ProductName")
     private String productName;
 
-    @Schema(description = "상품 가격")
+    @Schema(example = "100", description = "상품 가격")
     @Min(0)
     @JsonProperty("Price")
     private Integer price;
 
-    @Schema(description = "상품 수량")
+    @Schema(example = "9999", description = "상품 수량")
     @Min(0)
     @JsonProperty("Quantity")
     private Integer quantity;
