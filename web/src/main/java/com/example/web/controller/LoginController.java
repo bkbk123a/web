@@ -27,7 +27,7 @@ public class LoginController {
   @IgnoreAuth
   @Operation(
       summary = "외부 플랫폼 이용한 로그인",
-      description = "JWT 필요 없음",
+      description = "localhost:8080을 이용해 로그인하세요. JWT 필요 없음",
       responses = @ApiResponse(
           description = "OK",
           responseCode = "200"))
