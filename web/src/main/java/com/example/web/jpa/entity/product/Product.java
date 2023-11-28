@@ -37,6 +37,10 @@ public class Product {
   @Column(name = "Quantity", nullable = false)
   private Integer quantity;
 
+  //단순 기획데이터 이므로 양방향 관계 설정하지 않는다.
+  //@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+  //private List<UserProduct> userProducts = new ArrayList<>();
+
   public void addProductQuantity(int quantity) {
     this.quantity += quantity;
   }

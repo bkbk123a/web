@@ -147,7 +147,7 @@ public class ProductService extends ServiceBase {
     // 2. 상품 기획 데이터 정보 조회
     Product product = getProductOrElseThrow(request.getProductIndex());
     // 3. 유저 상품 정보 조회
-    UserProduct userProduct = getUserProduct(product.getProductIndex(), userInfo.getUserIndex());
+    UserProduct userProduct = getUserProduct(product.getProductIndex(), userInfo.getUserIndex(), product);
 
     return ProductBuyDto.Dto.builder()
         .userInfo(userInfo)
@@ -162,16 +162,16 @@ public class ProductService extends ServiceBase {
         .orElseThrow(() -> CustomErrorException.builder().resultValue(10100).build());
   }
 
-  private UserProduct getUserProduct(int productIndex, long userIndex) {
+  private UserProduct getUserProduct(int productIndex, long userIndex, Product product) {
     UserProductId userProductId = UserProductId.builder()
-        .productIndex(productIndex)
+        .product(productIndex)
         .userIndex(userIndex)
         .build();
 
     return userProductRepository.findById(userProductId)
         .orElseGet(() -> UserProduct.builder()
             .userIndex(userIndex)
-            .productIndex(productIndex)
+            .product(product)
             .updatedAt(OffsetDateTime.now())
             .build());
   }
@@ -222,7 +222,7 @@ public class ProductService extends ServiceBase {
 
     UserProductLog userProductLog = UserProductLog.builder()
         .userIndex(dto.getUserInfo().getUserIndex())
-        .itemIndex(request.getProductIndex())
+        .productIndex(request.getProductIndex())
         .afterProductCount(afterProductQuantity)
         .beforeProductCount(beforeProductQuantity)
         .build();

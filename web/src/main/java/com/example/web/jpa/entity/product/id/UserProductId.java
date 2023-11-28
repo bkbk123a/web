@@ -13,6 +13,6 @@ import java.io.Serializable;
 public class UserProductId implements Serializable {
 
   private Long userIndex;
-
-  private Integer productIndex;
+  // T_STATIC_Product 엔티티의 productIndex 이다.
+  private Integer product;
 }

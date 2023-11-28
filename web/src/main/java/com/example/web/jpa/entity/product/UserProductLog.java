@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "T_User_Product_Log")
+@Table(name = "T_User_Product_Log", indexes = @Index(name = "Index_UserIndexProductIndex", columnList = "UserIndex, ProductIndex"))
 public class UserProductLog {
 
   @Id
@@ -19,19 +19,17 @@ public class UserProductLog {
   @Column(name = "LogIndex")
   private Long logIndex;
 
-  @Column(name = "UserIndex")
+  @Column(name = "UserIndex", nullable = false)
   private Long userIndex;
 
-  @Column(name = "ItemIndex")
-  private Integer itemIndex;
+  @Column(name = "ProductIndex", nullable = false)
+  private Integer productIndex;
 
   @Column(name = "BeforeProductCount", nullable = false)
-  @Builder.Default
-  private Integer beforeProductCount = 0;
+  private Integer beforeProductCount;
 
   @Column(name = "AfterProductCount", nullable = false)
-  @Builder.Default
-  private Integer afterProductCount = 0;
+  private Integer afterProductCount;
 
   @Column(name = "UpdatedAt", nullable = false)
   @Builder.Default
