@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-public class ProductBuyDto {
+public class UserProductBuyDto {
 
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @Getter

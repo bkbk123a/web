@@ -1,6 +1,6 @@
 package com.example.web.controller;
 
-import com.example.web.dto.product.ProductBuyDto;
+import com.example.web.dto.product.UserProductBuyDto;
 import com.example.web.dto.product.ProductEditDto;
 import com.example.web.dto.product.ProductInfoDto;
 import com.example.web.dto.product.UserProductInfoDto;
@@ -105,10 +105,10 @@ public class ProductController {
                           "\"UserProduct\":{\"userIndex\":1,\"productIndex\":1,\"productCount\":1," +
                           "\"updatedAt\":\"2023-11-13T18:03:56.747447+09:00\"}}")},
               schema = @Schema(
-                  implementation = ProductBuyDto.Response.class))))
+                  implementation = UserProductBuyDto.Response.class))))
   @PostMapping("buy")
   @ResponseBody
-  public ProductBuyDto.Response buyProduct(@Valid @RequestBody ProductBuyDto.Request request) {
+  public UserProductBuyDto.Response buyProduct(@Valid @RequestBody UserProductBuyDto.Request request) {
     return productService.buyProduct(request);
   }
 }

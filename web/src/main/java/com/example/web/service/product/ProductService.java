@@ -1,6 +1,6 @@
 package com.example.web.service.product;
 
-import com.example.web.dto.product.ProductBuyDto;
+import com.example.web.dto.product.UserProductBuyDto;
 import com.example.web.dto.product.ProductEditDto;
 import com.example.web.dto.product.ProductInfoDto;
 import com.example.web.dto.product.UserProductInfoDto;
@@ -117,9 +117,9 @@ public class ProductService extends ServiceBase {
   }
 
   @Transactional
-  public ProductBuyDto.Response buyProduct(ProductBuyDto.Request request) {
+  public UserProductBuyDto.Response buyProduct(UserProductBuyDto.Request request) {
     // 1. dto 생성
-    ProductBuyDto.Dto dto = getDto(request);
+    UserProductBuyDto.Dto dto = getDto(request);
     // 2. 유저가 구매할 수 있는 상품의 남은량 확인
     checkProductCount(dto);
     // 3. 유저가 구매하는데 필요한 돈 충분한지 확인
@@ -135,13 +135,13 @@ public class ProductService extends ServiceBase {
     // 8. DB 반영
     saveProductBuy(dto);
 
-    return ProductBuyDto.Response.builder()
+    return UserProductBuyDto.Response.builder()
         .userMoney(dto.getUserInfo().getMoney())
         .userProduct(dto.getUserProduct())
         .build();
   }
 
-  private ProductBuyDto.Dto getDto(ProductBuyDto.Request request) {
+  private UserProductBuyDto.Dto getDto(UserProductBuyDto.Request request) {
     // 1. 상품 정보 조회
     UserInfo userInfo = userService.getUserInfoOrElseThrow(getUserIndex());
     // 2. 상품 기획 데이터 정보 조회
@@ -149,7 +149,7 @@ public class ProductService extends ServiceBase {
     // 3. 유저 상품 정보 조회
     UserProduct userProduct = getUserProduct(product.getProductIndex(), userInfo.getUserIndex(), product);
 
-    return ProductBuyDto.Dto.builder()
+    return UserProductBuyDto.Dto.builder()
         .userInfo(userInfo)
         .product(product)
         .userProduct(userProduct)
@@ -176,7 +176,7 @@ public class ProductService extends ServiceBase {
             .build());
   }
 
-  private void checkProductCount(ProductBuyDto.Dto dto) {
+  private void checkProductCount(UserProductBuyDto.Dto dto) {
     int needItemCount = dto.getRequest().getProductCount();
     int remainItemCount = dto.getProduct().getQuantity();
 
@@ -190,19 +190,19 @@ public class ProductService extends ServiceBase {
    *
    * @param dto
    */
-  private void checkUserMoney(ProductBuyDto.Dto dto) {
+  private void checkUserMoney(UserProductBuyDto.Dto dto) {
     // 필요한 돈 = 상품 가격 * 구매 상품 개수
     long needMoney = dto.getProduct().getPrice() * dto.getRequest().getProductCount();
 
     userService.checkEnoughMoney(needMoney, dto.getUserInfo());
   }
 
-  private void minusProductCount(ProductBuyDto.Dto dto) {
+  private void minusProductCount(UserProductBuyDto.Dto dto) {
     Product product = dto.getProduct();
     product.addProductQuantity(-1 * dto.getRequest().getProductCount());
   }
 
-  private void minusUserMoney(ProductBuyDto.Dto dto) {
+  private void minusUserMoney(UserProductBuyDto.Dto dto) {
     // 필요한 돈 = 상품 가격 * 구매 상품 개수
     long needMoney = dto.getProduct().getPrice() * dto.getRequest().getProductCount();
 
@@ -210,13 +210,13 @@ public class ProductService extends ServiceBase {
     userInfo.addMoney(-1 * needMoney);
   }
 
-  private void addUserProduct(ProductBuyDto.Dto dto) {
+  private void addUserProduct(UserProductBuyDto.Dto dto) {
     UserProduct userProduct = dto.getUserProduct();
     userProduct.addProductCount(dto.getRequest().getProductCount());
   }
 
-  private void setProductBuyLog(ProductBuyDto.Dto dto) {
-    ProductBuyDto.Request request = dto.getRequest();
+  private void setProductBuyLog(UserProductBuyDto.Dto dto) {
+    UserProductBuyDto.Request request = dto.getRequest();
     int afterProductQuantity = dto.getProduct().getQuantity();
     int beforeProductQuantity = afterProductQuantity - request.getProductCount();
 
@@ -230,7 +230,7 @@ public class ProductService extends ServiceBase {
     dto.setUserProductLog(userProductLog);
   }
 
-  private void saveProductBuy(ProductBuyDto.Dto dto) {
+  private void saveProductBuy(UserProductBuyDto.Dto dto) {
     userService.saveUserInfo(dto.getUserInfo());
     productRepository.save(dto.getProduct());
     userProductRepository.save(dto.getUserProduct());
