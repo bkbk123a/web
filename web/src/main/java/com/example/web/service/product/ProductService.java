@@ -19,6 +19,7 @@ import com.example.web.model.exception.CustomErrorException;
 import com.example.web.service.ServiceBase;
 import com.example.web.service.user.UserService;
 import jakarta.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -145,7 +146,7 @@ public class ProductService extends ServiceBase {
   }
 
   private UserProductBuyDto.Dto getDto(UserProductBuyDto.Request request) {
-    // 1. 상품 정보 조회
+    // 1. 유저 정보 조회
     UserInfo userInfo = userService.getUserInfoOrElseThrow(getUserIndex());
     // 2. 상품 기획 데이터 정보 조회
     Product product = getProductOrElseThrow(request.getProductIndex());
@@ -241,13 +242,28 @@ public class ProductService extends ServiceBase {
     userProductLogRepository.save(dto.getUserProductLog());
   }
 
-  public UserProductLogDto.Response getUserProductLog(UserProductLogDto.Dto dto) {
-    List<UserProductLog> userProductLogs = userProductLogRepositorySupport
-        .getUserProductLogs(getUserIndex(), dto.getProductIndex(),
-            dto.getStartTime(), dto.getEndTime());
+  public UserProductLogDto.Response getUserProductLog(Integer productIndex,
+      LocalDateTime startTime, LocalDateTime endTime) {
+    UserProductLogDto.Dto dto = getDto(productIndex, startTime, endTime);
 
     return UserProductLogDto.Response.builder()
-        .userProductLogs(userProductLogs)
+        .userProductLogs(getUserProductLogs(dto))
         .build();
+  }
+
+  private UserProductLogDto.Dto getDto(int productIndex,
+      LocalDateTime startTime, LocalDateTime endTime) {
+    return UserProductLogDto.Dto.builder()
+        .userIndex(getUserIndex())
+        .productIndex(productIndex)
+        .startTime(startTime)
+        .endTime(endTime)
+        .build();
+  }
+
+  private List<UserProductLog> getUserProductLogs(UserProductLogDto.Dto dto){
+    return userProductLogRepositorySupport
+        .getUserProductLogs(dto.getUserIndex(), dto.getProductIndex(),
+            dto.getStartTime(), dto.getEndTime());
   }
 }

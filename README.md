@@ -59,7 +59,7 @@ JAVA Spring기반 WAS 구현
 ## 📌 인지 사항
 ### 1. Request header에 Authorization 추가해야 합니다.
    `- JWT를 이용한 인증 체계입니다.`<br>
-   `-  유저 정보 조회시 필요하고, 기획 데이터 정보 조회시 필요하지 않습니다. `
+   `- 유저 관련 API 호출시 필요하고, 기획 데이터 API 호출시 필요하지 않습니다. `
 	
 ### 2. Authorizetion을 얻는 방법
 	- localhost:8080 

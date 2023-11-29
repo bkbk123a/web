@@ -20,7 +20,7 @@ public class UserProductLogDto {
   @Getter
   @SuperBuilder
   public static class Dto {
-    private int userIndex;
+    private long userIndex;
     private Integer productIndex;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

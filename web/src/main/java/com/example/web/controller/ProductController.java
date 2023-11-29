@@ -147,12 +147,6 @@ public class ProductController {
       @RequestParam(name = "EndTime", required = false)
       LocalDateTime endTime) {
 
-    UserProductLogDto.Dto dto = UserProductLogDto.Dto.builder()
-        .productIndex(productIndex)
-        .startTime(startTime)
-        .endTime(endTime)
-        .build();
-
-    return productService.getUserProductLog(dto);
+    return productService.getUserProductLog(productIndex, startTime, endTime);
   }
 }
