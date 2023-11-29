@@ -5,7 +5,7 @@ import com.example.web.dto.attend.AttendInfoDto;
 import com.example.web.jpa.entity.attend.AttendTime;
 import com.example.web.jpa.entity.attend.UserAttend;
 import com.example.web.jpa.entity.user.UserInfo;
-import com.example.web.jpa.repository.user.UserAttendRepository;
+import com.example.web.jpa.repository.attend.UserAttendRepository;
 import com.example.web.model.enums.AttendType;
 import com.example.web.service.ServiceBase;
 import com.example.web.service.user.UserService;

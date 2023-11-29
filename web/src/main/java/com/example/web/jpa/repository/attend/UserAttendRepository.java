@@ -1,4 +1,4 @@
-package com.example.web.jpa.repository.user;
+package com.example.web.jpa.repository.attend;
 
 import com.example.web.jpa.entity.attend.UserAttend;
 import com.example.web.jpa.entity.attend.id.UserAttendId;
