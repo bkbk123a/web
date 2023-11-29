@@ -11,7 +11,9 @@ import java.time.OffsetDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "T_User_Product_Log", indexes = @Index(name = "Index_UserIndexProductIndex", columnList = "UserIndex, ProductIndex"))
+@Table(name = "T_User_Product_Log",
+    indexes = @Index(name = "Index_UserIndexProductIndex",
+        columnList = "UserIndex, ProductIndex"))
 public class UserProductLog {
 
   @Id
