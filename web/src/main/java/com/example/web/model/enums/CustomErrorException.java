@@ -15,9 +15,9 @@ public enum CustomErrorException {
   // 10000 : 유저 정보 관련
   NOT_EXIST_USER_INFO(10000, "유저 정보가 없습니다."),
   NOT_ENOUGH_MONEY(10001, "돈이 부족합니다."),
-  // 10100 : 아이템 관련
-  NOT_EXIST_ITEM_INFO(10100, "아이템 정보가 없습니다"),
-  NOT_ENOUGH_ITEM_QUANTITY(10101, "남아있는 아이템 수량이 부족합니다.");
+  // 10100 : 상품 관련
+  NOT_EXIST_PRODUCT_INFO(10100, "상품 정보가 없습니다"),
+  NOT_ENOUGH_PRODUCT_QUANTITY(10101, "남아있는 상품 수량이 부족합니다.");
 
   private final int resultValue;
   private final String resultMsg;

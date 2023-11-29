@@ -162,8 +162,8 @@ public class ProductService extends ServiceBase {
         .build();
   }
 
-  private Product getProductOrElseThrow(int itemIndex) {
-    return productRepository.findById(itemIndex)
+  private Product getProductOrElseThrow(int productIndex) {
+    return productRepository.findById(productIndex)
         .orElseThrow(() -> CustomErrorException.builder().resultValue(10100).build());
   }
 
@@ -182,10 +182,10 @@ public class ProductService extends ServiceBase {
   }
 
   private void checkProductCount(UserProductBuyDto.Dto dto) {
-    int needItemCount = dto.getRequest().getProductCount();
-    int remainItemCount = dto.getProduct().getQuantity();
+    int needProductCount = dto.getRequest().getProductCount();
+    int remainProductCount = dto.getProduct().getQuantity();
 
-    if (remainItemCount < needItemCount) {
+    if (remainProductCount < needProductCount) {
       throw CustomErrorException.builder().resultValue(10101).build();
     }
   }
