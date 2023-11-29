@@ -3,6 +3,7 @@ package com.example.web.service.product;
 import com.example.web.dto.product.UserProductBuyDto;
 import com.example.web.dto.product.ProductEditDto;
 import com.example.web.dto.product.ProductInfoDto;
+import com.example.web.dto.product.UserProductLogDto;
 import com.example.web.dto.product.UserProductInfoDto;
 import com.example.web.jpa.entity.product.Product;
 import com.example.web.jpa.entity.product.UserProduct;
@@ -11,6 +12,7 @@ import com.example.web.jpa.entity.product.id.UserProductId;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.item.ProductRepository;
 import com.example.web.jpa.repository.item.UserProductLogRepository;
+import com.example.web.jpa.repository.item.UserProductLogRepositorySupport;
 import com.example.web.jpa.repository.item.UserProductRepository;
 import com.example.web.model.enums.ProductType;
 import com.example.web.model.exception.CustomErrorException;
@@ -32,8 +34,9 @@ public class ProductService extends ServiceBase {
 
   private final ProductRepository productRepository;
   private final UserProductRepository userProductRepository;
-  private final UserService userService;
   private final UserProductLogRepository userProductLogRepository;
+  private final UserProductLogRepositorySupport userProductLogRepositorySupport;
+  private final UserService userService;
 
   @PostConstruct
   private void init() {
@@ -55,14 +58,14 @@ public class ProductService extends ServiceBase {
     productRepository.saveAll(staticProducts);
   }
 
-  public ProductInfoDto.Response getProductssInfo() {
+  public ProductInfoDto.Response getProductInfo() {
 
     return ProductInfoDto.Response.builder()
         .products(productRepository.findAll())
         .build();
   }
 
-  public UserProductInfoDto.Response getUserProductsInfo() {
+  public UserProductInfoDto.Response getUserProductInfo() {
 
     List<UserProduct> userProducts = userProductRepository
         .findByUserIndex(getUserIndex());
@@ -73,7 +76,8 @@ public class ProductService extends ServiceBase {
         .build();
   }
 
-  private Product getNewProduct(ProductType productType, String productName, int price, int quantity) {
+  private Product getNewProduct(ProductType productType, String productName, int price,
+      int quantity) {
     return Product.builder()
         .productType(productType)
         .productName(productName)
@@ -95,8 +99,7 @@ public class ProductService extends ServiceBase {
   }
 
   /**
-   * 수정할 상품 정보 획득
-   * 요청시 수정할 상품 이름이 없으면 새롭게 등록한다.
+   * 수정할 상품 정보 획득 요청시 수정할 상품 이름이 없으면 새롭게 등록한다.
    *
    * @param request
    * @return 수정할 상품 정보
@@ -117,7 +120,7 @@ public class ProductService extends ServiceBase {
   }
 
   @Transactional
-  public UserProductBuyDto.Response buyProduct(UserProductBuyDto.Request request) {
+  public UserProductBuyDto.Response buyUserProduct(UserProductBuyDto.Request request) {
     // 1. dto 생성
     UserProductBuyDto.Dto dto = getDto(request);
     // 2. 유저가 구매할 수 있는 상품의 남은량 확인
@@ -147,7 +150,8 @@ public class ProductService extends ServiceBase {
     // 2. 상품 기획 데이터 정보 조회
     Product product = getProductOrElseThrow(request.getProductIndex());
     // 3. 유저 상품 정보 조회
-    UserProduct userProduct = getUserProduct(product.getProductIndex(), userInfo.getUserIndex(), product);
+    UserProduct userProduct = getUserProduct(product.getProductIndex(), userInfo.getUserIndex(),
+        product);
 
     return UserProductBuyDto.Dto.builder()
         .userInfo(userInfo)
@@ -235,5 +239,15 @@ public class ProductService extends ServiceBase {
     productRepository.save(dto.getProduct());
     userProductRepository.save(dto.getUserProduct());
     userProductLogRepository.save(dto.getUserProductLog());
+  }
+
+  public UserProductLogDto.Response getUserProductLog(UserProductLogDto.Dto dto) {
+    List<UserProductLog> userProductLogs = userProductLogRepositorySupport
+        .getUserProductLogs(getUserIndex(), dto.getProductIndex(),
+            dto.getStartTime(), dto.getEndTime());
+
+    return UserProductLogDto.Response.builder()
+        .userProductLogs(userProductLogs)
+        .build();
   }
 }

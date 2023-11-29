@@ -47,7 +47,7 @@ JAVA Spring기반 WAS 구현
 	- 유저 정보 조회 API : /users/info
 		
 ### 4. 출석 관련 API
-	- 출석 하기 API : /attend
+	- 유저 출석 하기 API : /attend
 	- 출석 정보 조회 API : /attend/info
 	
 ### 5. 상품 관련 API
@@ -55,6 +55,7 @@ JAVA Spring기반 WAS 구현
 	- 상품 정보 수정 API : /product/edit
 	- 유저 상품 정보 조회 API : /product/user-info
 	- 유저 상품 구매 API : /product/buy
+	- 유저 상품 관련 로그 조회 API : /product/log-info
 	
 ## 📌 인지 사항
 ### 1. Request header에 Authorization 추가해야 합니다.
