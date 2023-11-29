@@ -1,7 +1,7 @@
 package com.example.web;
 
 import com.example.web.jpa.entity.product.UserProductLog;
-import com.example.web.jpa.repository.item.UserProductLogRepositorySupport;
+import com.example.web.jpa.repository.product.UserProductLogRepositorySupport;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;

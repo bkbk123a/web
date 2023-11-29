@@ -1,4 +1,4 @@
-package com.example.web.jpa.repository.item;
+package com.example.web.jpa.repository.product;
 
 import com.example.web.jpa.entity.product.UserProduct;
 import com.example.web.jpa.entity.product.id.UserProductId;

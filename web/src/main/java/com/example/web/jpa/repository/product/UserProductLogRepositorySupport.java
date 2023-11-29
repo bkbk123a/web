@@ -1,4 +1,4 @@
-package com.example.web.jpa.repository.item;
+package com.example.web.jpa.repository.product;
 
 import static com.example.web.jpa.entity.product.QUserProductLog.userProductLog;
 
