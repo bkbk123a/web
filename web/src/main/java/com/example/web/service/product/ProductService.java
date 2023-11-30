@@ -15,6 +15,7 @@ import com.example.web.jpa.repository.product.ProductRepository;
 import com.example.web.jpa.repository.product.UserProductLogRepository;
 import com.example.web.jpa.repository.product.UserProductLogRepositorySupport;
 import com.example.web.jpa.repository.product.UserProductRepository;
+import com.example.web.model.enums.MoneyLogType;
 import com.example.web.model.enums.ProductType;
 import com.example.web.model.exception.CustomErrorException;
 import com.example.web.service.ServiceBase;
@@ -233,6 +234,7 @@ public class ProductService extends ServiceBase {
     long afterProductBuyMoney = userInfo.getMoney();
 
     UserMoneyLog userMoneyLog = UserMoneyLog.builder()
+        .logType(MoneyLogType.PRODUCT_BUY_MONEY_USE)
         .userIndex(userInfo.getUserIndex())
         .beforeMoney(afterProductBuyMoney + dto.getNeedBuyMoney())
         .afterMoney(afterProductBuyMoney)

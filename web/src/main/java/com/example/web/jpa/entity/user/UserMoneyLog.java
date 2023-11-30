@@ -1,6 +1,9 @@
 package com.example.web.jpa.entity.user;
 
+import com.example.web.model.enums.MoneyLogType;
+import com.example.web.model.enums.converter.MoneyLogTypeConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +32,10 @@ public class UserMoneyLog {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "LogIndex", nullable = false)
   private Long logIndex;
+
+  @Convert(converter = MoneyLogTypeConverter.class)
+  @Column(name = "LogType", nullable = false)
+  private MoneyLogType logType;
 
   @Column(name = "UserIndex", nullable = false)
   private Long userIndex;
