@@ -3,6 +3,8 @@ package com.example.web.service.user;
 import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.dto.user.UserInfoDto;
 import com.example.web.jpa.entity.user.UserInfo;
+import com.example.web.jpa.entity.user.UserMoneyLog;
+import com.example.web.jpa.repository.user.UserMoneyLogRepository;
 import com.example.web.jpa.repository.user.UserRepository;
 import com.example.web.model.exception.CustomErrorException;
 import com.example.web.model.oauth.JwtUser;
@@ -27,6 +29,7 @@ import static com.example.web.util.CommonUtil.getOffsetDateTimeFromLocalDateTime
 public class UserService extends ServiceBase {
 
   private final UserRepository userRepository;
+  private final UserMoneyLogRepository userMoneyLogRepository;
 
   public Optional<UserInfo> getUserInfo(String emailAddress) {
     return userRepository.findByEmailAddress(emailAddress);
@@ -79,5 +82,10 @@ public class UserService extends ServiceBase {
     if (userInfo.getMoney() < needMoney) {
       throw CustomErrorException.builder().resultValue(10001).build();
     }
+  }
+
+  public void saveUserMoney(UserInfo userInfo, UserMoneyLog userMoneyLog) {
+    userRepository.save(userInfo);
+    userMoneyLogRepository.save(userMoneyLog);
   }
 }

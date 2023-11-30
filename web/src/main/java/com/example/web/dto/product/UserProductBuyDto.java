@@ -4,10 +4,12 @@ import com.example.web.jpa.entity.product.Product;
 import com.example.web.jpa.entity.product.UserProduct;
 import com.example.web.jpa.entity.product.UserProductLog;
 import com.example.web.jpa.entity.user.UserInfo;
+import com.example.web.jpa.entity.user.UserMoneyLog;
 import com.example.web.model.response.CommonResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
+import java.time.OffsetDateTime;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -19,10 +21,13 @@ public class UserProductBuyDto {
   @SuperBuilder
   public static class Dto {
     private UserInfo userInfo;
+    private UserMoneyLog userMoneyLog;
     private Product product;
     private UserProduct userProduct;
-    private Request request;
     private UserProductLog userProductLog;
+    private Request request;
+    private OffsetDateTime now;
+    private long needBuyMoney;
   }
 
   @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -23,7 +23,7 @@ public class AttendController {
   private final AttendService attendService;
 
   @Operation(
-      summary = "유저 출석 정보",
+      summary = "출석 정보",
       description = "JWT 헤더에 추가 필요(로그인 하세요)",
       responses = @ApiResponse(
           description = "OK",
@@ -32,12 +32,20 @@ public class AttendController {
               mediaType = "application/json",
               examples = {
                   @ExampleObject(
-                      value = "{\"ResultVal\":0,\"ResultMsg\":\"Success\",\"UserAttends\":[]}")},
+                      value = "\n"
+                          + "String parseJS eval\n"
+                          + "{\"ResultVal\":0,\"ResultMsg\":\"Success\","
+                          + "\"ServerTime\":\"2023-11-30T10:54:55.8396075+09:00\","
+                          + "\"NowAttendTimes\":[{\"attendIndex\":1,\"attendType\":1,"
+                          + "\"description\":\"1일 출석\","
+                          + "\"startTime\":\"2023-11-20T10:53:54.438412+09:00\","
+                          + "\"endTime\":\"2023-12-10T10:53:54.438412+09:00\"}],"
+                          + "\"UserAttends\":[]}")},
               schema = @Schema(
                   implementation = AttendInfoDto.Response.class))))
   @GetMapping("/info")
-  public AttendInfoDto.Response getUserAttendInfo() {
-    return attendService.getUserAttendInfo();
+  public AttendInfoDto.Response getAttendInfo() {
+    return attendService.getAttendInfo();
   }
 
   @Operation(
@@ -50,7 +58,12 @@ public class AttendController {
               mediaType = "application/json",
               examples = {
                   @ExampleObject(
-                      value = "{\"ResultVal\":0,\"ResultMsg\":\"Success\",\"UserAttends\":[],\"Money\":10000}")},
+                      value = "\n"
+                          + "String parseJS eval\n"
+                          + "{\"ResultVal\":0,\"ResultMsg\":\"Success\","
+                          + "\"UserAttends\":[{\"userIndex\":1,\"attendType\":1,\"attendCount\":1,"
+                          + "\"lastAttendAt\":\"2023-11-30T11:10:40.9450682+09:00\"}],"
+                          + "\"Money\":12000}")},
               schema = @Schema(
                   implementation = AttendInfoDto.Response.class))))
   @PostMapping()

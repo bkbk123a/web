@@ -1,9 +1,9 @@
 package com.example.web.jpa.repository.attend;
 
 import com.example.web.jpa.entity.attend.AttendTime;
+import java.time.OffsetDateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AttendRepository extends JpaRepository<AttendTime, Integer> {
@@ -16,5 +16,5 @@ public interface AttendRepository extends JpaRepository<AttendTime, Integer> {
    * @param now2 현재 시간
    * @return 진행 중인 출석
    */
-  List<AttendTime> findByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(LocalDateTime now1, LocalDateTime now2);
+  List<AttendTime> findByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(OffsetDateTime now1, OffsetDateTime now2);
 }

@@ -10,6 +10,7 @@ import com.example.web.jpa.entity.product.UserProduct;
 import com.example.web.jpa.entity.product.UserProductLog;
 import com.example.web.jpa.entity.product.id.UserProductId;
 import com.example.web.jpa.entity.user.UserInfo;
+import com.example.web.jpa.entity.user.UserMoneyLog;
 import com.example.web.jpa.repository.product.ProductRepository;
 import com.example.web.jpa.repository.product.UserProductLogRepository;
 import com.example.web.jpa.repository.product.UserProductLogRepositorySupport;
@@ -134,8 +135,8 @@ public class ProductService extends ServiceBase {
     minusUserMoney(dto);
     // 6. 유저의 상품 개수 증가
     addUserProduct(dto);
-    // 7. 유저의 구매 이력 로그
-    setProductBuyLog(dto);
+    // 7. 로그 정보 생성
+    setLog(dto);
     // 8. DB 반영
     saveProductBuy(dto);
 
@@ -153,12 +154,16 @@ public class ProductService extends ServiceBase {
     // 3. 유저 상품 정보 조회
     UserProduct userProduct = getUserProduct(product.getProductIndex(), userInfo.getUserIndex(),
         product);
+    // 4. 구매하는데 필요한 돈 = 상품 가격 * 개수
+    long needBuyMoney = product.getPrice() * request.getProductCount();
 
     return UserProductBuyDto.Dto.builder()
         .userInfo(userInfo)
         .product(product)
         .userProduct(userProduct)
         .request(request)
+        .now(OffsetDateTime.now())
+        .needBuyMoney(needBuyMoney)
         .build();
   }
 
@@ -208,35 +213,50 @@ public class ProductService extends ServiceBase {
   }
 
   private void minusUserMoney(UserProductBuyDto.Dto dto) {
-    // 필요한 돈 = 상품 가격 * 구매 상품 개수
-    long needMoney = dto.getProduct().getPrice() * dto.getRequest().getProductCount();
-
     UserInfo userInfo = dto.getUserInfo();
-    userInfo.addMoney(-1 * needMoney);
+    userInfo.addMoney(-1 * dto.getNeedBuyMoney());
   }
 
   private void addUserProduct(UserProductBuyDto.Dto dto) {
+    int buyProductCount = dto.getRequest().getProductCount();
     UserProduct userProduct = dto.getUserProduct();
-    userProduct.addProductCount(dto.getRequest().getProductCount());
+    userProduct.addProductCount(buyProductCount);
   }
 
-  private void setProductBuyLog(UserProductBuyDto.Dto dto) {
-    UserProductBuyDto.Request request = dto.getRequest();
-    int afterProductQuantity = dto.getProduct().getQuantity();
-    int beforeProductQuantity = afterProductQuantity - request.getProductCount();
+  private void setLog(UserProductBuyDto.Dto dto) {
+    setUserMoneyLog(dto);
+    setUserProductLog(dto);
+  }
+
+  private void setUserMoneyLog(UserProductBuyDto.Dto dto) {
+    UserInfo userInfo = dto.getUserInfo();
+    long afterProductBuyMoney = userInfo.getMoney();
+
+    UserMoneyLog userMoneyLog = UserMoneyLog.builder()
+        .userIndex(userInfo.getUserIndex())
+        .beforeMoney(afterProductBuyMoney + dto.getNeedBuyMoney())
+        .afterMoney(afterProductBuyMoney)
+        .build();
+
+    dto.setUserMoneyLog(userMoneyLog);
+  }
+
+  private void setUserProductLog(UserProductBuyDto.Dto dto) {
+    int afterProductCount = dto.getUserProduct().getProductCount();
+    int beforeProductCount = afterProductCount - dto.getRequest().getProductCount();
+    long userIndex = dto.getUserInfo().getUserIndex();
 
     UserProductLog userProductLog = UserProductLog.builder()
-        .userIndex(dto.getUserInfo().getUserIndex())
-        .productIndex(request.getProductIndex())
-        .afterProductCount(afterProductQuantity)
-        .beforeProductCount(beforeProductQuantity)
+        .userIndex(userIndex)
+        .productIndex(dto.getRequest().getProductIndex())
+        .afterProductCount(afterProductCount)
+        .beforeProductCount(beforeProductCount)
         .build();
 
     dto.setUserProductLog(userProductLog);
   }
-
   private void saveProductBuy(UserProductBuyDto.Dto dto) {
-    userService.saveUserInfo(dto.getUserInfo());
+    userService.saveUserMoney(dto.getUserInfo(), dto.getUserMoneyLog());
     productRepository.save(dto.getProduct());
     userProductRepository.save(dto.getUserProduct());
     userProductLogRepository.save(dto.getUserProductLog());
@@ -261,7 +281,7 @@ public class ProductService extends ServiceBase {
         .build();
   }
 
-  private List<UserProductLog> getUserProductLogs(UserProductLogDto.Dto dto){
+  private List<UserProductLog> getUserProductLogs(UserProductLogDto.Dto dto) {
     return userProductLogRepositorySupport
         .getUserProductLogs(dto.getUserIndex(), dto.getProductIndex(),
             dto.getStartTime(), dto.getEndTime());

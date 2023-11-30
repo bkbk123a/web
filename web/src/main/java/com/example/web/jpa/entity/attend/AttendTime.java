@@ -3,13 +3,13 @@ package com.example.web.jpa.entity.attend;
 import com.example.web.model.enums.AttendType;
 import com.example.web.model.enums.converter.AttendTypeConverter;
 import jakarta.persistence.*;
+import java.time.OffsetDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Nationalized;
-
-import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
@@ -28,11 +28,12 @@ public class AttendTime {
 
   @Column(name = "Description", nullable = false)
   @Nationalized
-  private String description;
+  @Builder.Default
+  private String description = "";
 
   @Column(name = "StartTime", nullable = false)
-  private LocalDateTime startTime;
+  private OffsetDateTime startTime;
 
   @Column(name = "EndTime", nullable = false)
-  private LocalDateTime endTime;
+  private OffsetDateTime endTime;
 }

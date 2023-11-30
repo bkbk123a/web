@@ -4,10 +4,9 @@ import com.example.web.jpa.entity.attend.id.UserAttendId;
 import com.example.web.model.enums.AttendType;
 import com.example.web.model.enums.converter.AttendTypeConverter;
 import jakarta.persistence.*;
+import java.time.OffsetDateTime;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
@@ -32,8 +31,7 @@ public class UserAttend {
   private Integer attendCount = 0;
 
   @Column(name = "LastAttendAt", nullable = false)
-  @Builder.Default
-  private LocalDateTime lastAttendAt = LocalDateTime.now();
+  private OffsetDateTime lastAttendAt;
 
   public void increaseAttendCount() {
     this.attendCount += 1;

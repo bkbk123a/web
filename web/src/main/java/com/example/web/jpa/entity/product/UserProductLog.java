@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.OffsetDateTime;
+import org.hibernate.annotations.CreationTimestamp;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
@@ -12,8 +13,8 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @Table(name = "T_User_Product_Log",
-    indexes = @Index(name = "Index_UserIndexProductIndexUpdatedAt",
-        columnList = "UserIndex, ProductIndex, UpdatedAt"))
+    indexes = @Index(name = "Index_UserIndexProductIndexCreatedAt",
+        columnList = "UserIndex, ProductIndex, CreatedAt"))
 public class UserProductLog {
 
   @Id
@@ -33,7 +34,7 @@ public class UserProductLog {
   @Column(name = "AfterProductCount", nullable = false)
   private Integer afterProductCount;
 
-  @Column(name = "UpdatedAt", nullable = false)
-  @Builder.Default
-  private OffsetDateTime updatedAt = OffsetDateTime.now();
+  @Column(name = "CreatedAt", nullable = false)
+  @CreationTimestamp
+  private OffsetDateTime createdAt;
 }

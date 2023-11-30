@@ -63,7 +63,7 @@ public class UserProductLogRepositorySupport {
    */
   private BooleanExpression afterStartTime(LocalDateTime startTime) {
     return startTime != null
-        ? userProductLog.updatedAt.after(startTime.atOffset(ZoneOffset.UTC))
+        ? userProductLog.createdAt.after(startTime.atOffset(ZoneOffset.UTC))
         : null;
   }
 
@@ -75,7 +75,7 @@ public class UserProductLogRepositorySupport {
    */
   private BooleanExpression beforeEndTime(LocalDateTime endTime) {
     return endTime != null
-        ? userProductLog.updatedAt.before(endTime.atOffset(ZoneOffset.UTC))
+        ? userProductLog.createdAt.before(endTime.atOffset(ZoneOffset.UTC))
         : null;
   }
 }

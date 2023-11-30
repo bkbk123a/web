@@ -39,7 +39,7 @@ public class UserController {
               schema = @Schema(
                   implementation = UserInfoDto.Response.class))))
   @GetMapping("/info")
-  public UserInfoDto.Response getUserAttendInfo() {
+  public UserInfoDto.Response getUseInfo() {
     return userService.getUserInfo();
   }
 }
