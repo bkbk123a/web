@@ -5,3 +5,6 @@ db/h2/
 prometheus-grafana/prometheus/config/**.log
 prometheus-grafana/prometheus/volume/
 prometheus-grafana/grafana/
+monitoring/grafana/volume/
+
+monitoring/prometheus/config/query_log_file.log
