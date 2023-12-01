@@ -2,15 +2,18 @@ package com.example.web.service.user;
 
 import com.example.web.dto.oauth.OauthNaverLoginDto;
 import com.example.web.dto.user.UserInfoDto;
+import com.example.web.dto.user.UserMoneyLogInfoDto;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.entity.user.UserMoneyLog;
 import com.example.web.jpa.repository.user.UserMoneyLogRepository;
+import com.example.web.jpa.repository.user.UserMoneyLogRepositorySupport;
 import com.example.web.jpa.repository.user.UserRepository;
 import com.example.web.model.exception.CustomErrorException;
 import com.example.web.model.oauth.JwtUser;
 import com.example.web.model.oauth.info.OauthUserInfo;
 import com.example.web.service.ServiceBase;
 import com.example.web.util.container.SessionContainer;
+import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +33,7 @@ public class UserService extends ServiceBase {
 
   private final UserRepository userRepository;
   private final UserMoneyLogRepository userMoneyLogRepository;
+  private final UserMoneyLogRepositorySupport userMoneyLogRepositorySupport;
 
   public Optional<UserInfo> getUserInfo(String emailAddress) {
     return userRepository.findByEmailAddress(emailAddress);
@@ -87,5 +91,30 @@ public class UserService extends ServiceBase {
   public void saveUserMoney(UserInfo userInfo, UserMoneyLog userMoneyLog) {
     userRepository.save(userInfo);
     userMoneyLogRepository.save(userMoneyLog);
+  }
+
+  public UserMoneyLogInfoDto.Response getUserMoneyLogInfo(Integer logType,
+      LocalDateTime startTime, LocalDateTime endTime) {
+    UserMoneyLogInfoDto.Dto dto = getDto(logType, startTime, endTime);
+
+    return UserMoneyLogInfoDto.Response.builder()
+        .userMoneyLogs(getUserMoneyLogs(dto))
+        .build();
+  }
+
+  private UserMoneyLogInfoDto.Dto getDto(Integer logType,
+      LocalDateTime startTime, LocalDateTime endTime) {
+    return UserMoneyLogInfoDto.Dto.builder()
+        .userIndex(getUserIndex())
+        .logType(logType)
+        .startTime(startTime)
+        .endTime(endTime)
+        .build();
+  }
+
+  private List<UserMoneyLog> getUserMoneyLogs(UserMoneyLogInfoDto.Dto dto) {
+    return userMoneyLogRepositorySupport
+        .getUserMoneyLogs(dto.getUserIndex(), dto.getLogType(),
+            dto.getStartTime(), dto.getEndTime());
   }
 }

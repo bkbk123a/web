@@ -1,14 +1,16 @@
 package com.example.web.model.enums;
 
 import com.example.web.model.exception.CustomErrorException;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import lombok.Getter;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @Getter
 public enum MoneyLogType {
-  PRODUCT_BUY_MONEY_USE(1, "상품 구매로 돈 사용"),
-  ATTEND_MONEY_GET(100, "출석 돈 획득");
+  PRODUCT(1, "상품 관련(구매)"),
+  ATTEND(2, "출석 관련");
 
   @JsonValue
   private final int type;

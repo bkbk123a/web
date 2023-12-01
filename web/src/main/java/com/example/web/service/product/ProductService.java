@@ -234,7 +234,7 @@ public class ProductService extends ServiceBase {
     long afterProductBuyMoney = userInfo.getMoney();
 
     UserMoneyLog userMoneyLog = UserMoneyLog.builder()
-        .logType(MoneyLogType.PRODUCT_BUY_MONEY_USE)
+        .logType(MoneyLogType.PRODUCT)
         .userIndex(userInfo.getUserIndex())
         .beforeMoney(afterProductBuyMoney + dto.getNeedBuyMoney())
         .afterMoney(afterProductBuyMoney)

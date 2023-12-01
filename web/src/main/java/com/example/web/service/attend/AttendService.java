@@ -133,7 +133,7 @@ public class AttendService extends ServiceBase {
     long afterAttendMoney = userInfo.getMoney();
 
     UserMoneyLog userMoneyLog = UserMoneyLog.builder()
-        .logType(MoneyLogType.ATTEND_MONEY_GET)
+        .logType(MoneyLogType.ATTEND)
         .userIndex(userInfo.getUserIndex())
         .beforeMoney(afterAttendMoney - dailyAttendRewardMoney)
         .afterMoney(afterAttendMoney)
