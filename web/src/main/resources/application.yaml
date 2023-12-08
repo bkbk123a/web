@@ -13,6 +13,8 @@ spring:
   sql:
     init:
       platform: mssql
+  # html과 thymeleaf 로직 분리
+  thymeleaf3.decoupled-logic: true
 
 oauth:
   kakao:
