@@ -32,9 +32,7 @@ public class AttendController {
               mediaType = "application/json",
               examples = {
                   @ExampleObject(
-                      value = "\n"
-                          + "String parseJS eval\n"
-                          + "{\"ResultVal\":0,\"ResultMsg\":\"Success\","
+                      value = "{\"ResultVal\":0,\"ResultMsg\":\"Success\","
                           + "\"ServerTime\":\"2023-11-30T10:54:55.8396075+09:00\","
                           + "\"NowAttendTimes\":[{\"attendIndex\":1,\"attendType\":1,"
                           + "\"description\":\"1일 출석\","
@@ -58,9 +56,7 @@ public class AttendController {
               mediaType = "application/json",
               examples = {
                   @ExampleObject(
-                      value = "\n"
-                          + "String parseJS eval\n"
-                          + "{\"ResultVal\":0,\"ResultMsg\":\"Success\","
+                      value = "{\"ResultVal\":0,\"ResultMsg\":\"Success\","
                           + "\"UserAttends\":[{\"userIndex\":1,\"attendType\":1,\"attendCount\":1,"
                           + "\"lastAttendAt\":\"2023-11-30T11:10:40.9450682+09:00\"}],"
                           + "\"Money\":12000}")},
