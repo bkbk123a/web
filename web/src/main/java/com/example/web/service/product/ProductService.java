@@ -41,26 +41,6 @@ public class ProductService extends ServiceBase {
   private final UserProductLogRepositorySupport userProductLogRepositorySupport;
   private final UserService userService;
 
-  @PostConstruct
-  private void init() {
-    List<Product> staticProducts = new ArrayList<>();
-
-    staticProducts.add(getNewProduct(ProductType.PANTS, "청바지1", 100, 999));
-    staticProducts.add(getNewProduct(ProductType.PANTS, "청바지2", 200, 999));
-    staticProducts.add(getNewProduct(ProductType.PANTS, "청바지3", 300, 999));
-    staticProducts.add(getNewProduct(ProductType.PANTS, "청바지4", 400, 999));
-    staticProducts.add(getNewProduct(ProductType.TOP, "상의1", 100, 999));
-    staticProducts.add(getNewProduct(ProductType.TOP, "상의2", 200, 999));
-    staticProducts.add(getNewProduct(ProductType.TOP, "상의3", 300, 999));
-    staticProducts.add(getNewProduct(ProductType.TOP, "상의4", 400, 999));
-    staticProducts.add(getNewProduct(ProductType.TOP, "신발1", 100, 999));
-    staticProducts.add(getNewProduct(ProductType.TOP, "신발2", 200, 999));
-    staticProducts.add(getNewProduct(ProductType.TOP, "신발3", 300, 999));
-    staticProducts.add(getNewProduct(ProductType.TOP, "신발4", 400, 999));
-
-    productRepository.saveAll(staticProducts);
-  }
-
   public ProductInfoDto.Response getProductInfo() {
 
     return ProductInfoDto.Response.builder()

@@ -9,11 +9,14 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
-    open-in-view: false
+    open-in-view: false # OSIV 설정
+    defer-datasource-initialization: true # script 파일이 hibernate 초기화 이후 동작하게 하기 위한 옵션
 
   sql:
     init:
       platform: mssql
+      mode: always # 스크립트 동작 설정, always : 모든 데이터베이스에 sql스크립트 동작시킨다
+
   # html과 thymeleaf 로직 분리
   thymeleaf3.decoupled-logic: true
 
