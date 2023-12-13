@@ -170,7 +170,7 @@ public class AttendService extends ServiceBase {
     // 현재는 출석이 1일 1회 뿐이여서 throw 로 처리.
     // 추후 다른 종류의 출석이 생기면 return false 로 처리
     if (!isTodayFirstAttend) {
-      throw CustomErrorException.builder().resultValue(10200).build();
+      throw CustomErrorException.builder().resultValue(1020).build();
     }
   }
 

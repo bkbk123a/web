@@ -150,7 +150,7 @@ public class ProductService extends ServiceBase {
 
   private Product getProductOrElseThrow(int productIndex) {
     return productRepository.findById(productIndex)
-        .orElseThrow(() -> CustomErrorException.builder().resultValue(10100).build());
+        .orElseThrow(() -> CustomErrorException.builder().resultValue(1010).build());
   }
 
   private UserProduct getUserProduct(int productIndex, long userIndex, Product product) {
@@ -172,7 +172,7 @@ public class ProductService extends ServiceBase {
     int remainProductCount = dto.getProduct().getQuantity();
 
     if (remainProductCount < needProductCount) {
-      throw CustomErrorException.builder().resultValue(10101).build();
+      throw CustomErrorException.builder().resultValue(1011).build();
     }
   }
 

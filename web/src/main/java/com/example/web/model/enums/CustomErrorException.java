@@ -12,14 +12,16 @@ public enum CustomErrorException {
   ENUM_CONVERT_FAILED(2, "Enum 변환 실패입니다."),
   EXTERNAL_API_RESPONSE_FAILED(3, "외부 API 호출에 대한 응답 실패입니다."),
   NONE_SESSION_INFO(4, "세션 정보가 없습니다."),
-  // 10000 : 유저 정보 관련
-  NOT_EXIST_USER_INFO(10000, "유저 정보가 없습니다."),
-  NOT_ENOUGH_MONEY(10001, "돈이 부족합니다."),
-  // 10100 : 상품 관련
-  NOT_EXIST_PRODUCT_INFO(10100, "상품 정보가 없습니다"),
-  NOT_ENOUGH_PRODUCT_QUANTITY(10101, "남아있는 상품 수량이 부족합니다."),
-  // 10200 : 출석 관련
-  ALREADY_DAILY_ATTEND(10200, "이미 1일 1회 출석을 하였습니다.");
+  // 1000 : 유저 정보 관련
+  NOT_EXIST_USER_INFO(1000, "유저 정보가 없습니다."),
+  NOT_ENOUGH_MONEY(1001, "돈이 부족합니다."),
+  // 1010 : 상품 관련
+  NOT_EXIST_PRODUCT_INFO(1010, "상품 정보가 없습니다"),
+  NOT_ENOUGH_PRODUCT_QUANTITY(1011, "남아있는 상품 수량이 부족합니다."),
+  // 1020 : 출석 관련
+  ALREADY_DAILY_ATTEND(1020, "이미 1일 1회 출석을 하였습니다."),
+  // 1030 : 게시글 관련
+  NOT_EXIST_ARTICLE(1030, "존재하지 않는 게시글입니다.");
 
   private final int resultValue;
   private final String resultMsg;

@@ -79,12 +79,12 @@ public class UserService extends ServiceBase {
 
   public UserInfo getUserInfoOrElseThrow(long userIndex) {
     return userRepository.findById(userIndex)
-        .orElseThrow(() -> CustomErrorException.builder().resultValue(10000).build());
+        .orElseThrow(() -> CustomErrorException.builder().resultValue(1000).build());
   }
 
   public void checkEnoughMoney(long needMoney, UserInfo userInfo) {
     if (userInfo.getMoney() < needMoney) {
-      throw CustomErrorException.builder().resultValue(10001).build();
+      throw CustomErrorException.builder().resultValue(1001).build();
     }
   }
 
