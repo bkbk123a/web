@@ -1,8 +1,12 @@
 package com.example.web.service.article;
 
+import com.example.web.dto.article.UserArticleDetatilDto;
 import com.example.web.jpa.entity.article.UserArticle;
+import com.example.web.jpa.entity.article.UserArticleComment;
 import com.example.web.jpa.repository.article.UserArticleRepository;
 import com.example.web.model.enums.SearchType;
+import com.example.web.model.exception.CustomErrorException;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +20,8 @@ public class ArticleService {
 
   private final UserArticleRepository userArticleRepository;
 
-  public Page<UserArticle> getUserArticles(SearchType searchType, String searchKeyWord, Pageable pageable) {
+  public Page<UserArticle> getUserArticles(SearchType searchType, String searchKeyWord,
+      Pageable pageable) {
     if (searchKeyWord == null || searchKeyWord.isBlank()) {
       return userArticleRepository.findAll(pageable);
     }
@@ -28,5 +33,22 @@ public class ArticleService {
       case NICKNAME -> userArticleRepository.findByUserInfo_NickNameContaining(searchKeyWord, pageable);
       case HASHTAG -> userArticleRepository.findByHashtag("#" + searchKeyWord, pageable);
     };
+  }
+
+  public UserArticleDetatilDto getUserArticleDetail(long articleId) {
+    UserArticle userArticle = getUserArticleOrElseThrow(articleId);
+
+    Set<UserArticleComment> userArticleComments = userArticle
+        .getUserArticleComments();
+
+    return UserArticleDetatilDto.builder()
+        .userArticle(userArticle)
+        .userArticleComments(userArticleComments)
+        .build();
+  }
+
+  private UserArticle getUserArticleOrElseThrow(long articleId) {
+    return userArticleRepository.findById(articleId)
+        .orElseThrow(() -> CustomErrorException.builder().resultValue(1030).build());
   }
 }

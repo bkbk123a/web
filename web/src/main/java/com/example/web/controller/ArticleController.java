@@ -1,10 +1,10 @@
 package com.example.web.controller;
 
+import com.example.web.dto.article.UserArticleDetatilDto;
 import com.example.web.jpa.entity.article.UserArticle;
 import com.example.web.model.enums.SearchType;
 import com.example.web.service.article.ArticleService;
 import io.swagger.v3.oas.annotations.Operation;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,9 +42,13 @@ public class ArticleController {
 
   @Operation(summary = "게시글 상세 조회")
   @GetMapping("/{articleId}")
-  public String getArticle(@PathVariable Long articleId, ModelMap map) {
-    map.addAttribute("article", "article"); // TODO: 실제 데이터
-    map.addAttribute("articleComments", List.of());
+  public String getArticle(@PathVariable long articleId, ModelMap map) {
+
+    UserArticleDetatilDto userArticleDetatilDto = articleService
+        .getUserArticleDetail(articleId);
+
+    map.addAttribute("article", userArticleDetatilDto.getUserArticle());
+    map.addAttribute("articleComments", userArticleDetatilDto.getUserArticleComments());
 
     return "articles/detail";
   }
