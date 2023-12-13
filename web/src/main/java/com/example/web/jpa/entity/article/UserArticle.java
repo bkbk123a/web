@@ -27,10 +27,10 @@ public class UserArticle extends ArticleBase {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long ArticleIndex;
+  private Long articleIndex;
 
   @JoinColumn(name = "UserIndex")
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)  // FK : not null
+  @ManyToOne(optional = false)  // FK : not null
   private UserInfo userInfo;
 
   @Column(name = "Title", nullable = false)

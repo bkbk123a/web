@@ -58,7 +58,8 @@ JAVA Spring기반 WAS 구현
 	- 유저 상품 관련 로그 조회 API : /product/log-info
 	
 ### 6. 게시판 관련 API
-	- 진행 예정
+**`Front Web Page가 구성되어 있습니다.` <br>**
+	- 게시글 정보 조회 API(main 화면) : localhost:8080/articles 
 	
 ## 📜 API 명세서 (Swagger로 작성)
 **`WAS를 실행시키고 주소창에 밑의 내용을 치면, Swagger UI를 확인할 수 있습니다.` <br>**
