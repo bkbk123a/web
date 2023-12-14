@@ -6,6 +6,7 @@ import com.example.web.jpa.entity.attend.AttendTime;
 import com.example.web.jpa.entity.attend.UserAttend;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.entity.user.UserMoneyLog;
+import com.example.web.jpa.repository.attend.AttendRepository;
 import com.example.web.jpa.repository.attend.UserAttendRepository;
 import com.example.web.model.enums.AttendType;
 import com.example.web.model.enums.MoneyLogType;
@@ -24,14 +25,14 @@ import java.util.List;
 public class AttendService extends ServiceBase {
 
   private final UserService userService;
-  private final AttendTimeService attendTimeService;
+  private final AttendRepository attendRepository;
   private final UserAttendRepository userAttendRepository;
 
   public AttendInfoDto.Response getAttendInfo() {
 
     OffsetDateTime now = OffsetDateTime.now();
 
-    List<AttendTime> nowAttendTimes = attendTimeService.getNowAttendTimes(now);
+    List<AttendTime> nowAttendTimes = getNowAttendTimes(now);
 
     List<UserAttend> userAttends = getUserAttends(getUserIndex());
 
@@ -41,6 +42,15 @@ public class AttendService extends ServiceBase {
         .nowAttendTimes(nowAttendTimes)
         .userAttends(userAttends)
         .build();
+  }
+
+  /** 진행 중인 출석부 시간 조회
+   *
+   * @param now 현재 시간
+   * @return 진행 중인 출석부 시간
+   */
+  public List<AttendTime> getNowAttendTimes(OffsetDateTime now) {
+    return attendRepository.findByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(now, now);
   }
 
   private List<UserAttend> getUserAttends(Long userIndex) {
@@ -75,7 +85,7 @@ public class AttendService extends ServiceBase {
         .now(now)
         .userInfo(userInfo)
         .userAttends(getUserAttends(userIndex))
-        .nowAttendTimes(attendTimeService.getNowAttendTimes(now))
+        .nowAttendTimes(getNowAttendTimes(now))
         .build();
   }
 
