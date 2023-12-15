@@ -3,10 +3,13 @@ package com.example.web.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.web.jpa.entity.article.UserArticle;
+import com.example.web.jpa.entity.article.UserArticleComment;
 import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.article.UserArticleCommentRepository;
 import com.example.web.jpa.repository.article.UserArticleRepository;
 import com.example.web.jpa.repository.user.UserRepository;
+import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,13 +36,7 @@ public class ArticleRepositoryTest {
   }
 
   @BeforeEach
-  void createUserInfo () {
-    UserInfo userInfo = UserInfo.builder()
-        .emailAddress("beomkyung@naver.com")
-        .nickName("beomkyung")
-        .build();
-
-    userRepository.save(userInfo);
+  void createUserInfo() {
   }
 
   UserArticle createUserArticle(UserInfo userInfo) {
@@ -47,7 +44,7 @@ public class ArticleRepositoryTest {
         .of(userInfo, "Title", "Content", "#Spring", userInfo.getNickName());
   }
 
-  @DisplayName("insert 테스트")
+  @DisplayName("UserArticleRepository insert 테스트")
   @Test
   void givenUserArticle_whenInserting_thenCountIncrease() {
     // Given
@@ -63,9 +60,9 @@ public class ArticleRepositoryTest {
     assertThat(userArticleRepository.count()).isEqualTo(previousCount + 1);
   }
 
-  @DisplayName("update 테스트")
+  @DisplayName("UserArticleRepository update 테스트")
   @Test
-  void giveUserArticle_whenUpdating_thenWorksFine() throws InterruptedException {
+  void giveUserArticle_whenUpdating_thenWorksFine() {
     // Given
     UserInfo userInfo = userRepository.getById(1L);
     UserArticle userArticle = createUserArticle(userInfo);
@@ -78,5 +75,19 @@ public class ArticleRepositoryTest {
 
     // Then
     assertThat(savedArticle).hasFieldOrPropertyWithValue("content", content);
+  }
+
+  @DisplayName("UserArticleCommentRepository select 테스트1")
+  @Test
+  void giveUserArticleComment_whenSelect_thenWorksFine_test1() {
+    // Given
+
+    // When
+    List<UserArticleComment> userArticleComment = userArticleCommentRepository.findAll();
+
+    // Then
+    // data.sql에서 insert 되어있는 상태
+    // 에러가 나면 data.sql의 내용을 insert 해주세요.
+    assertThat(userArticleComment).isNotEmpty();
   }
 }

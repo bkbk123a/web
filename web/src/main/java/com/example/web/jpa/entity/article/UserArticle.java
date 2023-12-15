@@ -4,6 +4,7 @@ import com.example.web.jpa.entity.user.UserInfo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,7 +29,7 @@ import lombok.Setter;
 @Table(name = "T_User_Article", indexes = @Index(
     name = "Index_TitleHashTagCreatedAtCreatedBy",
     columnList = "Title, HashTag, CreatedAt, CreatedBy"))
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(of = "articleIndex") // articleIndex로 동등성 비교한다.
 public class UserArticle extends ArticleBase {
 
   @Id
@@ -37,7 +38,7 @@ public class UserArticle extends ArticleBase {
   private Long articleIndex;
 
   @JoinColumn(name = "UserIndex")
-  @ManyToOne(optional = false)  // FK : not null
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)  // FK : not null
   private UserInfo userInfo;
 
   @Column(name = "Title", nullable = false)

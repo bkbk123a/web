@@ -51,4 +51,8 @@ public class ArticleService {
     return userArticleRepository.findById(articleId)
         .orElseThrow(() -> CustomErrorException.builder().resultValue(1030).build());
   }
+
+  public long getUserArticleCount() {
+    return userArticleRepository.count();
+  }
 }
