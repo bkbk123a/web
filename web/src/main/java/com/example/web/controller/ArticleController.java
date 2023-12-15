@@ -56,6 +56,7 @@ public class ArticleController {
 
     map.addAttribute("article", userArticleDetatilDto.getUserArticle());
     map.addAttribute("articleComments", userArticleDetatilDto.getUserArticleComments());
+    map.addAttribute("totalCount", articleService.getUserArticleCount());
 
     return "articles/detail";
   }

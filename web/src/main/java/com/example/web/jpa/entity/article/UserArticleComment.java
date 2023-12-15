@@ -16,20 +16,23 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @Entity
+@SuperBuilder
 @Table(name = "T_User_ArticleComment", indexes = @Index(
     name = "Index_ContentCreatedAtCreatedBy",
     columnList = "Content, CreatedAt, CreatedBy"))
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(of = "commentIndex") // commentIndex로 동등성 비교한다.
 public class UserArticleComment extends ArticleBase {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long CommentIndex;
+  @Column(name = "CommentIndex")
+  private Long commentIndex;
 
   @JoinColumn(name = "UserIndex")
   @ManyToOne(optional = false, fetch = FetchType.LAZY)  // FK : not null
