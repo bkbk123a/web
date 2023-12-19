@@ -31,18 +31,20 @@ public class ArticleController {
   @GetMapping
   public String getArticles(
       @RequestParam(required = false) SearchType searchType,
-      @RequestParam(required = false) String searchKeyWord,
+      @RequestParam(required = false) String searchValue,
       @PageableDefault(size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
       ModelMap map) {
 
+
     Page<UserArticle> userArticles = articleService.getUserArticles(
-        searchType, searchKeyWord, pageable);
+        searchType, searchValue, pageable);
 
     List<Integer> barNumbers = pageService.getPageBarNumbers(
         pageable.getPageNumber(), userArticles.getTotalPages());
 
     map.addAttribute("articles", userArticles);
     map.addAttribute("pageBarNumbers", barNumbers);
+    map.addAttribute("searchTypes", SearchType.values());
 
     return "articles/index";
   }
