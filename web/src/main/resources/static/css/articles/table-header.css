@@ -1,0 +1,5 @@
+/* 메인화면에서 제목, 해시태그, 작성자, 작성일쪽 디자인 없앤다. */
+#article-table > thead a {
+  text-decoration: none;
+  color: black;
+}
