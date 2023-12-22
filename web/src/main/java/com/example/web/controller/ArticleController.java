@@ -2,7 +2,10 @@ package com.example.web.controller;
 
 import com.example.web.dto.article.UserArticleDetatilDto;
 import com.example.web.jpa.entity.article.UserArticle;
+import com.example.web.model.enums.ArticleFormStatusType;
 import com.example.web.model.enums.SearchType;
+import com.example.web.model.request.SaveArticleRequest;
+import com.example.web.model.request.UpdateArticleRequest;
 import com.example.web.service.PageService;
 import com.example.web.service.article.ArticleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,12 +14,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -65,7 +68,7 @@ public class ArticleController {
 
   @Operation(summary = "해시태그 항목 조회")
   @GetMapping("/search-hashtag")
-  public String getHashtags(
+  public String getArticlesByHashtag(
       @RequestParam(required = false) String searchValue,
       @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
       ModelMap map) {
@@ -83,5 +86,52 @@ public class ArticleController {
     map.addAttribute("searchType", SearchType.HASHTAG);
 
     return "articles/search-hashtag";
+  }
+
+  @Operation(summary = "새 게시글 기본 폼(View) 응답(글쓰기 버튼)")
+  @GetMapping("/form")
+  public String articleForm(ModelMap map) {
+    map.addAttribute("formStatus", ArticleFormStatusType.CREATE);
+
+    return "articles/form";
+  }
+
+  @Operation(summary = "새 게시글 저장(저장 버튼)")
+  @PostMapping("/form")
+  public String postNewArticle(SaveArticleRequest saveArticleRequest) {
+    // TODO: 인증 정보를 넣어줘야 한다.
+    articleService.saveArticle(saveArticleRequest);
+
+    return "redirect:/articles";
+  }
+
+  @Operation(summary = "특정 게시글 수정 기본 폼(View) 응답(수정 버튼)")
+  @GetMapping("/{articleId}/form")
+  public String updateArticleForm(@PathVariable Long articleId, ModelMap map) {
+    UserArticle userArticle = articleService.getUserArticleOrElseThrow(articleId);
+
+    map.addAttribute("article", userArticle);
+    map.addAttribute("formStatus", ArticleFormStatusType.UPDATE);
+
+    return "articles/form";
+  }
+
+  @Operation(summary = "특정 게시글 수정 기본 폼(View) 응답(수정 버튼)")
+  @PostMapping("/{articleId}/form")
+  public String updateArticle(@PathVariable Long articleId,
+      UpdateArticleRequest updateArticleRequest) {
+    // TODO: 인증 정보를 넣어줘야 한다.
+    articleService.updateArticle(articleId, updateArticleRequest);
+
+    return "redirect:/articles/" + articleId;
+  }
+
+  @Operation(summary = "특정 게시글 삭제(삭제 버튼)")
+  @PostMapping("/{articleId}/delete")
+  public String deleteArticle(@PathVariable Long articleId) {
+    // TODO: 인증 정보를 넣어줘야 한다.
+    articleService.deleteArticle(articleId);
+
+    return "redirect:/articles";
   }
 }

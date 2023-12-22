@@ -3,14 +3,16 @@ package com.example.web.service.article;
 import com.example.web.dto.article.UserArticleDetatilDto;
 import com.example.web.jpa.entity.article.UserArticle;
 import com.example.web.jpa.entity.article.UserArticleComment;
+import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.article.UserArticleRepository;
 import com.example.web.jpa.repository.article.UserArticleRepositorySupport;
 import com.example.web.model.enums.SearchType;
 import com.example.web.model.exception.CustomErrorException;
+import com.example.web.model.request.SaveArticleRequest;
+import com.example.web.model.request.UpdateArticleRequest;
 import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -51,7 +53,7 @@ public class ArticleService {
         .build();
   }
 
-  private UserArticle getUserArticleOrElseThrow(long articleId) {
+  public UserArticle getUserArticleOrElseThrow(long articleId) {
     return userArticleRepository.findById(articleId)
         .orElseThrow(() -> CustomErrorException.builder().resultValue(1030).build());
   }
@@ -61,7 +63,7 @@ public class ArticleService {
   }
 
   public Page<UserArticle> getUserArticlesByHashtag(String hashtag, Pageable pageable) {
-    if(hashtag == null || hashtag.isBlank()) {
+    if (hashtag == null || hashtag.isBlank()) {
       return Page.empty(pageable);
     }
 
@@ -70,5 +72,39 @@ public class ArticleService {
 
   public List<String> getDistinctHashtags() {
     return userArticleRepositorySupport.getAllDistinctHashtags();
+  }
+
+  @Transactional
+  public void saveArticle(SaveArticleRequest saveArticleRequest) {
+    // 해당 부분 수정 예정
+    UserInfo userInfo = UserInfo.builder()
+        .userIndex(999L)
+        .nickName("test")
+        .emailAddress("test@naver.com")
+        .money(10000L)
+        .build();
+
+    UserArticle userArticle = UserArticle.of(userInfo,
+        saveArticleRequest.title(),
+        saveArticleRequest.content(),
+        saveArticleRequest.hashtag(),
+        userInfo.getNickName()
+    );
+
+    userArticleRepository.save(userArticle);
+  }
+
+  @Transactional
+  public void updateArticle(Long articleIndex, UpdateArticleRequest saveArticleRequest) {
+    UserArticle userArticle = getUserArticleOrElseThrow(articleIndex);
+
+    userArticle.setTitle(saveArticleRequest.title());
+    userArticle.setContent(saveArticleRequest.content());
+    userArticle.setHashtag(saveArticleRequest.hashtag());
+  }
+
+  @Transactional
+  public void deleteArticle(long articleId) {
+    userArticleRepository.deleteById(articleId);
   }
 }
