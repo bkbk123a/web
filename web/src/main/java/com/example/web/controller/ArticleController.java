@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -32,9 +33,8 @@ public class ArticleController {
   public String getArticles(
       @RequestParam(required = false) SearchType searchType,
       @RequestParam(required = false) String searchValue,
-      @PageableDefault(size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
+      @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
       ModelMap map) {
-
 
     Page<UserArticle> userArticles = articleService.getUserArticles(
         searchType, searchValue, pageable);
@@ -61,5 +61,27 @@ public class ArticleController {
     map.addAttribute("totalCount", articleService.getUserArticleCount());
 
     return "articles/detail";
+  }
+
+  @Operation(summary = "해시태그 항목 조회")
+  @GetMapping("/search-hashtag")
+  public String getHashtags(
+      @RequestParam(required = false) String searchValue,
+      @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+      ModelMap map) {
+
+    Page<UserArticle> userArticles = articleService.getUserArticlesByHashtag(searchValue, pageable);
+
+    List<Integer> barNumbers = pageService.getPageBarNumbers(
+        pageable.getPageNumber(), userArticles.getTotalPages());
+
+    List<String> hashtags = articleService.getDistinctHashtags();
+
+    map.addAttribute("articles", userArticles);
+    map.addAttribute("pageBarNumbers", barNumbers);
+    map.addAttribute("hashtags", hashtags);
+    map.addAttribute("searchType", SearchType.HASHTAG);
+
+    return "articles/search-hashtag";
   }
 }

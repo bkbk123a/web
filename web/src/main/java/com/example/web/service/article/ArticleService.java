@@ -4,10 +4,13 @@ import com.example.web.dto.article.UserArticleDetatilDto;
 import com.example.web.jpa.entity.article.UserArticle;
 import com.example.web.jpa.entity.article.UserArticleComment;
 import com.example.web.jpa.repository.article.UserArticleRepository;
+import com.example.web.jpa.repository.article.UserArticleRepositorySupport;
 import com.example.web.model.enums.SearchType;
 import com.example.web.model.exception.CustomErrorException;
+import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ArticleService {
 
   private final UserArticleRepository userArticleRepository;
+  private final UserArticleRepositorySupport userArticleRepositorySupport;
 
   public Page<UserArticle> getUserArticles(SearchType searchType, String searchKeyWord,
       Pageable pageable) {
@@ -54,5 +58,17 @@ public class ArticleService {
 
   public long getUserArticleCount() {
     return userArticleRepository.count();
+  }
+
+  public Page<UserArticle> getUserArticlesByHashtag(String hashtag, Pageable pageable) {
+    if(hashtag == null || hashtag.isBlank()) {
+      return Page.empty(pageable);
+    }
+
+    return userArticleRepository.findByHashtag(hashtag, pageable);
+  }
+
+  public List<String> getDistinctHashtags() {
+    return userArticleRepositorySupport.getAllDistinctHashtags();
   }
 }
