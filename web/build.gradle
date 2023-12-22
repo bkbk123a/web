@@ -61,6 +61,10 @@ dependencies {
     // thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'  // thylemeaf 와 security 동시에 spring.io에 들어가야 생김
+
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // prometheus
     implementation 'io.micrometer:micrometer-registry-prometheus'
