@@ -5,6 +5,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import java.time.OffsetDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,10 +32,12 @@ public abstract class ArticleBase {
   @Column(name = "CreatedBy", nullable = false, updatable = false, length = 100)
   private String createdBy;           // 생성한 사람
 
+  @Builder.Default
   @UpdateTimestamp
   @Column(name = "ModifiedAt", nullable = false)
-  private OffsetDateTime modifiedAt;  // 수정일시
+  private OffsetDateTime modifiedAt = OffsetDateTime.now();  // 수정일시
 
+  @Builder.Default
   @Column(name = "ModifiedBy", nullable = false, length = 100)
-  private String modifiedBy;          // 수정한 사람
+  private String modifiedBy = "";          // 수정한 사람
 }

@@ -1,4 +1,4 @@
-package com.example.web.model.request;
+package com.example.web.model.request.article;
 
 public record UpdateArticleRequest(
     String title,
