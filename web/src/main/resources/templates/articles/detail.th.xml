@@ -13,18 +13,27 @@
     <attr sel="#hashtag" th:text="*{hashtag}" />
     <attr sel="#article-content/pre" th:text="*{content}" />
 
-    <!--삭제, 수정 버튼-->
+    <!--게시글 삭제, 수정 버튼-->
     <attr sel="#article-buttons">
       <attr sel="#delete-article-form" th:action="'/articles/' + *{articleIndex} + '/delete'" th:method="post">
         <attr sel="#update-article" th:href="'/articles/' + *{articleIndex} + '/form'" />
       </attr>
     </attr>
 
+    <!--댓글 쓰기 버튼-->
+    <attr sel=".article-id" th:name="articleId" th:value="*{articleIndex}" />
+    <attr sel="#comment-form" th:action="@{/article-comments/new}" th:method="post">
+      <attr sel="#comment-textbox" th:name="content" />
+    </attr>
+
+    <!--댓글 삭제 버튼-->
     <attr sel="#article-comments" th:remove="all-but-first">
       <attr sel="li[0]" th:each="articleComment : ${articleComments}">
-        <attr sel="div/strong" th:text="${articleComment.userInfo.nickName}" />
-        <attr sel="div/small/time" th:datetime="${articleComment.createdAt}" th:text="${#temporals.format(articleComment.createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
-        <attr sel="div/p" th:text="${articleComment.content}" />
+        <attr sel="form" th:action="'/article-comments/' + ${articleComment.commentIndex} + '/delete'" th:method="post">
+          <attr sel="div/strong" th:text="${articleComment.userInfo.nickName}" />
+          <attr sel="div/small/time" th:datetime="${articleComment.createdAt}" th:text="${#temporals.format(articleComment.createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
+          <attr sel="div/p" th:text="${articleComment.content}" />
+        </attr>
       </attr>
     </attr>
 
