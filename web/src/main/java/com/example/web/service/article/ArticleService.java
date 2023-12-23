@@ -87,9 +87,7 @@ public class ArticleService {
     UserArticle userArticle = UserArticle.of(userInfo,
         saveArticleRequest.title(),
         saveArticleRequest.content(),
-        saveArticleRequest.hashtag(),
-        userInfo.getNickName()
-    );
+        saveArticleRequest.hashtag());
 
     userArticleRepository.save(userArticle);
   }

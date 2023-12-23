@@ -41,7 +41,7 @@ public class ArticleRepositoryTest {
 
   UserArticle createUserArticle(UserInfo userInfo) {
     return UserArticle
-        .of(userInfo, "Title", "Content", "#Spring", userInfo.getNickName());
+        .of(userInfo, "Title", "Content", "#Spring");
   }
 
   @DisplayName("UserArticleRepository insert 테스트")
@@ -70,7 +70,7 @@ public class ArticleRepositoryTest {
 
     // When
     final String content = "new content";
-    userArticle.modifyContent(userInfo.getNickName(), content);
+    userArticle.modifyContent(userInfo.getUserIndex(), content);
     UserArticle savedArticle = userArticleRepository.save(userArticle);
 
     // Then

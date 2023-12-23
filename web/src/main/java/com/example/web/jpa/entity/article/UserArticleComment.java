@@ -24,8 +24,8 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @SuperBuilder
 @Table(name = "T_User_ArticleComment", indexes = @Index(
-    name = "Index_ContentCreatedAtCreatedBy",
-    columnList = "Content, CreatedAt, CreatedBy"))
+    name = "Index_ContentCreatedAtCreateUserIndex",
+    columnList = "Content, CreatedAt, CreateUserIndex"))
 @EqualsAndHashCode(of = "commentIndex") // commentIndex로 동등성 비교한다.
 public class UserArticleComment extends ArticleBase {
 

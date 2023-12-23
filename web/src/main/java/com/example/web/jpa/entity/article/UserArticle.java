@@ -27,8 +27,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "T_User_Article", indexes = @Index(
-    name = "Index_TitleHashTagCreatedAtCreatedBy",
-    columnList = "Title, HashTag, CreatedAt, CreatedBy"))
+    name = "Index_TitleHashTagCreatedAtCreateUserIndex",
+    columnList = "Title, HashTag, CreatedAt, CreateUserIndex"))
 @EqualsAndHashCode(of = "articleIndex") // articleIndex로 동등성 비교한다.
 public class UserArticle extends ArticleBase {
 
@@ -54,23 +54,21 @@ public class UserArticle extends ArticleBase {
   @OneToMany(mappedBy = "userArticle", cascade = CascadeType.ALL)
   private final Set<UserArticleComment> userArticleComments = new LinkedHashSet<>();
 
-  private UserArticle(UserInfo userInfo, String title, String content, String hashtag,
-      String createdBy) {
+  private UserArticle(UserInfo userInfo, String title, String content, String hashtag) {
     this.userInfo = userInfo;
     this.title = title;
     this.content = content;
     this.hashtag = hashtag;
-    this.setCreatedBy(createdBy);
-    this.setModifiedBy(createdBy);
+    this.setCreateUserIndex(userInfo.getUserIndex());
+    this.setModiftUserIndex(userInfo.getUserIndex());
   }
 
-  public static UserArticle of(UserInfo userInfo, String title, String content, String hashtag,
-      String createdBy) {
-    return new UserArticle(userInfo, title, content, hashtag, createdBy);
+  public static UserArticle of(UserInfo userInfo, String title, String content, String hashtag) {
+    return new UserArticle(userInfo, title, content, hashtag);
   }
 
-  public void modifyContent(String modifyBy, String content) {
-    this.setModifiedBy(modifyBy);
+  public void modifyContent(long modifyUserIndex, String content) {
+    this.setModiftUserIndex(modifyUserIndex);
     this.content = content;
   }
 }

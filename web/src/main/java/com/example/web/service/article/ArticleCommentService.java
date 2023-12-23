@@ -20,7 +20,7 @@ public class ArticleCommentService {
     UserArticle userArticle = articleService.getUserArticleOrElseThrow(request.articleId());
 
     UserArticleComment userArticleComment = UserArticleComment.builder()
-        .createdBy(userArticle.getUserInfo().getUserIndex().toString())
+        .createUserIndex(userArticle.getUserInfo().getUserIndex())
         .userArticle(userArticle)
         .userInfo(userArticle.getUserInfo())
         .content(request.content())

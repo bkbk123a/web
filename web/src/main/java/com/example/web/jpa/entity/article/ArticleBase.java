@@ -29,8 +29,8 @@ public abstract class ArticleBase {
   @CreationTimestamp
   private OffsetDateTime createdAt;   // 생성일시
 
-  @Column(name = "CreatedBy", nullable = false, updatable = false, length = 100)
-  private String createdBy;           // 생성한 사람
+  @Column(name = "CreateUserIndex", nullable = false, updatable = false, length = 100)
+  private Long createUserIndex;           // 생성한 사람
 
   @Builder.Default
   @UpdateTimestamp
@@ -38,6 +38,6 @@ public abstract class ArticleBase {
   private OffsetDateTime modifiedAt = OffsetDateTime.now();  // 수정일시
 
   @Builder.Default
-  @Column(name = "ModifiedBy", nullable = false, length = 100)
-  private String modifiedBy = "";          // 수정한 사람
+  @Column(name = "ModifyUserIndex", nullable = false, length = 100)
+  private Long modiftUserIndex = 0L;       // 수정한 사람
 }
