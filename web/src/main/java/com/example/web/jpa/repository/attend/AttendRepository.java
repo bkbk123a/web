@@ -3,9 +3,11 @@ package com.example.web.jpa.repository.attend;
 import com.example.web.jpa.entity.attend.AttendTime;
 import java.time.OffsetDateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface AttendRepository extends JpaRepository<AttendTime, Integer> {
 
   /**
