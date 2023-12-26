@@ -36,30 +36,43 @@ JAVA Spring기반 WAS 구현
 
 ## 📌 주요 기능
 
-### 1. API 로깅
+### 1. 게시판 관련 API
+**`Front Web Page가 구성되어 있습니다. ` <br>**
+**`WAS 동작 후 localhost:8080을 통해 확인하세요.` <br>**
+![imgArticle](./image/articleMain.PNG)
+
+	- 게시글 전체 조회(메인 화면) : /articles 
+	- 게시글 상세 조회 : /articles/{articleId}
+	- 해시태그 항목 조회 : /articles/search-hashtag
+	- 새 게시글 기본 폼(View) 응답(글쓰기 버튼) : /articles/form
+	- 새 게시글 저장(저장 버튼) : /articles/form
+	- 특정 게시글 수정 기본 폼(View) 응답(수정 버튼) : /articles/{articleId}/form
+	- 특정 게시글 수정(수정 버튼) : /articles/{articleId}/form
+	- 특정 게시글 삭제(삭제 버튼) : /articles/{articleId}/delete
+	- 댓글 생성 : /article-comments/new
+	- 댓글 삭제 : /article-comments/{commentId}/delete
+	
+### 2. API 로깅
 	- Request, Response 
 	
-### 2. 네이버 외부 API를 이용한 로그인
-	- WAS 실행 후 밑의 내용 주소창에 localhost:8080 입력후, 로그인 버튼을 누른다.
+### 3. 네이버 외부 API를 이용한 로그인
+	- 변경중입니다.
+	- X WAS 실행 후 밑의 내용 주소창에 localhost:8080 입력후, 로그인 버튼을 누른다.
 		
-### 3. 유저 관련 API
+### 4. 유저 관련 API
 	- 유저 정보 조회 API : /users/info
 	- 유저 돈 관련 로그 조회 API : /users/money/log-info
 		
-### 4. 출석 관련 API
+### 5. 출석 관련 API
 	- 유저 출석 하기 API : /attend
 	- 출석 정보 조회 API : /attend/info
 	
-### 5. 상품 관련 API
+### 6. 상품 관련 API
 	- 상품 정보 조회 API : /product/info
 	- 상품 정보 수정 API : /product/edit
 	- 유저 상품 정보 조회 API : /product/user-info
 	- 유저 상품 구매 API : /product/buy
 	- 유저 상품 관련 로그 조회 API : /product/log-info
-	
-### 6. 게시판 관련 API
-**`Front Web Page가 구성되어 있습니다.` <br>**
-	- 게시글 정보 조회 API(main 화면) : localhost:8080/articles 
 	
 ## 📜 API 명세서 (Swagger로 작성)
 **`WAS를 실행시키고 주소창에 밑의 내용을 치면, Swagger UI를 확인할 수 있습니다.` <br>**
