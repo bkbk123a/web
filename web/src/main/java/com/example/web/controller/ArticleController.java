@@ -116,7 +116,7 @@ public class ArticleController {
     return "articles/form";
   }
 
-  @Operation(summary = "특정 게시글 수정 기본 폼(View) 응답(수정 버튼)")
+  @Operation(summary = "특정 게시글 수정(수정 버튼)")
   @PostMapping("/{articleId}/form")
   public String updateArticle(@PathVariable Long articleId,
       UpdateArticleRequest updateArticleRequest) {
