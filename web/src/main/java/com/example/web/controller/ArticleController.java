@@ -1,6 +1,8 @@
 package com.example.web.controller;
 
 import com.example.web.dto.article.UserArticleDetatilDto;
+import com.example.web.dto.article.UserArticleDto;
+import com.example.web.dto.security.CustomUserDetails;
 import com.example.web.jpa.entity.article.UserArticle;
 import com.example.web.model.enums.ArticleFormStatusType;
 import com.example.web.model.enums.SearchType;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -98,9 +101,13 @@ public class ArticleController {
 
   @Operation(summary = "새 게시글 저장(저장 버튼)")
   @PostMapping("/form")
-  public String postNewArticle(SaveArticleRequest saveArticleRequest) {
-    // TODO: 인증 정보를 넣어줘야 한다.
-    articleService.saveArticle(saveArticleRequest);
+  public String postNewArticle(
+      @AuthenticationPrincipal CustomUserDetails customUserDetails,
+      SaveArticleRequest saveArticleRequest) {
+
+    UserArticleDto dto = saveArticleRequest.toDto(customUserDetails.toUserInfo());
+
+    articleService.saveArticle(dto);
 
     return "redirect:/articles";
   }
@@ -118,19 +125,25 @@ public class ArticleController {
 
   @Operation(summary = "특정 게시글 수정(수정 버튼)")
   @PostMapping("/{articleId}/form")
-  public String updateArticle(@PathVariable Long articleId,
+  public String updateArticle(
+      @AuthenticationPrincipal CustomUserDetails customUserDetails,
+      @PathVariable Long articleId,
       UpdateArticleRequest updateArticleRequest) {
-    // TODO: 인증 정보를 넣어줘야 한다.
-    articleService.updateArticle(articleId, updateArticleRequest);
+
+    UserArticleDto userArticleDto = updateArticleRequest.toDto(customUserDetails.toUserInfo());
+
+    articleService.updateArticle(articleId, userArticleDto);
 
     return "redirect:/articles/" + articleId;
   }
 
   @Operation(summary = "특정 게시글 삭제(삭제 버튼)")
   @PostMapping("/{articleId}/delete")
-  public String deleteArticle(@PathVariable Long articleId) {
-    // TODO: 인증 정보를 넣어줘야 한다.
-    articleService.deleteArticle(articleId);
+  public String deleteArticle(
+      @AuthenticationPrincipal CustomUserDetails customUserDetails,
+      @PathVariable Long articleId) {
+    // 로그인 인증한 유저가 본인이 작성한 글을 삭제 한다.
+    articleService.deleteArticle(articleId, customUserDetails.userIndex());
 
     return "redirect:/articles";
   }

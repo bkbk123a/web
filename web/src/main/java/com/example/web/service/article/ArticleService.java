@@ -1,15 +1,13 @@
 package com.example.web.service.article;
 
 import com.example.web.dto.article.UserArticleDetatilDto;
+import com.example.web.dto.article.UserArticleDto;
 import com.example.web.jpa.entity.article.UserArticle;
 import com.example.web.jpa.entity.article.UserArticleComment;
-import com.example.web.jpa.entity.user.UserInfo;
 import com.example.web.jpa.repository.article.UserArticleRepository;
 import com.example.web.jpa.repository.article.UserArticleRepositorySupport;
 import com.example.web.model.enums.SearchType;
 import com.example.web.model.exception.CustomErrorException;
-import com.example.web.model.request.article.SaveArticleRequest;
-import com.example.web.model.request.article.UpdateArticleRequest;
 import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +34,8 @@ public class ArticleService {
       case TITLE -> userArticleRepository.findByTitleContaining(searchKeyWord, pageable);
       case CONTENT -> userArticleRepository.findByContentContaining(searchKeyWord, pageable);
       case ID -> userArticleRepository.findByUserInfo_UserIndexContaining(searchKeyWord, pageable);
-      case NICKNAME -> userArticleRepository.findByUserInfo_NickNameContaining(searchKeyWord, pageable);
+      case NICKNAME ->
+          userArticleRepository.findByUserInfo_NickNameContaining(searchKeyWord, pageable);
       case HASHTAG -> userArticleRepository.findByHashtag("#" + searchKeyWord, pageable);
     };
   }
@@ -75,34 +74,44 @@ public class ArticleService {
   }
 
   @Transactional
-  public void saveArticle(SaveArticleRequest saveArticleRequest) {
-    // 해당 부분 수정 예정
-    UserInfo userInfo = UserInfo.builder()
-        .userIndex(999L)
-        .nickName("test")
-        .emailAddress("test@naver.com")
-        .money(10000L)
-        .build();
+  public void saveArticle(UserArticleDto dto) {
 
-    UserArticle userArticle = UserArticle.of(userInfo,
-        saveArticleRequest.title(),
-        saveArticleRequest.content(),
-        saveArticleRequest.hashtag());
+    UserArticle userArticle = UserArticle.of(
+        dto.userInfo(), dto.title(), dto.content(), dto.hashtag());
 
     userArticleRepository.save(userArticle);
   }
 
   @Transactional
-  public void updateArticle(Long articleIndex, UpdateArticleRequest saveArticleRequest) {
-    UserArticle userArticle = getUserArticleOrElseThrow(articleIndex);
+  public void updateArticle(Long updateArticleIndex, UserArticleDto dto) {
+    UserArticle userArticle = getUserArticleOrElseThrow(updateArticleIndex);
 
-    userArticle.setTitle(saveArticleRequest.title());
-    userArticle.setContent(saveArticleRequest.content());
-    userArticle.setHashtag(saveArticleRequest.hashtag());
+    if (!isArticleWriter(userArticle, dto)) {
+      return;
+    }
+
+    userArticle.setTitle(dto.title());
+    userArticle.setContent(dto.content());
+    userArticle.setHashtag(dto.hashtag());
+
+    userArticleRepository.save(userArticle);
+  }
+
+  /**
+   * 게시글 변경(수정, 삭제)시 원작자 확인 판단
+   *
+   * @param changeUserArticle 변경할 게시글
+   * @param dto               dto
+   * @return 원작자 여부
+   */
+  private boolean isArticleWriter(UserArticle changeUserArticle, UserArticleDto dto) {
+    return changeUserArticle.getCreateUserIndex()
+        .equals(dto.userInfo().getUserIndex());
   }
 
   @Transactional
-  public void deleteArticle(long articleId) {
-    userArticleRepository.deleteById(articleId);
+  public void deleteArticle(long articlendex, long userIndex) {
+    // articleIndex 와 작성자의 userIndex 를 확인한다.
+    userArticleRepository.deleteByArticleIndexAndUserInfo_UserIndex(articlendex, userIndex);
   }
 }

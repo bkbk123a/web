@@ -1,9 +1,9 @@
 package com.example.web.service.article;
 
+import com.example.web.dto.article.UserArticleCommentDto;
 import com.example.web.jpa.entity.article.UserArticle;
 import com.example.web.jpa.entity.article.UserArticleComment;
 import com.example.web.jpa.repository.article.UserArticleCommentRepository;
-import com.example.web.model.request.article.NewArticleCommentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,21 +16,17 @@ public class ArticleCommentService {
   private final ArticleService articleService;
   private final UserArticleCommentRepository userArticleCommentRepository;
 
-  public void saveArticleComment(NewArticleCommentRequest request) {
-    UserArticle userArticle = articleService.getUserArticleOrElseThrow(request.articleId());
+  public void saveArticleComment(UserArticleCommentDto dto) {
+    UserArticle userArticle = articleService.getUserArticleOrElseThrow(dto.articleIndex());
 
-    UserArticleComment userArticleComment = UserArticleComment.builder()
-        .createUserIndex(userArticle.getUserInfo().getUserIndex())
-        .userArticle(userArticle)
-        .userInfo(userArticle.getUserInfo())
-        .content(request.content())
-        .build();
+    UserArticleComment userArticleComment = UserArticleComment.of(
+        dto.userInfo().getUserIndex(), dto.content(), dto.userInfo(), userArticle);
 
     userArticleCommentRepository.save(userArticleComment);
   }
 
-  public void deleteArticleComment(Long articleCommentId) {
-    userArticleCommentRepository.deleteById(articleCommentId);
+  public void deleteArticleComment(long commentIndex, long userIndex) {
+    userArticleCommentRepository.deleteByCommentIndexAndUserInfo_UserIndex(commentIndex, userIndex);
   }
 
   //  /**

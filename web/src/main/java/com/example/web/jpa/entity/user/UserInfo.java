@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "T_User_Info")
+@Table(name = "T_User_Info",
+    indexes = {
+        @Index(name = "Index_UserName", columnList = "UserName")})
 public class UserInfo {
 
   @Id
@@ -22,6 +24,12 @@ public class UserInfo {
 
   @Column(name = "EmailAddress", nullable = false, unique = true)
   private String emailAddress;
+
+  @Column(name = "UserName", nullable = false, unique = true)
+  private String userName;
+
+  @Column(name = "Password", nullable = false)
+  private String password;
 
   @Column(name = "NickName", nullable = false)
   private String nickName;

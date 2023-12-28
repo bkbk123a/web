@@ -14,4 +14,5 @@ public interface UserArticleRepository extends JpaRepository<UserArticle, Long> 
   Page<UserArticle> findByUserInfo_NickNameContaining(String nickName, Pageable pageable);
   Page<UserArticle> findByHashtag(String hashtag, Pageable pageable);
 
+  void deleteByArticleIndexAndUserInfo_UserIndex(long articleIndex, long userIndex);
 }

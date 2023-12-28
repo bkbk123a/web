@@ -45,13 +45,14 @@ public class UserArticleComment extends ArticleBase {
   @Column(name = "Content", length = 500, nullable = false)
   private String content;
 
-  private UserArticleComment(UserInfo userInfo, UserArticle article, String content) {
+  private UserArticleComment(long userIndex, String content, UserInfo userInfo, UserArticle article) {
+    setCreateUserIndex(userIndex);
+    this.content = content;
     this.userInfo = userInfo;
     this.userArticle = article;
-    this.content = content;
   }
 
-  public static UserArticleComment of(UserInfo userInfo, UserArticle article, String content) {
-    return new UserArticleComment(userInfo, article, content);
+  public static UserArticleComment of(long userIndex, String content, UserInfo userInfo, UserArticle article) {
+    return new UserArticleComment(userIndex, content, userInfo, article);
   }
 }
