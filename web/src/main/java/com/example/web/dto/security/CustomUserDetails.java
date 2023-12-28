@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public record CustomUserDetails(
+    long userIndex,
     String userName,
     String password,
     Collection<? extends GrantedAuthority> authorities,
@@ -17,10 +18,11 @@ public record CustomUserDetails(
     String nickname
 ) implements UserDetails {
   // Spring Security에서 사용자의 정보를 담는 인터페이스
-  public static CustomUserDetails of(String userName, String password, String email, String nickName) {
+  public static CustomUserDetails of(long userIndex, String userName, String password, String email, String nickName) {
     Set<RoleType> roleTypes = Set.of(RoleType.USER);
 
     return new CustomUserDetails(
+        userIndex,
         userName,
         password,
         roleTypes.stream()
@@ -34,11 +36,24 @@ public record CustomUserDetails(
   }
 
   public static CustomUserDetails from(UserInfo userInfo) {
-    return CustomUserDetails.of(userInfo.getUserName(),
+    return CustomUserDetails.of(
+        userInfo.getUserIndex(),
+        userInfo.getUserName(),
         userInfo.getPassword(),
         userInfo.getEmailAddress(),
         userInfo.getEmailAddress());
   }
+
+  public UserInfo toUserInfo() {
+    return UserInfo.builder()
+        .userIndex(userIndex)
+        .emailAddress(email)
+        .userName(userName)
+        .password(password)
+        .nickName(nickname)
+        .build();
+  }
+
   // 계정의 권한 목록을 리턴
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -57,22 +72,22 @@ public record CustomUserDetails(
 
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isEnabled() {
-    return false;
+    return true;
   }
 
   public enum RoleType {

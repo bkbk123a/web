@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserArticleCommentRepository extends JpaRepository<UserArticleComment, Long> {
 
+  void deleteByCommentIndexAndUserInfo_UserIndex(long commentIndex, long userIndex);
 }

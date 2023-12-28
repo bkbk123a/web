@@ -37,7 +37,7 @@ public class SecurityConfig {
         .build();
   }
 
-  // Spring Security에서 유저의 정보를 가져오는 인터페이스
+  // Spring Security에서 자동으로 유저의 정보를 가져오는 인터페이스
   @Bean
   public UserDetailsService userDetailsService(UserRepository userRepository) {
     return username -> userRepository
