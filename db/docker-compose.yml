@@ -1,12 +1,13 @@
 services:
   db:
-    container_name: h2
-    image: oscarfonts/h2:latest
-    ports:
-      - 1521:1521
-      - 8081:81
-    environment:
-      H2_OPTIONS: -ifNotExists
-    volumes:
-      - ./h2/:/opt/h2-data
+    image: mysql:8.0
+    container_name: mysql-docker
     restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123!
+      TZ: Asia/Seoul
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql-init/:/docker-entrypoint-initdb.d
+    platform: linux/x86_64
