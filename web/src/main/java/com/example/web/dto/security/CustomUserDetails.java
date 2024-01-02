@@ -2,23 +2,34 @@ package com.example.web.dto.security;
 
 import com.example.web.jpa.entity.user.UserInfo;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
+// Spring security 에서 사용자 정보를 담는 클래스
 public record CustomUserDetails(
     long userIndex,
     String userName,
     String password,
     Collection<? extends GrantedAuthority> authorities,
     String email,
-    String nickName
-) implements UserDetails {
-  // Spring Security에서 사용자의 정보를 담는 인터페이스
-  public static CustomUserDetails of(long userIndex, String userName, String password, String email, String nickName) {
+    String nickName,
+    Map<String, Object> oAuth2Attributes
+) implements UserDetails, OAuth2User {
+
+  public static CustomUserDetails of(long userIndex, String userName, String password, String email,
+      String nickName) {
+
+    return of(userIndex, userName, password, email, nickName, Map.of());
+  }
+
+  public static CustomUserDetails of(long userIndex, String userName, String password, String email,
+      String nickName, Map<String, Object> oAuth2Attributes) {
     Set<RoleType> roleTypes = Set.of(RoleType.USER);
 
     return new CustomUserDetails(
@@ -31,7 +42,8 @@ public record CustomUserDetails(
             .collect(Collectors.toUnmodifiableSet())
         ,
         email,
-        nickName
+        nickName,
+        oAuth2Attributes
     );
   }
 
@@ -88,6 +100,16 @@ public record CustomUserDetails(
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  @Override
+  public Map<String, Object> getAttributes() {
+    return oAuth2Attributes;
+  }
+
+  @Override
+  public String getName() {
+    return userName;
   }
 
   public enum RoleType {

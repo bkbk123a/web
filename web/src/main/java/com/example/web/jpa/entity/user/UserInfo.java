@@ -49,4 +49,13 @@ public class UserInfo {
   public void addMoney(Long addMoney) {
     this.money += addMoney;
   }
+
+  public static UserInfo of(String userName, String password, String emailAddress, String nickName) {
+    return UserInfo.builder()
+        .userName(userName)
+        .password(password)
+        .emailAddress(emailAddress)
+        .nickName(nickName)
+        .build();
+  }
 }
