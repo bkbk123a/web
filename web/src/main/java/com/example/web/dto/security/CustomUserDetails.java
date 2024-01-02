@@ -15,7 +15,7 @@ public record CustomUserDetails(
     String password,
     Collection<? extends GrantedAuthority> authorities,
     String email,
-    String nickname
+    String nickName
 ) implements UserDetails {
   // Spring Security에서 사용자의 정보를 담는 인터페이스
   public static CustomUserDetails of(long userIndex, String userName, String password, String email, String nickName) {
@@ -41,7 +41,7 @@ public record CustomUserDetails(
         userInfo.getUserName(),
         userInfo.getPassword(),
         userInfo.getEmailAddress(),
-        userInfo.getEmailAddress());
+        userInfo.getNickName());
   }
 
   public UserInfo toUserInfo() {
@@ -50,7 +50,7 @@ public record CustomUserDetails(
         .emailAddress(email)
         .userName(userName)
         .password(password)
-        .nickName(nickname)
+        .nickName(nickName)
         .build();
   }
 
