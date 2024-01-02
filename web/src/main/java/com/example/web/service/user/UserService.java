@@ -35,7 +35,7 @@ public class UserService extends ServiceBase {
   private final UserMoneyLogRepository userMoneyLogRepository;
   private final UserMoneyLogRepositorySupport userMoneyLogRepositorySupport;
 
-  public Optional<UserInfo> getUserInfo(String emailAddress) {
+  public Optional<UserInfo> getUserInfoByEmail(String emailAddress) {
     return userRepository.findByEmailAddress(emailAddress);
   }
 
@@ -65,6 +65,7 @@ public class UserService extends ServiceBase {
     return saveUserInfo(userInfo);
   }
 
+  @Transactional
   public UserInfo saveUserInfo(UserInfo userInfo) {
     return userRepository.save(userInfo);
   }
@@ -116,5 +117,9 @@ public class UserService extends ServiceBase {
     return userMoneyLogRepositorySupport
         .getUserMoneyLogs(dto.getUserIndex(), dto.getLogType(),
             dto.getStartTime(), dto.getEndTime());
+  }
+
+  public Optional<UserInfo> getUserInfoByUserName(String userName) {
+    return userRepository.findByUserName(userName);
   }
 }

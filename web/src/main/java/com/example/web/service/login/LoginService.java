@@ -51,7 +51,7 @@ public class LoginService {
 
     NaverUserInfo naverUserInfo = naverOauthService.processUserInfo(accessToken);
 
-    Optional<UserInfo> userInfo = userService.getUserInfo(naverUserInfo.getEmailAddress());
+    Optional<UserInfo> userInfo = userService.getUserInfoByEmail(naverUserInfo.getEmailAddress());
 
     boolean isNewUSer = userInfo.isEmpty();
 
