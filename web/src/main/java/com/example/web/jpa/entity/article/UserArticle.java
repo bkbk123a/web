@@ -21,14 +21,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Comment;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @Entity
 @Table(name = "T_User_Article", indexes = @Index(
-    name = "Index_TitleHashTagCreatedAtCreateUserIndex",
-    columnList = "Title, HashTag, CreatedAt, CreateUserIndex"))
+    name = "Index_TitleHashTagCreatedAtUserIndex",
+    columnList = "Title, HashTag, CreatedAt, UserIndex"))
 @EqualsAndHashCode(of = "articleIndex") // articleIndex로 동등성 비교한다.
 public class UserArticle extends ArticleBase {
 
@@ -38,6 +39,7 @@ public class UserArticle extends ArticleBase {
   private Long articleIndex;
 
   @JoinColumn(name = "UserIndex")
+  @Comment("생성한 유저 인덱스")
   @ManyToOne(optional = false, fetch = FetchType.LAZY)  // FK : not null
   private UserInfo userInfo;
 
@@ -59,7 +61,6 @@ public class UserArticle extends ArticleBase {
     this.title = title;
     this.content = content;
     this.hashtag = hashtag;
-    this.setCreateUserIndex(userInfo.getUserIndex());
     this.setModiftUserIndex(userInfo.getUserIndex());
   }
 

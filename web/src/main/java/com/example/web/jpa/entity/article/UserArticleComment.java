@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Comment;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -24,8 +25,8 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @SuperBuilder
 @Table(name = "T_User_ArticleComment", indexes = @Index(
-    name = "Index_ContentCreatedAtCreateUserIndex",
-    columnList = "Content, CreatedAt, CreateUserIndex"))
+    name = "Index_ContentCreatedAtUserIndex",
+    columnList = "Content, CreatedAt, UserIndex"))
 @EqualsAndHashCode(of = "commentIndex") // commentIndex로 동등성 비교한다.
 public class UserArticleComment extends ArticleBase {
 
@@ -35,6 +36,7 @@ public class UserArticleComment extends ArticleBase {
   private Long commentIndex;
 
   @JoinColumn(name = "UserIndex")
+  @Comment("생성한 유저 인덱스")
   @ManyToOne(optional = false, fetch = FetchType.LAZY)  // FK : not null
   private UserInfo userInfo;
 
@@ -45,14 +47,13 @@ public class UserArticleComment extends ArticleBase {
   @Column(name = "Content", length = 500, nullable = false)
   private String content;
 
-  private UserArticleComment(long userIndex, String content, UserInfo userInfo, UserArticle article) {
-    setCreateUserIndex(userIndex);
+  private UserArticleComment(String content, UserInfo userInfo, UserArticle article) {
     this.content = content;
     this.userInfo = userInfo;
     this.userArticle = article;
   }
 
-  public static UserArticleComment of(long userIndex, String content, UserInfo userInfo, UserArticle article) {
-    return new UserArticleComment(userIndex, content, userInfo, article);
+  public static UserArticleComment of( String content, UserInfo userInfo, UserArticle article) {
+    return new UserArticleComment(content, userInfo, article);
   }
 }

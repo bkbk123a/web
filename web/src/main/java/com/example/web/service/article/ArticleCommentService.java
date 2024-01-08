@@ -20,7 +20,7 @@ public class ArticleCommentService {
     UserArticle userArticle = articleService.getUserArticleOrElseThrow(dto.articleIndex());
 
     UserArticleComment userArticleComment = UserArticleComment.of(
-        dto.userInfo().getUserIndex(), dto.content(), dto.userInfo(), userArticle);
+        dto.content(), dto.userInfo(), userArticle);
 
     userArticleCommentRepository.save(userArticleComment);
   }

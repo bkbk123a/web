@@ -105,7 +105,7 @@ public class ArticleService {
    * @return 원작자 여부
    */
   private boolean isArticleWriter(UserArticle changeUserArticle, UserArticleDto dto) {
-    return changeUserArticle.getCreateUserIndex()
+    return changeUserArticle.getUserInfo().getUserIndex()
         .equals(dto.userInfo().getUserIndex());
   }
 

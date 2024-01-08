@@ -29,9 +29,6 @@ public abstract class ArticleBase {
   @CreationTimestamp
   private OffsetDateTime createdAt;   // 생성일시
 
-  @Column(name = "CreateUserIndex", nullable = false, updatable = false, length = 100)
-  private Long createUserIndex;           // 생성한 사람
-
   @Builder.Default
   @UpdateTimestamp
   @Column(name = "ModifiedAt", nullable = false)
