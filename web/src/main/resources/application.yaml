@@ -36,21 +36,6 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
-oauth:
-  naver:
-    secret: Ucz6F7zlAB
-    client-id: 8tJLZMOJa9yCZ9yV5Y57
-    url:
-      auth: https://nid.naver.com
-      api: https://openapi.naver.com
-      redirect: http://localhost:8080/login/naver-callback
-
-jwt:
-  secret-key: Z29uZ2NoZWNrLWdvbmdjaGVjay1nb25nY2hlY2stZ29uZ2NoZWNrCg123456789Z29uZ2NonY2hlY2stZ29uZ2NoZWNrCg123456789
-  access_token_expire_milsec: 3600000  # 1시간
-  refresh_token_expire_milsec: 3600000 # 1시간
-  token_type: Bearer                   # 접속 토큰 타입
-
 management:
   info:
     java:
