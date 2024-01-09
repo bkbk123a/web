@@ -11,6 +11,9 @@ import com.example.web.model.request.article.UpdateArticleRequest;
 import com.example.web.service.PageService;
 import com.example.web.service.article.ArticleService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@Tag(name = "article", description = "게시판 관련")
 @RequiredArgsConstructor
 @RequestMapping("/articles")
 @Controller
@@ -34,13 +38,14 @@ public class ArticleController {
   private final ArticleService articleService;
   private final PageService pageService;
 
-  @Operation(summary = "게시글 전체 조회(메인 화면)")
+  @Operation(summary = "게시글 전체 조회(메인 화면)",
+      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
   @GetMapping
   public String getArticles(
-      @RequestParam(required = false) SearchType searchType,
-      @RequestParam(required = false) String searchValue,
-      @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-      ModelMap map) {
+      @Parameter(description = "조회 방식") @RequestParam(required = false) SearchType searchType,
+      @Parameter(description = "조회할 내용") @RequestParam(required = false) String searchValue,
+      @Parameter(description = "페이징 관련") @PageableDefault(size = 10, sort = "createdAt",
+          direction = Sort.Direction.DESC) Pageable pageable, ModelMap map) {
 
     Page<UserArticle> userArticles = articleService.getUserArticles(
         searchType, searchValue, pageable);
@@ -55,9 +60,11 @@ public class ArticleController {
     return "articles/index";
   }
 
-  @Operation(summary = "게시글 상세 조회")
+  @Operation(summary = "게시글 상세 조회",
+      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
   @GetMapping("/{articleId}")
-  public String getArticle(@PathVariable long articleId, ModelMap map) {
+  public String getArticle(@Parameter(description = "게시글 ID") @PathVariable long articleId,
+      ModelMap map) {
 
     UserArticleDetatilDto userArticleDetatilDto = articleService
         .getUserArticleDetail(articleId);
@@ -69,12 +76,13 @@ public class ArticleController {
     return "articles/detail";
   }
 
-  @Operation(summary = "해시태그 항목 조회")
+  @Operation(summary = "해시태그 항목 조회",
+      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
   @GetMapping("/search-hashtag")
   public String getArticlesByHashtag(
-      @RequestParam(required = false) String searchValue,
-      @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-      ModelMap map) {
+      @Parameter(description = "조회할 내용") @RequestParam(required = false) String searchValue,
+      @Parameter(description = "페이징 관련") @PageableDefault(size = 10, sort = "createdAt",
+          direction = Sort.Direction.DESC) Pageable pageable, ModelMap map) {
 
     Page<UserArticle> userArticles = articleService.getUserArticlesByHashtag(searchValue, pageable);
 
@@ -91,7 +99,8 @@ public class ArticleController {
     return "articles/search-hashtag";
   }
 
-  @Operation(summary = "새 게시글 기본 폼(View) 응답(글쓰기 버튼)")
+  @Operation(summary = "글쓰기 버튼 눌렀을 시 새 게시글 기본 폼(View) 응답",
+      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
   @GetMapping("/form")
   public String articleForm(ModelMap map) {
     map.addAttribute("formStatus", ArticleFormStatusType.CREATE);
@@ -99,7 +108,8 @@ public class ArticleController {
     return "articles/form";
   }
 
-  @Operation(summary = "새 게시글 저장(저장 버튼)")
+  @Operation(summary = "저장 버튼 눌렀을 시 새 게시글 저장",
+      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
   @PostMapping("/form")
   public String postNewArticle(
       @AuthenticationPrincipal CustomUserDetails customUserDetails,
@@ -112,9 +122,12 @@ public class ArticleController {
     return "redirect:/articles";
   }
 
-  @Operation(summary = "특정 게시글 수정 기본 폼(View) 응답(수정 버튼)")
+  @Operation(summary = "수정 버튼 눌렀을 시 게시글 수정 기본 폼(View) 응답",
+      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
   @GetMapping("/{articleId}/form")
-  public String updateArticleForm(@PathVariable Long articleId, ModelMap map) {
+  public String updateArticleForm(
+      @Parameter(description = "게시글 ID") @PathVariable Long articleId,
+      ModelMap map) {
     UserArticle userArticle = articleService.getUserArticleOrElseThrow(articleId);
 
     map.addAttribute("article", userArticle);
@@ -123,11 +136,12 @@ public class ArticleController {
     return "articles/form";
   }
 
-  @Operation(summary = "특정 게시글 수정(수정 버튼)")
+  @Operation(summary = "수정 버튼 눌렀을 시 특정 게시글 수정",
+      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
   @PostMapping("/{articleId}/form")
   public String updateArticle(
       @AuthenticationPrincipal CustomUserDetails customUserDetails,
-      @PathVariable Long articleId,
+      @Parameter(description = "게시글 ID") @PathVariable Long articleId,
       UpdateArticleRequest updateArticleRequest) {
 
     UserArticleDto userArticleDto = updateArticleRequest.toDto(customUserDetails.toUserInfo());
@@ -137,11 +151,12 @@ public class ArticleController {
     return "redirect:/articles/" + articleId;
   }
 
-  @Operation(summary = "특정 게시글 삭제(삭제 버튼)")
+  @Operation(summary = "삭제 버튼 눌렀을 시 특정 게시글 삭제",
+      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
   @PostMapping("/{articleId}/delete")
   public String deleteArticle(
       @AuthenticationPrincipal CustomUserDetails customUserDetails,
-      @PathVariable Long articleId) {
+      @Parameter(description = "게시글 ID") @PathVariable Long articleId) {
     // 로그인 인증한 유저가 본인이 작성한 글을 삭제 한다.
     articleService.deleteArticle(articleId, customUserDetails.userIndex());
 
