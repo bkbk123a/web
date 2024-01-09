@@ -38,7 +38,9 @@ public class SecurityConfig {
                 HttpMethod.GET,
                 "/",
                 "/articles",
-                "/articles/search-hashtag"
+                "/articles/search-hashtag",
+                "/swagger-ui/**",
+                "/v3/api-docs/**"
             ).permitAll() // 정적컨텐츠와 Get요청과 위의 내용 제외한 내용들 요청시 인증 필요
             .anyRequest().authenticated()
         )
