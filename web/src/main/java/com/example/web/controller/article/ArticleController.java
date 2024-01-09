@@ -1,4 +1,4 @@
-package com.example.web.controller;
+package com.example.web.controller.article;
 
 import com.example.web.dto.article.UserArticleDetatilDto;
 import com.example.web.dto.article.UserArticleDto;
@@ -39,7 +39,7 @@ public class ArticleController {
   private final PageService pageService;
 
   @Operation(summary = "게시글 전체 조회(메인 화면)",
-      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
+      responses = @ApiResponse(description = "렌더링 된 뷰 응답", responseCode = "200"))
   @GetMapping
   public String getArticles(
       @Parameter(description = "조회 방식") @RequestParam(required = false) SearchType searchType,
@@ -61,7 +61,7 @@ public class ArticleController {
   }
 
   @Operation(summary = "게시글 상세 조회",
-      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
+      responses = @ApiResponse(description = "렌더링 된 뷰 응답", responseCode = "200"))
   @GetMapping("/{articleId}")
   public String getArticle(@Parameter(description = "게시글 ID") @PathVariable long articleId,
       ModelMap map) {
@@ -77,7 +77,7 @@ public class ArticleController {
   }
 
   @Operation(summary = "해시태그 항목 조회",
-      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
+      responses = @ApiResponse(description = "렌더링 된 뷰 응답", responseCode = "200"))
   @GetMapping("/search-hashtag")
   public String getArticlesByHashtag(
       @Parameter(description = "조회할 내용") @RequestParam(required = false) String searchValue,
@@ -100,7 +100,7 @@ public class ArticleController {
   }
 
   @Operation(summary = "글쓰기 버튼 눌렀을 시 새 게시글 기본 폼(View) 응답",
-      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
+      responses = @ApiResponse(description = "렌더링 된 뷰 응답", responseCode = "200"))
   @GetMapping("/form")
   public String articleForm(ModelMap map) {
     map.addAttribute("formStatus", ArticleFormStatusType.CREATE);
@@ -109,7 +109,7 @@ public class ArticleController {
   }
 
   @Operation(summary = "저장 버튼 눌렀을 시 새 게시글 저장",
-      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
+      responses = @ApiResponse(description = "렌더링 된 뷰 응답", responseCode = "200"))
   @PostMapping("/form")
   public String postNewArticle(
       @AuthenticationPrincipal CustomUserDetails customUserDetails,
@@ -123,7 +123,7 @@ public class ArticleController {
   }
 
   @Operation(summary = "수정 버튼 눌렀을 시 게시글 수정 기본 폼(View) 응답",
-      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
+      responses = @ApiResponse(description = "렌더링 된 뷰 응답", responseCode = "200"))
   @GetMapping("/{articleId}/form")
   public String updateArticleForm(
       @Parameter(description = "게시글 ID") @PathVariable Long articleId,
@@ -137,7 +137,7 @@ public class ArticleController {
   }
 
   @Operation(summary = "수정 버튼 눌렀을 시 특정 게시글 수정",
-      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
+      responses = @ApiResponse(description = "렌더링 된 뷰 응답", responseCode = "200"))
   @PostMapping("/{articleId}/form")
   public String updateArticle(
       @AuthenticationPrincipal CustomUserDetails customUserDetails,
@@ -152,7 +152,7 @@ public class ArticleController {
   }
 
   @Operation(summary = "삭제 버튼 눌렀을 시 특정 게시글 삭제",
-      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
+      responses = @ApiResponse(description = "렌더링 된 뷰 응답", responseCode = "200"))
   @PostMapping("/{articleId}/delete")
   public String deleteArticle(
       @AuthenticationPrincipal CustomUserDetails customUserDetails,

@@ -39,8 +39,10 @@ JAVA Spring기반 WAS 구현
 ### 1. 게시판 관련 API
 **`Front Web Page가 구성되어 있습니다. ` <br>**
 **`WAS 동작 후 localhost:8080을 통해 확인하세요.` <br>**
-![imgArticle](./image/articleMain.PNG)
+**`WAS 동작 후 localhost:8080을 통해 확인하세요.` <br>**
 
+![imgArticle](./image/articleMain.PNG)
+	[게시글 관련]
 	- 게시글 전체 조회(메인 화면) : /articles 
 	- 게시글 상세 조회 : /articles/{articleId}
 	- 해시태그 항목 조회 : /articles/search-hashtag
@@ -49,8 +51,13 @@ JAVA Spring기반 WAS 구현
 	- 특정 게시글 수정 기본 폼(View) 응답(수정 버튼) : /articles/{articleId}/form
 	- 특정 게시글 수정(수정 버튼) : /articles/{articleId}/form
 	- 특정 게시글 삭제(삭제 버튼) : /articles/{articleId}/delete
+	
+	[게시글 댓글 관련]
 	- 댓글 생성 : /article-comments/new
 	- 댓글 삭제 : /article-comments/{commentId}/delete
+	
+	[인증 관련]
+	- 카카오톡 인증 로그인 : oAuth2UserService 로직 참고
 	
 ### 2. API 로깅
 	- Request, Response 
@@ -60,19 +67,19 @@ JAVA Spring기반 WAS 구현
 	- X WAS 실행 후 밑의 내용 주소창에 localhost:8080 입력후, 로그인 버튼을 누른다.
 		
 ### 4. 유저 관련 API
-	- 유저 정보 조회 API : /users/info
-	- 유저 돈 관련 로그 조회 API : /users/money/log-info
+	- 유저 정보 조회 : /users/info
+	- 유저 돈 관련 로그 조회 : /users/money/log-info
 		
 ### 5. 출석 관련 API
-	- 유저 출석 하기 API : /attend
-	- 출석 정보 조회 API : /attend/info
+	- 유저 출석 하기 : /attend
+	- 출석 정보 조회 : /attend/info
 	
 ### 6. 상품 관련 API
-	- 상품 정보 조회 API : /product/info
-	- 상품 정보 수정 API : /product/edit
-	- 유저 상품 정보 조회 API : /product/user-info
-	- 유저 상품 구매 API : /product/buy
-	- 유저 상품 관련 로그 조회 API : /product/log-info
+	- 상품 정보 조회 : /product/info
+	- 상품 정보 수정 : /product/edit
+	- 유저 상품 정보 조회 : /product/user-info
+	- 유저 상품 구매 : /product/buy
+	- 유저 상품 관련 로그 조회 : /product/log-info
 	
 ## 📜 API 명세서 (Swagger로 작성)
 **`WAS를 실행시키고 주소창에 밑의 내용을 치면, Swagger UI를 확인할 수 있습니다.` <br>**

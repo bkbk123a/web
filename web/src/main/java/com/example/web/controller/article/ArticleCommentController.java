@@ -1,4 +1,4 @@
-package com.example.web.controller;
+package com.example.web.controller.article;
 
 import com.example.web.dto.article.UserArticleCommentDto;
 import com.example.web.dto.security.CustomUserDetails;
@@ -24,7 +24,7 @@ public class ArticleCommentController {
   private final ArticleCommentService articleCommentService;
 
   @Operation(summary = "댓글 생성",
-      responses = @ApiResponse(description = "렌더링된 뷰 응답", responseCode = "200"))
+      responses = @ApiResponse(description = "렌더링 된 뷰 응답", responseCode = "200"))
   @PostMapping("/new")
   public String postNewArticleComment(
       @AuthenticationPrincipal CustomUserDetails customUserDetails,
